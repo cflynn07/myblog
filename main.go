@@ -1,4 +1,4 @@
-package main
+package myblog
 
 import (
 	"github.com/gorilla/mux"

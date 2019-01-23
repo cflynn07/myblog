@@ -1,10 +1,8 @@
-package main
+package myblog
 
 import (
-	"fmt"
 	"net/http"
 	"net/http/httptest"
-	"reflect"
 	"testing"
 
 	"github.com/gorilla/mux"
