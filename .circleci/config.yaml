@@ -1,0 +1,17 @@
+version: 2
+jobs:
+  build:
+    working_directory: /go/src/app
+    docker:
+      - image: golang:1.11.4-alpine3.8
+    steps:
+      - checkout
+      - run:
+          name: echo
+          command: echo hello
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      -build
+

@@ -28,6 +28,6 @@ func main() {
 	router.HandleFunc("/", homeEndpoint).Methods("GET")
 	router.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir(dir))))
 
-	log.Println("Listening...")
+	log.Println("Listening on port " + os.Getenv("PORT"))
 	http.ListenAndServe(":"+os.Getenv("PORT"), router)
 }
