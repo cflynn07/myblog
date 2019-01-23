@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: myblog
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: myblog-app
+  namespace: myblog
+  labels:
+    app: myblog-app
+spec:
+  ports:
+    - port: 9000
+  selector:
+    app: myblog-app
+  type: LoadBalancer # Required by docker-for-mac kubernetes to expose locally
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myblog-app
+  namespace: myblog
+  labels:
+    app: myblog-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myblog-app
+  template:
+    metadata:
+      labels:
+        app: myblog-app
+    spec:
+      containers:
+        - name: myblog
+          image: cflynnus/myblog
+          ports:
+            - containerPort: 9000

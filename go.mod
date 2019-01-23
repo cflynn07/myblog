@@ -1,3 +1,7 @@
 module myblog
 
-require github.com/julienschmidt/httprouter v1.2.0
+require (
+	github.com/gorilla/context v1.1.1 // indirect
+	github.com/gorilla/mux v1.6.2
+	github.com/stretchr/testify v1.3.0
+)

@@ -1,14 +1,15 @@
 package main
 
 import (
-	"github.com/julienschmidt/httprouter"
+	"github.com/gorilla/mux"
 	"html/template"
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
 )
 
-func handler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+func homeEndpoint(w http.ResponseWriter, r *http.Request) {
 	t, err := template.ParseFiles("web/templates/index.html")
 	if err != nil {
 		log.Print("template parsing error: ", err)
@@ -17,10 +18,15 @@ func handler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 }
 
 func main() {
-	router := httprouter.New()
+	path, err := os.Executable()
+	if err != nil {
+		log.Fatal(err)
+	}
+	dir := filepath.Dir(path) + "/web/static/"
+	router := mux.NewRouter()
 
-	router.GET("/", handler)
-	router.ServeFiles("/static/*filepath", http.Dir("/web/"))
+	router.HandleFunc("/", homeEndpoint).Methods("GET")
+	router.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir(dir))))
 
 	log.Println("Listening...")
 	http.ListenAndServe(":"+os.Getenv("PORT"), router)
