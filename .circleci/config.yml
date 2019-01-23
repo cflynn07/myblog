@@ -1,14 +1,16 @@
 version: 2
 jobs:
   build:
-    working_directory: /go/src/app
     docker:
       - image: golang:1.11.4-alpine3.8
+    working_directory: /go/src/app
+    # environment:
+    #   PORT: 9000
     steps:
-      - checkout
+      - checkout #checks out the source code to working directory
       - run:
-          name: echo
-          command: echo hello
+          name: list
+          command: ls -la
 workflows:
   version: 2
   build_and_test:
