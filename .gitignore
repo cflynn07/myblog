@@ -4,3 +4,5 @@ jide
 *.log
 *.tmp
 .DS_Store
+
+coverage.txt

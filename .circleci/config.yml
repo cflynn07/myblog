@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: golang:1.11.4
+      - image: circleci/golang:1.11
     working_directory: /go/src/app
     # environment:
     #   PORT: 9000
@@ -10,7 +10,7 @@ jobs:
       - checkout #checks out the source code to working directory
       - run:
           name: Run E2E tests
-          command: go test
+          command: go test -race -coverprofile=coverage.txt -covermode=atomic
 workflows:
   version: 2
   build_and_test:
