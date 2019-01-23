@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: golang:1.11.4-alpine3.8
+      - image: golang:1.11.4
     working_directory: /go/src/app
     # environment:
     #   PORT: 9000
