@@ -1,4 +1,4 @@
-package myblog
+package main
 
 import (
 	"net/http"
