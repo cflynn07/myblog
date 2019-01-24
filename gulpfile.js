@@ -9,4 +9,9 @@ gulp.task('sass', function () {
     .pipe(gulp.dest('web/static/css'))
 })
 
+// configure which files to watch and what tasks to use on file changes
+gulp.task('sass-watch', function() {
+  return gulp.watch('web/scss/**/*.scss', gulp.series('sass'));
+});
+
 gulp.task('default', gulp.parallel(['sass']))

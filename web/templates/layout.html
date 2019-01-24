@@ -1,22 +1,35 @@
 {{ define "layout" }}
 <!DOCTYPE html>
-<html lang="en">
+<html class="no-js" lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="description" content="My blog on topics I find interesting. I attempt to teach in order to learn." />
-
-  <link rel="stylesheet" href="/static/css/index.css">
-
-  <link rel="canonical" href="https://cflynn.us/">
-  <link rel="alternate" type="application/rss+xml" title="Casey Flynn" href="https://cflynn.us/feed.xml">
-
-  <!-- TODO <link rel="shortcut icon", href="/static/images/cf.jpg", type="image/x-icon">
-  -->
-
-  <title>{{ .Title }}</title>
+    <title>{{ .Title }}</title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,800">
+    <link rel='stylesheet' href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/index.css">
 </head>
+
 <body>
-  {{ template "content" }}
+    <div class="container mt-md-3">
+      <div class="container-fluid">
+        <div>
+          <h1 class="text-light">Casey Flynn</h1>
+          <p>Programming blog</p>
+        </div>
+        <nav>
+        </nav>
+      </div>
+      <img class="headerPhoto" src="/static/images/banner1.png" alt="">
+    </div>
+    <main>
+      <div class="container">
+        <article>
+          <h1>The standard Lorem Ipsum passage</p>
+          <p>Used since the 1500s</p>
+        </article>
+      </div>
+    </main>
 </body>
 </html>
 {{ end }}
