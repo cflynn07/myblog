@@ -15,6 +15,14 @@ Attempts to follow golang project standard layout
 Instructions
 ------------
 ```bash
+# Build and run
 $ docker build . -t myblog
 $ docker run -it --name myblog -p 3001:3001 --rm -e "PORT=3001" myblog
+
+# Develop using skaffold, image will be rebuild and cluster updated every time code is changed
+$ skaffold dev
+
+# This project uses gulp to run build tasks (sass)
+$ npm install -g gulp && npm install # install gulp globally and local dev dependencies
+$ gulp
 ```
