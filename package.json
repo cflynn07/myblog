@@ -1,0 +1,27 @@
+{
+  "name": "myblog",
+  "version": "1.0.0",
+  "description": "MyBlog ======",
+  "main": "gulpfile.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cflynn07/myblog.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cflynn07/myblog/issues"
+  },
+  "homepage": "https://github.com/cflynn07/myblog#readme",
+  "devDependencies": {
+    "bootstrap": "^4.2.1",
+    "gulp": "^4.0.0",
+    "gulp-sass": "^4.0.2"
+  }
+}

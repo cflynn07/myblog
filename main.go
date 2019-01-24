@@ -9,12 +9,18 @@ import (
 	"path/filepath"
 )
 
+type pageProperties struct {
+	Title string
+}
+
 func homeEndpoint(w http.ResponseWriter, r *http.Request) {
-	t, err := template.ParseFiles("web/templates/index.html")
+	log.Println("homeEndpoint")
+	pp := pageProperties{"Home"}
+	t, err := template.ParseFiles("web/templates/layout.html", "web/templates/index.html")
 	if err != nil {
 		log.Print("template parsing error: ", err)
 	}
-	err = t.Execute(w, nil)
+	err = t.ExecuteTemplate(w, "layout", pp)
 }
 
 func main() {

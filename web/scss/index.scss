@@ -1,0 +1,22 @@
+$body-bg: #ECEFF1;
+
+nav.navbar {
+  background-color: #0288D1;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.14), 0 3px 3px 0 rgba(0,0,0,0.14), 0 1px 8px 0 rgba(0,0,0,0.12), 0 3px 4px 0 rgba(0,0,0,0.14);
+  height: 48px;
+  position: relative;
+  z-index: 5; // For drop shadow
+}
+
+#banner {
+  background-color: #FFFFFF;
+  border-color: #DDDDDD;
+  border-style: solid;
+  border-width: 0px 0px 1px 0px;
+  height: 274px;
+}
+
+// Bootstrap Sass Imports
+@import "node_modules/bootstrap/scss/bootstrap";
+
+

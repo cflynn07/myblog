@@ -1,0 +1,22 @@
+{{ define "layout" }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="My blog on topics I find interesting. I attempt to teach in order to learn." />
+
+  <link rel="stylesheet" href="/static/css/index.css">
+
+  <link rel="canonical" href="https://cflynn.us/">
+  <link rel="alternate" type="application/rss+xml" title="Casey Flynn" href="https://cflynn.us/feed.xml">
+
+  <!-- TODO <link rel="shortcut icon", href="/static/images/cf.jpg", type="image/x-icon">
+  -->
+
+  <title>{{ .Title }}</title>
+</head>
+<body>
+  {{ template "content" }}
+</body>
+</html>
+{{ end }}
