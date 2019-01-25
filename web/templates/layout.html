@@ -1,6 +1,7 @@
 {{ define "layout" }}
 <!DOCTYPE html>
 <html class="no-js" lang="en">
+
 <head>
     <title>{{ .Title }}</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -12,24 +13,37 @@
 
 <body>
     <div class="container mt-md-3">
-      <div class="container-fluid">
-        <div>
-          <h1 class="text-light">Casey Flynn</h1>
-          <p>Programming blog</p>
-        </div>
-        <nav>
+        <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+            <a class="navbar-brand text-light" href="/">Casey Flynn</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">About<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
         </nav>
-      </div>
-      <img class="headerPhoto" src="/static/images/banner1.png" alt="">
+
+        <img class="headerPhoto" src="/static/images/banner1.png" alt="">
+        <p class="bg-secondary p-2">Kenting, Taiwan (墾丁, 台灣)</p>
+
+        <main class="mt-md-3">
+            <div class="card">
+                <h5 class="card-header">Lorem Ipsum</h5>
+                <div class="card-body">
+                    <h5 class="card-title">Special title treatment</h5>
+                    <p class="card-text">With supporting text below as a natural lead-in to additional
+                        content.
+                    </p>
+                    <p>{{ .PostContent }}</p>
+                </div>
+            </div>
+        </main>
     </div>
-    <main>
-      <div class="container">
-        <article>
-          <h1>The standard Lorem Ipsum passage</p>
-          <p>Used since the 1500s</p>
-        </article>
-      </div>
-    </main>
 </body>
+
 </html>
 {{ end }}
