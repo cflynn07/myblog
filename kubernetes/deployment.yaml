@@ -8,6 +8,68 @@ metadata:
 apiVersion: v1
 kind: Service
 metadata:
+  name: mysql
+  labels:
+    app: mysql
+spec:
+  ports:
+    - port: 3306
+      name: mysql
+  selector:
+    app: mysql
+  type: LoadBalancer
+
+---
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+  serviceName: "mysql"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: mysql
+          image: mysql:8.0.14
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: "test"
+            - name: MYSQL_DATABASE
+              value: "testdb"
+          ports:
+            - containerPort: 3306
+              name: mysql
+          volumeMounts:
+            - name: mysql-claim
+              mountPath: /var/lib/mysql
+  volumeClaimTemplates:
+    - metadata:
+        name: mysql-claim
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        volumeMode: Filesystem
+        selector:
+          matchLabels:
+            name: pv1
+        resources:
+          requests:
+            storage: 10M
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
   name: myblog-app
   namespace: myblog
   labels:
@@ -17,7 +79,7 @@ spec:
     - port: 9000
   selector:
     app: myblog-app
-  type: LoadBalancer # Required by docker-for-mac kubernetes to expose locally
+  type: LoadBalancer
 
 ---
 
@@ -38,6 +100,10 @@ spec:
       labels:
         app: myblog-app
     spec:
+      initContainers:
+        - name: myblog-init
+          image: busybox
+          command: ['sh', '-c', 'echo this is a test']
       containers:
         - name: myblog
           image: cflynnus/myblog
