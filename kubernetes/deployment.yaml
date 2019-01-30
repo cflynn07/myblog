@@ -76,7 +76,8 @@ metadata:
     app: myblog-app
 spec:
   ports:
-    - port: 9000
+    - port: 3000
+      targetPort: myblog-port
   selector:
     app: myblog-app
   type: LoadBalancer
@@ -106,6 +107,10 @@ spec:
           command: ['sh', '-c', 'echo this is a test']
       containers:
         - name: myblog
-          image: cflynnus/myblog
+          image: cflynnus/myblog:latest
+          env:
+            - name: PORT
+              value: "4444"
           ports:
-            - containerPort: 9000
+            - name: myblog-port
+              containerPort: 4444 #random
