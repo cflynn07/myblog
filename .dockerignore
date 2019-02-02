@@ -1,0 +1,7 @@
+*.log
+*.tmp
+.DS_store
+node_modules/
+kubernetes/
+coverage.txt
+README.md

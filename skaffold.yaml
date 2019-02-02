@@ -3,6 +3,9 @@ kind: Config
 build:
   artifacts:
   - image: cflynnus/myblog
+    context: .
+    sync:
+      'web/**/*.*': .
 deploy:
   kubectl:
     manifests:
