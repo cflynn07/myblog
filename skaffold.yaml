@@ -5,7 +5,10 @@ build:
   - image: cflynnus/myblog
     context: .
     sync:
-      'web/**/*.*': .
+      '**/*.html': .
+      '**/*.md': .
+      '**/*.css': .
+      '**/*.png': .
 deploy:
   kubectl:
     manifests:

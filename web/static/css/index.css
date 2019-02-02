@@ -6928,9 +6928,3 @@ body {
   /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to right, #F27121, #E94057, #8A2387);
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
-
-img.headerPhoto {
-  display: block;
-  max-width: 100%;
-  margin-left: auto;
-  margin-right: auto; }
