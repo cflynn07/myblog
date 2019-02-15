@@ -14,13 +14,32 @@ jobs:
           command: bash <(curl -s https://codecov.io/bash)
   deploy_to_staging:
     docker:
-      - image: circleci/golang:1.11
-    working_directory: /go/src/app
+      - image: google/cloud-sdk
+    environment:
+      - PROJECT_NAME: "blog"
+      - GOOGLE_PROJECT_ID: "blog-229516"
+      - GOOGLE_COMPUTE_ZONE: "us-central1-b"
+      - GOOGLE_CLUSTER_NAME: "blog-cluster"
     steps:
       - checkout
       - run:
-          name: testing CI run step
-          command: ls -l
+          name: Setup Google Cloud SDK
+          command: |
+            apt-get install -qq -y gettext
+            echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
+            gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
+            gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
+            gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
+            gcloud --quiet container clusters get-credentials ${GOOGLE_CLUSTER_NAME}
+      - setup_remote_docker
+      - run:
+          name: Docker build and push
+          command: |
+            docker build \
+              --build-arg COMMIT_REF=${CIRCLE_SHA1} \
+              --build-arg BUILD_DATE=`date -u +”%Y-%m-%dT%H:%M:%SZ”` \
+              -t cflynnus/blog:${CIRCLE_SHA1} .
+            docker push cflynnus/blog:${CIRCLE_SHA1}
 workflows:
   version: 2
   build_test_deploy:
