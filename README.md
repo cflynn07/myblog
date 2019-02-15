@@ -12,8 +12,8 @@ kubernetes (overkill for a blog).
 Attempts to follow golang project standard layout
 [https://github.com/golang-standards/project-layout](https://github.com/golang-standards/project-layout)
 
-Instructions
-------------
+Development Instructions
+------------------------
 ```bash
 # Build and run
 $ docker build . -t myblog
@@ -26,3 +26,6 @@ $ skaffold dev
 $ npm install -g gulp && npm install # install gulp globally and local dev dependencies
 $ gulp
 ```
+
+CI/CD Pipeline
+
