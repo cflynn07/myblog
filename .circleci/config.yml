@@ -41,10 +41,8 @@ jobs:
       - run:
           name: Deploy to Kubernetes
           command: |
-            ls -l
-            pwd
-            envsubst < ${HOME}/project/kubernetes/staging.yml > ${HOME}/project/kubernetes/staging_patched.yml
-            kubectl apply -f ${HOME}/project/kubernetes/staging_patched.yml
+            envsubst < ${HOME}/project/kubernetes/staging.yaml > ${HOME}/project/kubernetes/staging_patched.yaml
+            kubectl apply -f ${HOME}/project/kubernetes/staging_patched.yaml
             kubectl rollout status deployment/${PROJECT_NAME}
 workflows:
   version: 2
