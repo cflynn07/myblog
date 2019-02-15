@@ -35,6 +35,7 @@ jobs:
       - run:
           name: Docker build and push
           command: |
+            echo $DOCKER_HUB_PASSWORD | docker login --username cflynnus --password-stdin
             docker build -t cflynnus/blog:${CIRCLE_SHA1} .
             docker push cflynnus/blog:${CIRCLE_SHA1}
 workflows:
