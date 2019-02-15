@@ -35,10 +35,7 @@ jobs:
       - run:
           name: Docker build and push
           command: |
-            docker build \
-              --build-arg COMMIT_REF=${CIRCLE_SHA1} \
-              --build-arg BUILD_DATE=`date -u +”%Y-%m-%dT%H:%M:%SZ”` \
-              -t cflynnus/blog:${CIRCLE_SHA1} .
+            docker build -t cflynnus/blog:${CIRCLE_SHA1} .
             docker push cflynnus/blog:${CIRCLE_SHA1}
 workflows:
   version: 2
