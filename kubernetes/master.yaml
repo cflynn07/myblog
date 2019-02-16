@@ -14,6 +14,7 @@ metadata:
     app: ${PROJECT_NAME}-app
 spec:
   type: LoadBalancer
+  loadBalancerIP: "35.193.9.147"
   ports:
     - port: 80
       targetPort: ${PROJECT_NAME}-port
