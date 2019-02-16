@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: myblog
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: myblog-app
+  namespace: myblog
+  labels:
+    app: myblog-app
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: myblog-port
+      protocol: TCP
+      name: http
+  selector:
+    app: myblog-app
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myblog-app
+  namespace: myblog
+  labels:
+    app: myblog-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myblog-app
+  template:
+    metadata:
+      labels:
+        app: myblog-app
+    spec:
+      initContainers:
+        - name: myblog-init
+          image: busybox
+          command: ['sh', '-c', 'echo this is a test']
+      containers:
+        - name: myblog
+          image: cflynnus/myblog:latest
+          env:
+            - name: PORT
+              value: "80"
+          ports:
+            - name: myblog-port
+              containerPort: 80
