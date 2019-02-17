@@ -5,11 +5,11 @@ build:
   - image: cflynnus/myblog
     context: .
     sync:
-      '**/*.html': .
-      '**/*.md': .
-      '**/*.css': .
-      '**/*.png': .
+      '**/*.html': "/root"
+      '**/*.md': "/root"
+      '**/*.css': "/root"
+      '**/*.png': "/root"
 deploy:
   kubectl:
     manifests:
-    - kubernetes/deployment.yaml
+    - kubernetes/local.yaml

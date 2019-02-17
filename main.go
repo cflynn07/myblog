@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/gorilla/mux"
-	"github.com/russross/blackfriday/v2"
+	// "github.com/russross/blackfriday/v2"
 	"html/template"
 	"io/ioutil"
 	"log"
@@ -12,9 +12,41 @@ import (
 	"path/filepath"
 )
 
-type pageProperties struct {
-	Title       string
-	PostContent template.HTML
+// Template variables for all pages
+type globalPageVars struct {
+	Title string
+}
+
+// Metadata for each blog post
+type postMetaData struct {
+	Title    string
+	Subtitle string
+	Keywords string
+	Date     string // time.Time?
+}
+
+// All published blog posts
+type blogPosts map[string]postMetaData
+
+var gpv = globalPageVars{
+	Title: "Casey Flynn",
+}
+
+// Blog uses this static map to display blog posts, the keys should match files
+// in the template folder (sans the extension)
+var bp = blogPosts{
+	"test_post_2": postMetaData{
+		Title:    "Test Post 2",
+		Subtitle: "",
+		Keywords: "",
+		Date:     "",
+	},
+	"unicode_and_utf8": postMetaData{
+		Title:    "Unicode and UTF8",
+		Subtitle: "",
+		Keywords: "",
+		Date:     "",
+	},
 }
 
 var posts []string
@@ -23,27 +55,30 @@ var staticDir string
 var postsDir string
 
 func homeEndpoint(w http.ResponseWriter, r *http.Request) {
-	var input []byte
-	input = []byte{1}
-	log.Println("homeEndpoint")
-	output := blackfriday.Run(input)
-	log.Println(output)
-
-	pp := pageProperties{
-		Title:       "Home",
-		PostContent: template.HTML(""),
+	type homePageVars struct {
+		globalPageVars
+		SubTitle  string
+		BlogPosts blogPosts
 	}
 
-	t, err := template.ParseFiles("web/templates/layout.html", "web/templates/home.html")
-	if err != nil {
-		log.Print("template parsing error: ", err)
+	hpv := homePageVars{
+		globalPageVars: gpv,
+		SubTitle:       "",
+		BlogPosts:      bp,
 	}
-	err = t.ExecuteTemplate(w, "layout", pp)
+
+	t := template.Must(template.New("").Funcs(template.FuncMap{
+		"trunc": func(s string) string {
+			return s + "--test"
+		},
+	}).ParseFiles("templates/layout.html", "templates/home.html"))
+	err := t.ExecuteTemplate(w, "layout", hpv)
 	if err != nil {
-		log.Println(err)
+		log.Print(err)
 	}
 }
 
+/*
 func postEndpoint(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	log.Println(vars["slug"])
@@ -55,9 +90,9 @@ func postEndpoint(w http.ResponseWriter, r *http.Request) {
 	output := blackfriday.Run(data)
 	log.Println("output-----")
 	log.Println(output)
-	pp := pageProperties{
-		Title:       "Home",
-		PostContent: template.HTML(output),
+	pp := pageVars{
+		Title: "Home",
+		// PostContent: template.HTML(output),
 	}
 	t, err := template.ParseFiles("web/templates/layout.html", "web/templates/home.html")
 	if err != nil {
@@ -68,7 +103,7 @@ func postEndpoint(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 	}
 }
-
+*/
 func aboutEndpoint(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "about")
 }
@@ -84,7 +119,7 @@ func main() {
 	}
 	baseDir = filepath.Dir(path)
 	staticDir = baseDir + "/web/static/"
-	postsDir = baseDir + "/web/posts/"
+	postsDir = baseDir + "/posts/"
 
 	// Get contents of web/posts, each file is a valid post route (/posts/{post})
 	files, err := ioutil.ReadDir(postsDir)
@@ -97,7 +132,7 @@ func main() {
 	}
 
 	router := mux.NewRouter()
-	router.HandleFunc("/post/{slug}", postEndpoint).Methods("GET")
+	// router.HandleFunc("/post/{slug}", postEndpoint).Methods("GET")
 	router.HandleFunc("/about", aboutEndpoint).Methods("GET")
 	router.HandleFunc("/contact", contactEndpoint).Methods("GET")
 	router.HandleFunc("/", homeEndpoint).Methods("GET")

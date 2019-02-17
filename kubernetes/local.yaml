@@ -1,56 +1,56 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: myblog
+  name: blog
 
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: myblog-app
-  namespace: myblog
+  name: blog-app
+  namespace: blog
   labels:
-    app: myblog-app
+    app: blog-app
 spec:
   type: LoadBalancer
   ports:
     - port: 80
-      targetPort: myblog-port
+      targetPort: blog-port
       protocol: TCP
       name: http
   selector:
-    app: myblog-app
+    app: blog-app
 
 ---
 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: myblog-app
-  namespace: myblog
+  name: blog-app
+  namespace: blog
   labels:
-    app: myblog-app
+    app: blog-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: myblog-app
+      app: blog-app
   template:
     metadata:
       labels:
-        app: myblog-app
+        app: blog-app
     spec:
       initContainers:
-        - name: myblog-init
+        - name: blog-init
           image: busybox
           command: ['sh', '-c', 'echo this is a test']
       containers:
-        - name: myblog
+        - name: blog
           image: cflynnus/myblog:latest
           env:
             - name: PORT
               value: "80"
           ports:
-            - name: myblog-port
+            - name: blog-port
               containerPort: 80
