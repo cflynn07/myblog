@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
+	"github.com/gobuffalo/packr/v2"
 	"github.com/gorilla/mux"
 	"github.com/russross/blackfriday/v2"
 	"html/template"
-	"io/ioutil"
 	"log"
 	"math"
 	"net/http"
@@ -53,10 +53,11 @@ var bp = blogPosts{
 	},
 }
 
-var posts []string
-var baseDir string
-var staticDir string
-var postsDir string
+var box = packr.New("Posts", "./posts")
+
+var path, _ = os.Executable()
+var baseDir = filepath.Dir(path)
+var staticDir = baseDir + "/web/static/"
 
 func truncHelper(s string) string {
 	words := strings.Fields(s)
@@ -79,9 +80,10 @@ func homeEndpoint(w http.ResponseWriter, r *http.Request) {
 	}
 
 	for key, value := range bp {
-		data, err := ioutil.ReadFile(postsDir + key + ".md")
+		// data, err := ioutil.ReadFile(postsDir + key + ".md")
+		data, err := box.Find(key + ".md")
 		if err != nil {
-			log.Fatal(err)
+			log.Fatal("error opening post", err)
 		}
 		value.Content = string(blackfriday.Run(data))
 		value.ContentPreview = truncHelper(string(data))
@@ -133,14 +135,6 @@ func contactEndpoint(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	path, err := os.Executable()
-	if err != nil {
-		log.Fatal(err)
-	}
-	baseDir = filepath.Dir(path)
-	staticDir = baseDir + "/web/static/"
-	postsDir = baseDir + "/posts/"
-
 	router := mux.NewRouter()
 	// router.HandleFunc("/post/{slug}", postEndpoint).Methods("GET")
 	router.HandleFunc("/about", aboutEndpoint).Methods("GET")
