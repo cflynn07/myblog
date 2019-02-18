@@ -53,7 +53,8 @@ var bp = blogPosts{
 	},
 }
 
-var box = packr.New("Posts", "./posts")
+var postsBox = packr.New("Posts", "./posts")
+var staticBox = packr.New("Static", "./web/static")
 
 var path, _ = os.Executable()
 var baseDir = filepath.Dir(path)
@@ -81,7 +82,7 @@ func homeEndpoint(w http.ResponseWriter, r *http.Request) {
 
 	for key, value := range bp {
 		// data, err := ioutil.ReadFile(postsDir + key + ".md")
-		data, err := box.Find(key + ".md")
+		data, err := postsBox.Find(key + ".md")
 		if err != nil {
 			log.Fatal("error opening post", err)
 		}
@@ -140,7 +141,8 @@ func main() {
 	router.HandleFunc("/about", aboutEndpoint).Methods("GET")
 	router.HandleFunc("/contact", contactEndpoint).Methods("GET")
 	router.HandleFunc("/", homeEndpoint).Methods("GET")
-	router.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir(staticDir))))
+
+	router.PathPrefix("/static/").Handler(http.FileServer(staticBox))
 
 	log.Println("Listening on port " + os.Getenv("PORT"))
 	http.ListenAndServe(":"+os.Getenv("PORT"), router)
