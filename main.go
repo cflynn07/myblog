@@ -3,13 +3,15 @@ package main
 import (
 	"fmt"
 	"github.com/gorilla/mux"
-	// "github.com/russross/blackfriday/v2"
+	"github.com/russross/blackfriday/v2"
 	"html/template"
 	"io/ioutil"
 	"log"
+	"math"
 	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 // Template variables for all pages
@@ -18,15 +20,17 @@ type globalPageVars struct {
 }
 
 // Metadata for each blog post
-type postMetaData struct {
-	Title    string
-	Subtitle string
-	Keywords string
-	Date     string // time.Time?
+type postData struct {
+	Title          string
+	Subtitle       string
+	Keywords       string
+	Date           string // time.Time?
+	Content        string
+	ContentPreview string
 }
 
 // All published blog posts
-type blogPosts map[string]postMetaData
+type blogPosts map[string]*postData
 
 var gpv = globalPageVars{
 	Title: "Casey Flynn",
@@ -35,13 +39,13 @@ var gpv = globalPageVars{
 // Blog uses this static map to display blog posts, the keys should match files
 // in the template folder (sans the extension)
 var bp = blogPosts{
-	"test_post_2": postMetaData{
+	"test_post_2": &postData{
 		Title:    "Test Post 2",
 		Subtitle: "",
 		Keywords: "",
 		Date:     "",
 	},
-	"unicode_and_utf8": postMetaData{
+	"unicode_and_utf8": &postData{
 		Title:    "Unicode and UTF8",
 		Subtitle: "",
 		Keywords: "",
@@ -53,6 +57,13 @@ var posts []string
 var baseDir string
 var staticDir string
 var postsDir string
+
+func truncHelper(s string) string {
+	words := strings.Fields(s)
+	maxPreviewLength := int(math.Min(40, float64(len(words))))
+	words = words[0:maxPreviewLength]
+	return strings.Join(words, " ")
+}
 
 func homeEndpoint(w http.ResponseWriter, r *http.Request) {
 	type homePageVars struct {
@@ -67,11 +78,20 @@ func homeEndpoint(w http.ResponseWriter, r *http.Request) {
 		BlogPosts:      bp,
 	}
 
-	t := template.Must(template.New("").Funcs(template.FuncMap{
-		"trunc": func(s string) string {
-			return s + "--test"
-		},
-	}).ParseFiles("templates/layout.html", "templates/home.html"))
+	for key, value := range bp {
+		data, err := ioutil.ReadFile(postsDir + key + ".md")
+		if err != nil {
+			log.Fatal(err)
+		}
+		value.Content = string(blackfriday.Run(data))
+		value.ContentPreview = truncHelper(string(data))
+		log.Print("=================")
+		log.Print(value.ContentPreview)
+	}
+
+	log.Print(bp["test_post_2"].ContentPreview)
+
+	t := template.Must(template.New("").ParseFiles("templates/layout.html", "templates/home.html"))
 	err := t.ExecuteTemplate(w, "layout", hpv)
 	if err != nil {
 		log.Print(err)
@@ -120,16 +140,6 @@ func main() {
 	baseDir = filepath.Dir(path)
 	staticDir = baseDir + "/web/static/"
 	postsDir = baseDir + "/posts/"
-
-	// Get contents of web/posts, each file is a valid post route (/posts/{post})
-	files, err := ioutil.ReadDir(postsDir)
-	if err != nil {
-		log.Fatal(err)
-	}
-	posts = make([]string, len(files))
-	for i, file := range files {
-		posts[i] = file.Name()
-	}
 
 	router := mux.NewRouter()
 	// router.HandleFunc("/post/{slug}", postEndpoint).Methods("GET")
