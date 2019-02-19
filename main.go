@@ -166,18 +166,41 @@ func aboutEndpoint(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "about")
 }
 
-func contactEndpoint(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "contact")
+func catchAllHandler(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotFound)
+
+	type notFoundPageVars struct {
+		globalPageVars
+	}
+
+	nfpv := notFoundPageVars{
+		globalPageVars: gpv,
+	}
+
+	templateLayout, err := templateBox.FindString("layout.html")
+	if err != nil {
+		log.Fatal(err)
+	}
+	templateContent, err := templateBox.FindString("404.html")
+	if err != nil {
+		log.Fatal(err)
+	}
+	t := template.New("")
+	t.Parse(templateLayout)
+	t.Parse(templateContent)
+	err = t.ExecuteTemplate(w, "layout", nfpv)
 }
 
 func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/posts/{slug}", postEndpoint).Methods("GET")
 	router.HandleFunc("/about", aboutEndpoint).Methods("GET")
-	router.HandleFunc("/contact", contactEndpoint).Methods("GET")
 	router.HandleFunc("/", homeEndpoint).Methods("GET")
 
 	router.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(staticBox)))
+
+	router.PathPrefix("/").HandlerFunc(catchAllHandler)
+
 	log.Println("Listening on port " + os.Getenv("PORT"))
 	http.ListenAndServe(":"+os.Getenv("PORT"), router)
 }
