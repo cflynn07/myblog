@@ -55,6 +55,7 @@ var bp = blogPosts{
 
 var postsBox = packr.New("Posts", "./posts")
 var staticBox = packr.New("Static", "./web/static")
+var templateBox = packr.New("Templates", "./templates")
 
 var path, _ = os.Executable()
 var baseDir = filepath.Dir(path)
@@ -88,45 +89,79 @@ func homeEndpoint(w http.ResponseWriter, r *http.Request) {
 		}
 		value.Content = string(blackfriday.Run(data))
 		value.ContentPreview = truncHelper(string(data))
-		log.Print("=================")
-		log.Print(value.ContentPreview)
 	}
 
-	log.Print(bp["test_post_2"].ContentPreview)
+	templateLayout, err := templateBox.FindString("layout.html")
+	if err != nil {
+		log.Fatal(err)
+	}
+	templateHome, err := templateBox.FindString("home.html")
+	if err != nil {
+		log.Fatal(err)
+	}
+	t := template.New("")
+	t.Parse(templateLayout)
+	t.Parse(templateHome)
 
-	t := template.Must(template.New("").ParseFiles("templates/layout.html", "templates/home.html"))
-	err := t.ExecuteTemplate(w, "layout", hpv)
+	err = t.ExecuteTemplate(w, "layout", hpv)
 	if err != nil {
 		log.Print(err)
 	}
 }
 
-/*
 func postEndpoint(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	log.Println(vars["slug"])
-	log.Println(posts)
-	data, err := ioutil.ReadFile(postsDir + vars["slug"] + ".md")
+
+	type postPageVars struct {
+		globalPageVars
+		SubTitle     string
+		BlogPost     template.HTML
+		BlogPostMeta *postData
+	}
+
+	ppv := postPageVars{
+		globalPageVars: gpv,
+		SubTitle:       "",
+	}
+
+	templateLayout, err := templateBox.FindString("layout.html")
 	if err != nil {
 		log.Fatal(err)
 	}
-	output := blackfriday.Run(data)
-	log.Println("output-----")
-	log.Println(output)
-	pp := pageVars{
-		Title: "Home",
-		// PostContent: template.HTML(output),
+	var templateContent string
+
+	if post, ok := bp[vars["slug"]]; !ok {
+		// Post slug doesn't exist
+		w.WriteHeader(http.StatusNotFound)
+		// use 404 template
+		templateContent, err = templateBox.FindString("404.html")
+		if err != nil {
+			log.Fatal(err)
+		}
+	} else {
+		ppv.BlogPostMeta = post
+		data, err := postsBox.Find(vars["slug"] + ".md")
+		if err != nil {
+			log.Fatal(err)
+		}
+		blogPost := blackfriday.Run(data)
+		ppv.BlogPost = template.HTML(blogPost)
+		// use post template
+		templateContent, err = templateBox.FindString("post.html")
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
-	t, err := template.ParseFiles("web/templates/layout.html", "web/templates/home.html")
-	if err != nil {
-		log.Print("template parsing error: ", err)
-	}
-	err = t.ExecuteTemplate(w, "layout", pp)
+
+	t := template.New("")
+	t.Parse(templateLayout)
+	t.Parse(templateContent)
+	err = t.ExecuteTemplate(w, "layout", ppv)
 	if err != nil {
 		log.Println(err)
 	}
 }
-*/
+
 func aboutEndpoint(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "about")
 }
@@ -137,13 +172,12 @@ func contactEndpoint(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	router := mux.NewRouter()
-	// router.HandleFunc("/post/{slug}", postEndpoint).Methods("GET")
+	router.HandleFunc("/posts/{slug}", postEndpoint).Methods("GET")
 	router.HandleFunc("/about", aboutEndpoint).Methods("GET")
 	router.HandleFunc("/contact", contactEndpoint).Methods("GET")
 	router.HandleFunc("/", homeEndpoint).Methods("GET")
 
-	router.PathPrefix("/static/").Handler(http.FileServer(staticBox))
-
+	router.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(staticBox)))
 	log.Println("Listening on port " + os.Getenv("PORT"))
 	http.ListenAndServe(":"+os.Getenv("PORT"), router)
 }
