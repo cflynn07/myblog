@@ -13,7 +13,7 @@ metadata:
   labels:
     app: ${PROJECT_NAME}-app
 spec:
-  type: NodePort
+  type: ClusterIP
   ports:
     - port: 80
       targetPort: ${PROJECT_NAME}-port

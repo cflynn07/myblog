@@ -1,0 +1,19 @@
+{{ define "content" }}
+<h1 class="text-white text-center my-4">A Digital Nomad's Software Engineering Blog</h1>
+<img class="w-100" src="/static/images/banner1.jpg" alt="">
+<p class="bg-secondary p-2">Kenting, Taiwan (墾丁, 台灣) 2018</p>
+
+<h3 class="text-white my-4">Recent Posts</h3>
+
+{{ range $key, $value := .BlogPosts }}
+<div class="card my-4">
+    <a href="/posts/{{ $key }}"><h5 class="card-header">{{ $value.Title }}</h5></a>
+    <div class="card-body">
+        <h5 class="card-title">{{ $value.Subtitle }}</h5>
+        <p class="card-text">{{ $value.ContentPreview }}</p>
+        <p></p>
+    </div>
+</div>
+{{ end }}
+
+{{ end }}
