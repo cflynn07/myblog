@@ -5,6 +5,23 @@ metadata:
 
 ---
 
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: test-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /develop
+        backend:
+          serviceName: blog-develop-app
+          servicePort: blog-port
+
+---
+
 apiVersion: v1
 kind: Service
 metadata:
