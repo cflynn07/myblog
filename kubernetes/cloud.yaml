@@ -11,13 +11,13 @@ metadata:
   name: test-ingress
   namespace: ${PROJECT_NAME}
   annotations:
-    kubernetes.io/ingress.global-static-ip-name: "blog-ip"
+    kubernetes.io/ingress.global-static-ip-name: "web-static-ip"
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
   - http:
       paths:
-      - path: /
+      - path: /*
         backend:
           serviceName: blog-develop-app
           servicePort: 80
