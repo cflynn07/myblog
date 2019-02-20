@@ -9,6 +9,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: test-ingress
+  namespace: ${PROJECT_NAME}
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
