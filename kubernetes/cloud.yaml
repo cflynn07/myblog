@@ -19,7 +19,7 @@ spec:
       - path: /develop
         backend:
           serviceName: blog-develop-app
-          servicePort: blog-port
+          servicePort: 80
 
 ---
 
