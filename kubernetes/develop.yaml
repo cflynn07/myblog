@@ -16,7 +16,7 @@ spec:
   type: NodePort
   ports:
     - port: 80
-      targetPort: ${PROJECT_NAME}-${CIRCLE_BRANCH}-port
+      targetPort: ${PROJECT_NAME}-port
       protocol: TCP
       name: http
   selector:
@@ -52,5 +52,5 @@ spec:
             - name: PORT
               value: "80"
           ports:
-            - name: ${PROJECT_NAME}-${CIRCLE_BRANCH}-port
+            - name: ${PROJECT_NAME}-port
               containerPort: 80

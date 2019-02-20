@@ -10,5 +10,5 @@ spec:
         paths:
           - path: /testpath
             backend:
-              serviceName: ${PROJECT_NAME}-develop-app
-              servicePort: ${PROJECT_NAME}-develop-port
+              serviceName: ${PROJECT_NAME}-app
+              servicePort: ${PROJECT_NAME}-port
