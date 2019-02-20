@@ -11,6 +11,7 @@ metadata:
   name: test-ingress
   namespace: ${PROJECT_NAME}
   annotations:
+    kubernetes.io/ingress.global-static-ip-name: "blog-ip"
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
