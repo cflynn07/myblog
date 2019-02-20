@@ -16,7 +16,7 @@ spec:
   rules:
   - http:
       paths:
-      - path: /develop
+      - path: /*
         backend:
           serviceName: blog-develop-app
           servicePort: 80
