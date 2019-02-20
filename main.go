@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/gobuffalo/packr/v2"
 	"github.com/gorilla/mux"
 	"github.com/russross/blackfriday/v2"
@@ -17,6 +16,7 @@ import (
 // Template variables for all pages
 type globalPageVars struct {
 	Title string
+	Host  string
 }
 
 // Metadata for each blog post
@@ -34,6 +34,7 @@ type blogPosts map[string]*postData
 
 var gpv = globalPageVars{
 	Title: "Casey Flynn",
+	Host:  "https://cflynn.us",
 }
 
 // Blog uses this static map to display blog posts, the keys should match files
@@ -73,12 +74,14 @@ func homeEndpoint(w http.ResponseWriter, r *http.Request) {
 		globalPageVars
 		SubTitle  string
 		BlogPosts blogPosts
+		Path      string
 	}
 
 	hpv := homePageVars{
 		globalPageVars: gpv,
 		SubTitle:       "",
 		BlogPosts:      bp,
+		Path:           "/",
 	}
 
 	for key, value := range bp {
@@ -117,11 +120,13 @@ func postEndpoint(w http.ResponseWriter, r *http.Request) {
 		SubTitle     string
 		BlogPost     template.HTML
 		BlogPostMeta *postData
+		Path         string
 	}
 
 	ppv := postPageVars{
 		globalPageVars: gpv,
 		SubTitle:       "",
+		Path:           "/posts/" + vars["slug"],
 	}
 
 	templateLayout, err := templateBox.FindString("layout.html")
@@ -163,7 +168,29 @@ func postEndpoint(w http.ResponseWriter, r *http.Request) {
 }
 
 func aboutEndpoint(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "about")
+	type aboutPageVars struct {
+		globalPageVars
+		Path string
+	}
+
+	apv := aboutPageVars{
+		globalPageVars: gpv,
+		Path:           "/about",
+	}
+
+	templateLayout, err := templateBox.FindString("layout.html")
+	if err != nil {
+		log.Fatal(err)
+	}
+	templateContent, err := templateBox.FindString("about.html")
+	if err != nil {
+		log.Fatal(err)
+	}
+	t := template.New("")
+	t.Parse(templateLayout)
+	t.Parse(templateContent)
+	err = t.ExecuteTemplate(w, "layout", apv)
+
 }
 
 func catchAllHandler(w http.ResponseWriter, r *http.Request) {

@@ -8,38 +8,38 @@ metadata:
 apiVersion: v1
 kind: Service
 metadata:
-  name: ${PROJECT_NAME}-app
+  name: ${PROJECT_NAME}-${CIRCLE_BRANCH}-app
   namespace: ${PROJECT_NAME}-${CIRCLE_BRANCH}
   labels:
     app: ${PROJECT_NAME}-app
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
     - port: 80
-      targetPort: ${PROJECT_NAME}-port
+      targetPort: ${PROJECT_NAME}-${CIRCLE_BRANCH}-port
       protocol: TCP
       name: http
   selector:
-    app: ${PROJECT_NAME}-app
+    app: ${PROJECT_NAME}-${CIRCLE_BRANCH}-app
 
 ---
 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ${PROJECT_NAME}-app
+  name: ${PROJECT_NAME}-${CIRCLE_BRANCH}-app
   namespace: ${PROJECT_NAME}-${CIRCLE_BRANCH}
   labels:
-    app: ${PROJECT_NAME}-app
+    app: ${PROJECT_NAME}-${CIRCLE_BRANCH}-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ${PROJECT_NAME}-app
+      app: ${PROJECT_NAME}-${CIRCLE_BRANCH}-app
   template:
     metadata:
       labels:
-        app: ${PROJECT_NAME}-app
+        app: ${PROJECT_NAME}-${CIRCLE_BRANCH}-app
     spec:
       initContainers:
         - name: ${PROJECT_NAME}-init
@@ -52,5 +52,5 @@ spec:
             - name: PORT
               value: "80"
           ports:
-            - name: ${PROJECT_NAME}-port
+            - name: ${PROJECT_NAME}-${CIRCLE_BRANCH}-port
               containerPort: 80

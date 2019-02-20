@@ -42,7 +42,9 @@ jobs:
           name: Deploy to Kubernetes
           command: |
             envsubst < ${HOME}/project/kubernetes/${CIRCLE_BRANCH}.yaml > ${HOME}/project/kubernetes/${CIRCLE_BRANCH}_patched.yaml
+            envsubst < ${HOME}/project/kubernetes/ingress.yaml > ${HOME}/project/kubernetes/ingress_patched.yaml
             kubectl apply -f ${HOME}/project/kubernetes/${CIRCLE_BRANCH}_patched.yaml
+            kubectl apply -f ${HOME}/project/kubernetes/ingress_patched.yaml
             kubectl -n ${PROJECT_NAME}-${CIRCLE_BRANCH} rollout status deployment/${PROJECT_NAME}-app
 workflows:
   version: 2
