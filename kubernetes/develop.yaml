@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: ${PROJECT_NAME}-${CIRCLE_BRANCH}
+  name: ${PROJECT_NAME}
 
 ---
 
@@ -9,7 +9,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: ${PROJECT_NAME}-${CIRCLE_BRANCH}-app
-  namespace: ${PROJECT_NAME}-${CIRCLE_BRANCH}
+  namespace: ${PROJECT_NAME}
   labels:
     app: ${PROJECT_NAME}-app
 spec:
@@ -28,7 +28,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ${PROJECT_NAME}-${CIRCLE_BRANCH}-app
-  namespace: ${PROJECT_NAME}-${CIRCLE_BRANCH}
+  namespace: ${PROJECT_NAME}
   labels:
     app: ${PROJECT_NAME}-${CIRCLE_BRANCH}-app
 spec:
