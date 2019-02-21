@@ -226,7 +226,7 @@ func main() {
 	environment := os.Getenv("ENVIRONMENT")
 	sslRedirect := false
 	if environment == "master" {
-		sslRedirect = true
+		sslRedirect = false
 	}
 	secureMiddleware := secure.New(secure.Options{
 		SSLProxyHeaders: map[string]string{"X-Forwarded-Proto": "https"},
