@@ -54,3 +54,7 @@ spec:
           ports:
             - name: blog-port
               containerPort: 80
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80

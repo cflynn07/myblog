@@ -4,17 +4,14 @@ require (
 	dmitri.shuralyov.com/app/changes v0.0.0-20181114035150-5af16e21babb // indirect
 	dmitri.shuralyov.com/service/change v0.0.0-20190203163610-217368fe4577 // indirect
 	git.apache.org/thrift.git v0.12.0 // indirect
-	github.com/BurntSushi/toml v0.3.1
 	github.com/Shopify/sarama v1.20.1 // indirect
 	github.com/coreos/etcd v3.3.12+incompatible // indirect
 	github.com/coreos/go-systemd v0.0.0-20190212144455-93d5ec2c7f76 // indirect
-	github.com/davecgh/go-spew v1.1.1
 	github.com/go-logfmt/logfmt v0.4.0 // indirect
-	github.com/gobuffalo/buffalo-plugins v1.13.0
-	github.com/gobuffalo/envy v1.6.15
+	github.com/gobuffalo/buffalo-plugins v1.13.0 // indirect
 	github.com/gobuffalo/flect v0.1.0 // indirect
-	github.com/gobuffalo/meta v0.0.0-20190207205153-50a99e08b8cf
-	github.com/gobuffalo/packr v1.22.0
+	github.com/gobuffalo/meta v0.0.0-20190207205153-50a99e08b8cf // indirect
+	github.com/gobuffalo/packr v1.22.0 // indirect
 	github.com/gobuffalo/packr/v2 v2.0.1
 	github.com/gobuffalo/release v1.1.8 // indirect
 	github.com/gogo/protobuf v1.2.0 // indirect
@@ -25,16 +22,10 @@ require (
 	github.com/gorilla/mux v1.7.0
 	github.com/gregjones/httpcache v0.0.0-20190212212710-3befbb6ad0cc // indirect
 	github.com/grpc-ecosystem/grpc-gateway v1.7.0 // indirect
-	github.com/inconshreveable/mousetrap v1.0.0
-	github.com/karrick/godirwalk v1.7.8
-	github.com/markbates/oncer v0.0.0-20181203154359-bf2de49a0be2
 	github.com/openzipkin/zipkin-go v0.1.5 // indirect
-	github.com/pkg/errors v0.8.1
-	github.com/pmezard/go-difflib v1.0.0
 	github.com/prometheus/client_model v0.0.0-20190129233127-fd36f4220a90 // indirect
 	github.com/prometheus/common v0.2.0 // indirect
 	github.com/prometheus/procfs v0.0.0-20190209105433-f8d8b3f739bd // indirect
-	github.com/rogpeppe/go-internal v1.2.2
 	github.com/russross/blackfriday v2.0.0+incompatible // indirect
 	github.com/russross/blackfriday/v2 v2.0.1
 	github.com/shurcooL/go v0.0.0-20190121191506-3fef8c783dec // indirect
@@ -51,20 +42,18 @@ require (
 	github.com/shurcooL/reactions v0.0.0-20181222204718-145cd5e7f3d1 // indirect
 	github.com/shurcooL/sanitized_anchor_name v1.0.0 // indirect
 	github.com/shurcooL/webdavfs v0.0.0-20181215192745-5988b2d638f6 // indirect
-	github.com/sirupsen/logrus v1.3.0
 	github.com/spf13/afero v1.2.1 // indirect
-	github.com/spf13/cobra v0.0.3
-	github.com/spf13/pflag v1.0.3
 	github.com/stretchr/testify v1.3.0
 	github.com/ugorji/go/codec v0.0.0-20190204201341-e444a5086c43 // indirect
+	github.com/unrolled/secure v1.0.0
 	go.opencensus.io v0.19.0 // indirect
 	go4.org v0.0.0-20190218023631-ce4c26f7be8e // indirect
 	golang.org/x/build v0.0.0-20190215225244-0261b66eb045 // indirect
 	golang.org/x/exp v0.0.0-20190212162250-21964bba6549 // indirect
 	golang.org/x/oauth2 v0.0.0-20190212230446-3e8b2be13635 // indirect
 	golang.org/x/perf v0.0.0-20190124201629-844a5f5b46f4 // indirect
-	golang.org/x/sys v0.0.0-20190215142949-d0b11bdaac8a
-	golang.org/x/tools v0.0.0-20190214204934-8dcb7bc8c7fe
+	golang.org/x/sys v0.0.0-20190215142949-d0b11bdaac8a // indirect
+	golang.org/x/tools v0.0.0-20190214204934-8dcb7bc8c7fe // indirect
 	google.golang.org/genproto v0.0.0-20190215211957-bd968387e4aa // indirect
 	google.golang.org/grpc v1.18.0 // indirect
 	honnef.co/go/tools v0.0.0-20190215041234-466a0476246c // indirect

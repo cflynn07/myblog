@@ -13,7 +13,13 @@ metadata:
   annotations:
     kubernetes.io/ingress.global-static-ip-name: "web-static-ip"
     nginx.ingress.kubernetes.io/rewrite-target: /
+    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+    certmanager.k8s.io/acme-http01-edit-in-place: "true"
 spec:
+  tls:
+    - secretName: cflynn-us-tls
+      hosts:
+        - cflynn.us
   rules:
   - host: cflynn.us
     http:
@@ -78,6 +84,8 @@ spec:
           env:
             - name: PORT
               value: "80"
+            - name: ENVIRONMENT
+              value: "${CIRCLE_BRANCH}"
           ports:
             - name: ${PROJECT_NAME}-port
               containerPort: 80
