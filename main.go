@@ -224,9 +224,12 @@ func main() {
 	router := mux.NewRouter()
 
 	router.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {
+		log.Print("/healthz handler")
 		w.WriteHeader(http.StatusOK)
 		fmt.Fprintf(w, "hello")
-	}).Methods("GET")
+	})
+
+	subRouter := router.PathPrefix("/").Subrouter()
 
 	// Redirect to HTTPS in prod
 	environment := os.Getenv("ENVIRONMENT")
@@ -238,15 +241,21 @@ func main() {
 		SSLProxyHeaders: map[string]string{"X-Forwarded-Proto": "https"},
 		SSLRedirect:     sslRedirect,
 	})
-	router.Use(secureMiddleware.Handler)
+	subRouter.Use(func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			log.Print("middleware function", r.Header, r.URL)
+			next.ServeHTTP(w, r)
+		})
+	})
+	subRouter.Use(secureMiddleware.Handler)
 
-	router.HandleFunc("/posts/{slug}", postEndpoint).Methods("GET")
-	router.HandleFunc("/about", aboutEndpoint).Methods("GET")
-	router.HandleFunc("/", homeEndpoint).Methods("GET")
+	subRouter.HandleFunc("/posts/{slug}", postEndpoint).Methods("GET")
+	subRouter.HandleFunc("/about", aboutEndpoint).Methods("GET")
+	subRouter.HandleFunc("/", homeEndpoint).Methods("GET")
 
-	router.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(staticBox)))
+	subRouter.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(staticBox)))
 
-	router.PathPrefix("/").HandlerFunc(catchAllHandler)
+	subRouter.PathPrefix("/").HandlerFunc(catchAllHandler)
 
 	log.Println("Listening on port " + os.Getenv("PORT"))
 	http.ListenAndServe(":"+os.Getenv("PORT"), router)
