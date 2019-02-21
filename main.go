@@ -229,7 +229,8 @@ func main() {
 		sslRedirect = true
 	}
 	secureMiddleware := secure.New(secure.Options{
-		SSLRedirect: sslRedirect,
+		SSLProxyHeaders: map[string]string{"X-Forwarded-Proto": "https"},
+		SSLRedirect:     sslRedirect,
 	})
 	router.Use(secureMiddleware.Handler)
 
