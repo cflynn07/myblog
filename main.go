@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/gobuffalo/packr/v2"
 	"github.com/gorilla/mux"
 	"github.com/russross/blackfriday/v2"
@@ -222,11 +223,16 @@ func catchAllHandler(w http.ResponseWriter, r *http.Request) {
 func main() {
 	router := mux.NewRouter()
 
+	router.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		fmt.Fprintf(w, "hello")
+	}).Methods("GET")
+
 	// Redirect to HTTPS in prod
 	environment := os.Getenv("ENVIRONMENT")
 	sslRedirect := false
 	if environment == "master" {
-		sslRedirect = false
+		sslRedirect = true
 	}
 	secureMiddleware := secure.New(secure.Options{
 		SSLProxyHeaders: map[string]string{"X-Forwarded-Proto": "https"},
