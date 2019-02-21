@@ -23,10 +23,6 @@ metadata:
     kubernetes.io/ingress.global-static-ip-name: "web-static-ip"
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
-  tls:
-    - hosts:
-      - cflynn.us
-      secretName: letsencrypt-certs
   rules:
     - host: cflynn.us
       http:
