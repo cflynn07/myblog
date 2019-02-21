@@ -24,20 +24,20 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-    - host: cflynn.us
-      http:
-        paths:
-        - path: /*
-          backend:
-            serviceName: blog-master-app
-            servicePort: 80
-    - host: cflynn-blog.com
-      http:
-        paths:
-        - path: /*
-          backend:
-            serviceName: blog-develop-app
-            servicePort: 80
+  - host: cflynn.us
+    http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: blog-master-app
+          servicePort: 80
+  - host: cflynn-blog.com
+    http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: blog-develop-app
+          servicePort: 80
 
 ---
 
