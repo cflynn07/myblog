@@ -17,9 +17,9 @@ metadata:
     certmanager.k8s.io/acme-http01-edit-in-place: "true"
 spec:
   tls:
-    secretName: cflynn-us-tls
-    hosts:
-      - cflynn.us
+    - secretName: cflynn-us-tls
+      hosts:
+        - cflynn.us
   rules:
   - host: cflynn.us
     http:
