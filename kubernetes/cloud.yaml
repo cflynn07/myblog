@@ -81,3 +81,7 @@ spec:
           ports:
             - name: ${PROJECT_NAME}-port
               containerPort: 80
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
