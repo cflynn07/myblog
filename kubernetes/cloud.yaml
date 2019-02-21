@@ -84,6 +84,8 @@ spec:
           env:
             - name: PORT
               value: "80"
+            - name: ENVIRONMENT
+              value: "${CIRCLE_BRANCH}"
           ports:
             - name: ${PROJECT_NAME}-port
               containerPort: 80

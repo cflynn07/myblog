@@ -4,6 +4,7 @@ import (
 	"github.com/gobuffalo/packr/v2"
 	"github.com/gorilla/mux"
 	"github.com/russross/blackfriday/v2"
+	"github.com/unrolled/secure"
 	"html/template"
 	"log"
 	"math"
@@ -220,6 +221,18 @@ func catchAllHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	router := mux.NewRouter()
+
+	// Redirect to HTTPS in prod
+	environment := os.Getenv("ENVIRONMENT")
+	sslRedirect := false
+	if environment == "master" {
+		sslRedirect = true
+	}
+	secureMiddleware := secure.New(secure.Options{
+		SSLRedirect: sslRedirect,
+	})
+	router.Use(secureMiddleware.Handler)
+
 	router.HandleFunc("/posts/{slug}", postEndpoint).Methods("GET")
 	router.HandleFunc("/about", aboutEndpoint).Methods("GET")
 	router.HandleFunc("/", homeEndpoint).Methods("GET")
