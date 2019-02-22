@@ -1,0 +1,3 @@
+circle_branch: "latest"
+tag: "latest"
+service_type: LoadBalancer
