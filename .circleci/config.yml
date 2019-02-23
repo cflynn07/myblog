@@ -40,13 +40,14 @@ jobs:
             docker push cflynnus/blog:${CIRCLE_BRANCH}-${CIRCLE_SHA1}
             docker tag cflynnus/blog:${CIRCLE_BRANCH}-${CIRCLE_SHA1} cflynnus/blog:latest
             docker push cflynnus/blog:latest
-
       - run:
           name: Deploy to Kubernetes
           command: |
-            envsubst < ${HOME}/project/kubernetes/cloud.yaml > ${HOME}/project/kubernetes/cloud_patched.yaml
-            kubectl apply -f ${HOME}/project/kubernetes/cloud_patched.yaml
-            kubectl -n ${PROJECT_NAME} rollout status deployment/${PROJECT_NAME}-${CIRCLE_BRANCH}-app
+            hub install --name blog --set image=cflynnus/blog:${CIRCLE_BRANC}-${CIRCLE_SHA1} ./helm
+            kubectl rollout status deployment/${PROJECT_NAME}-${CIRCLE_BRANCH}-app
+#            envsubst < ${HOME}/project/kubernetes/cloud.yaml > ${HOME}/project/kubernetes/cloud_patched.yaml
+#            kubectl apply -f ${HOME}/project/kubernetes/cloud_patched.yaml
+#            kubectl -n ${PROJECT_NAME} rollout status deployment/${PROJECT_NAME}-${CIRCLE_BRANCH}-app
 workflows:
   version: 2
   build_test_deploy:
