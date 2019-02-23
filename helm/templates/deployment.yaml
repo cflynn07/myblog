@@ -21,7 +21,8 @@ spec:
           command: ['sh', '-c', 'echo this is a test']
       containers:
         - name: {{ include "blog.name" . }}
-          image: cflynnus/{{ include "blog.name" . }}:{{ .Values.tag }}
+          # image: cflynnus/{{ include "blog.name" . }}:{{ .Values.tag }}
+          image: {{ $.Values.image | default "cflynnus/blog:latest" }}
           env:
             - name: PORT
               value: "80"
