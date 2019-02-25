@@ -1,2 +1,3 @@
 develop_image: "cflynnus/blog:latest"
 master_image: "cflynnus/blog:latest"
+certificate_email: "cflynn.us@gmail.com"
