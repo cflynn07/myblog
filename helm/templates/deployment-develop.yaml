@@ -29,7 +29,7 @@ spec:
           livenessProbe:
             httpGet:
               scheme: HTTP
-              path: /
+              path: /healthz
               port: 80
             initialDelaySeconds: 3
             periodSeconds: 3
