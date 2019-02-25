@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "blog.name" . }}-{{ .Values.circle_branch }}-app
+  # namespace: {{ include "blog.name" . }}
+  labels:
+    app: {{ include "blog.name" . }}-{{ .Values.circle_branch }}-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "blog.name" . }}-{{ .Values.circle_branch }}-app
+  template:
+    metadata:
+      labels:
+        app: {{ include "blog.name" . }}-{{ .Values.circle_branch }}-app
+    spec:
+      initContainers:
+        - name: {{ include "blog.name" . }}-init
+          image: busybox
+          command: ['sh', '-c', 'echo this is a test']
+      containers:
+        - name: {{ include "blog.name" . }}
+          # image: cflynnus/{{ include "blog.name" . }}:{{ .Values.tag }}
+          image: {{ $.Values.image | default "cflynnus/blog:latest" }}
+          env:
+            - name: PORT
+              value: "80"
+            - name: ENVIRONMENT
+              value: "{{ .Values.circle_branch }}"
+          ports:
+            - name: {{ include "blog.name" . }}-port
+              containerPort: 80
+          livenessProbe:
+            httpGet:
+              scheme: HTTP
+              path: /
+              port: 80
+            initialDelaySeconds: 3
+            periodSeconds: 3

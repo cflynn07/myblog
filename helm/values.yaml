@@ -1,0 +1,3 @@
+image: "cflynnus/blog:latest"
+service_type: NodePort
+circle_branch: "develop"

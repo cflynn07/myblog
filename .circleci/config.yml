@@ -14,7 +14,7 @@ jobs:
           command: bash <(curl -s https://codecov.io/bash)
   build_and_deploy:
     docker:
-      - image: google/cloud-sdk
+      - image: cflynnus/google-cloud-sdk-helm:v1
     environment:
       - PROJECT_NAME: "blog"
       - GOOGLE_PROJECT_ID: "blog-229516"
@@ -38,12 +38,19 @@ jobs:
             echo $DOCKER_HUB_PASSWORD | docker login --username cflynnus --password-stdin
             docker build -t cflynnus/blog:${CIRCLE_BRANCH}-${CIRCLE_SHA1} .
             docker push cflynnus/blog:${CIRCLE_BRANCH}-${CIRCLE_SHA1}
+            docker tag cflynnus/blog:${CIRCLE_BRANCH}-${CIRCLE_SHA1} cflynnus/blog:latest
+            docker push cflynnus/blog:latest
       - run:
           name: Deploy to Kubernetes
           command: |
-            envsubst < ${HOME}/project/kubernetes/cloud.yaml > ${HOME}/project/kubernetes/cloud_patched.yaml
-            kubectl apply -f ${HOME}/project/kubernetes/cloud_patched.yaml
-            kubectl -n ${PROJECT_NAME} rollout status deployment/${PROJECT_NAME}-${CIRCLE_BRANCH}-app
+            helm upgrade blog \
+            --install \
+            --set image=cflynnus/blog:${CIRCLE_BRANCH}-${CIRCLE_SHA1},circle_branch=${CIRCLE_BRANCH} \
+            ./helm
+            kubectl rollout status deployment/${PROJECT_NAME}-${CIRCLE_BRANCH}-app
+#            envsubst < ${HOME}/project/kubernetes/cloud.yaml > ${HOME}/project/kubernetes/cloud_patched.yaml
+#            kubectl apply -f ${HOME}/project/kubernetes/cloud_patched.yaml
+#            kubectl -n ${PROJECT_NAME} rollout status deployment/${PROJECT_NAME}-${CIRCLE_BRANCH}-app
 workflows:
   version: 2
   build_test_deploy:

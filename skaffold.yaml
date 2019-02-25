@@ -2,7 +2,7 @@ apiVersion: skaffold/v1beta3
 kind: Config
 build:
   artifacts:
-  - image: cflynnus/myblog
+  - image: cflynnus/blog
     context: .
     sync:
       '**/*.html': "/root"
@@ -10,6 +10,7 @@ build:
       '**/*.css': "/root"
       '**/*.png': "/root"
 deploy:
-  kubectl:
-    manifests:
-    - kubernetes/local.yaml
+  helm:
+    releases:
+      - name: "blog"
+        chartPath: "helm"

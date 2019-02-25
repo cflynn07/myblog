@@ -1,0 +1,30 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: test-ingress
+  # namespace: {{ include "blog.fullname" . }}
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: "web-static-ip"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+    certmanager.k8s.io/acme-http01-edit-in-place: "true"
+spec:
+  tls:
+    - secretName: cflynn-us-tls
+      hosts:
+        - cflynn.us
+  rules:
+  - host: cflynn.us
+    http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: blog-master-app
+          servicePort: 80
+  - host: cflynn-blog.com
+    http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: blog-develop-app
+          servicePort: 80
