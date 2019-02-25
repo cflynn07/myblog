@@ -43,10 +43,15 @@ jobs:
       - run:
           name: Deploy to Kubernetes
           command: |
-            helm upgrade blog \
-            --install \
-            --set image=cflynnus/blog:${CIRCLE_BRANCH}-${CIRCLE_SHA1},circle_branch=${CIRCLE_BRANCH} \
-            ./helm
+            if [ "$CIRCLE_BRANCH" == "develop" ];
+              helm upgrade --install blog --reuse-values \
+              --set develop_image=cflynnus/blog:${CIRCLE_BRANCH}-${CIRCLE_SHA1} \
+              ./helm
+            else
+              helm upgrade --install blog --reuse-values \
+              --set master_image=cflynnus/blog:${CIRCLE_BRANCH}-${CIRCLE_SHA1} \
+              ./helm
+            fi;
             kubectl rollout status deployment/${PROJECT_NAME}-${CIRCLE_BRANCH}-app
 #            envsubst < ${HOME}/project/kubernetes/cloud.yaml > ${HOME}/project/kubernetes/cloud_patched.yaml
 #            kubectl apply -f ${HOME}/project/kubernetes/cloud_patched.yaml

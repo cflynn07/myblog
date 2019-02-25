@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "blog.name" . }}-master-app
+  # namespace: {{ include "blog.name" . }}
+  labels:
+    app: {{ include "blog.name" . }}-master-app
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: {{ include "blog.name" . }}-port
+      protocol: TCP
+      name: http
+  selector:
+    app: {{ include "blog.name" . }}-master-app
