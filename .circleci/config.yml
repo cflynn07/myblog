@@ -45,7 +45,6 @@ jobs:
           command: |
             helm upgrade \
             --install \
-            --name blog \
             --set image=cflynnus/blog:${CIRCLE_BRANCH}-${CIRCLE_SHA1},circle_branch=${CIRCLE_BRANCH} \
             ./helm
             kubectl rollout status deployment/${PROJECT_NAME}-${CIRCLE_BRANCH}-app
