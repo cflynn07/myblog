@@ -44,17 +44,11 @@ jobs:
           name: Deploy to Kubernetes
           command: |
             if [[ "$CIRCLE_BRANCH" == "develop" ]]; then
-              helm upgrade --install blog --reuse-values --dry-run --debug \
-              --set develop_image=cflynnus/blog:${CIRCLE_BRANCH}-${CIRCLE_SHA1} \
-              ./helm
-              helm upgrade --install blog --reuse-values \
+              helm upgrade --install blog --reuse-values --debug \
               --set develop_image=cflynnus/blog:${CIRCLE_BRANCH}-${CIRCLE_SHA1} \
               ./helm
             elif [[ "$CIRCLE_BRANCH" == "master" ]]; then
-              helm upgrade --install blog --reuse-values --dry-run --debug \
-              --set master_image=cflynnus/blog:${CIRCLE_BRANCH}-${CIRCLE_SHA1} \
-              ./helm
-              helm upgrade --install blog --reuse-values \
+              helm upgrade --install blog --reuse-values --debug \
               --set master_image=cflynnus/blog:${CIRCLE_BRANCH}-${CIRCLE_SHA1} \
               ./helm
             fi
