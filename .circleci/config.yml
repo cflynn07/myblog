@@ -43,7 +43,7 @@ jobs:
       - run:
           name: Deploy to Kubernetes
           command: |
-            helm upgrade \
+            helm upgrade blog \
             --install \
             --set image=cflynnus/blog:${CIRCLE_BRANCH}-${CIRCLE_SHA1},circle_branch=${CIRCLE_BRANCH} \
             ./helm
