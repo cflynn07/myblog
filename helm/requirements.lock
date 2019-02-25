@@ -1,6 +1,0 @@
-dependencies:
-- name: cert-manager
-  repository: https://kubernetes-charts.storage.googleapis.com
-  version: v0.5.2
-digest: sha256:f8d3d43ed297a8c28f8a177d445c6de46afafd097692bc1388abc21f128b92a5
-generated: 2019-02-25T16:51:17.452376+08:00
