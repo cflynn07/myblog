@@ -21,39 +21,9 @@ type globalPageVars struct {
 	Host  string
 }
 
-// Metadata for each blog post
-type postData struct {
-	Title          string
-	Subtitle       string
-	Keywords       string
-	Date           string // time.Time?
-	Content        string
-	ContentPreview string
-}
-
-// All published blog posts
-type blogPosts map[string]*postData
-
 var gpv = globalPageVars{
 	Title: "Casey Flynn",
 	Host:  "https://cflynn.us",
-}
-
-// Blog uses this static map to display blog posts, the keys should match files
-// in the template folder (sans the extension)
-var bp = blogPosts{
-	"test_post_2": &postData{
-		Title:    "Test Post 2",
-		Subtitle: "",
-		Keywords: "",
-		Date:     "",
-	},
-	"unicode_and_utf8": &postData{
-		Title:    "Unicode and UTF8",
-		Subtitle: "",
-		Keywords: "",
-		Date:     "",
-	},
 }
 
 var postsBox = packr.New("Posts", "./posts")
@@ -224,37 +194,23 @@ func main() {
 	router := mux.NewRouter()
 
 	router.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {
-		log.Print("/healthz handler")
 		w.WriteHeader(http.StatusOK)
-		fmt.Fprintf(w, "hello")
+		fmt.Fprintf(w, "ok")
 	})
 
-	subRouter := router.PathPrefix("/").Subrouter()
-
 	// Redirect to HTTPS in prod
-	environment := os.Getenv("ENVIRONMENT")
-	sslRedirect := false
-	if environment == "master" {
-		sslRedirect = true
-	}
+	sslRedirect := (os.Getenv("SSL_REDIRECT") == "true")
 	secureMiddleware := secure.New(secure.Options{
 		SSLProxyHeaders: map[string]string{"X-Forwarded-Proto": "https"},
 		SSLRedirect:     sslRedirect,
 	})
-	subRouter.Use(func(next http.Handler) http.Handler {
-		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			log.Print("middleware function", r.Header, r.URL)
-			next.ServeHTTP(w, r)
-		})
-	})
-	subRouter.Use(secureMiddleware.Handler)
 
+	subRouter := router.PathPrefix("/").Subrouter()
+	subRouter.Use(secureMiddleware.Handler)
 	subRouter.HandleFunc("/posts/{slug}", postEndpoint).Methods("GET")
 	subRouter.HandleFunc("/about", aboutEndpoint).Methods("GET")
 	subRouter.HandleFunc("/", homeEndpoint).Methods("GET")
-
 	subRouter.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(staticBox)))
-
 	subRouter.PathPrefix("/").HandlerFunc(catchAllHandler)
 
 	log.Println("Listening on port " + os.Getenv("PORT"))

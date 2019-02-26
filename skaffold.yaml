@@ -10,7 +10,6 @@ build:
       '**/*.css': "/root"
       '**/*.png': "/root"
 deploy:
-  helm:
-    releases:
-      - name: "blog"
-        chartPath: "helm"
+  kubectl:
+    manifests:
+      - "kubernetes/local.yaml"
