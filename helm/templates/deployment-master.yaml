@@ -20,7 +20,7 @@ spec:
           image: {{ $.Values.master_image }}
           env:
             - name: PORT
-              value: 80
+              value: "80"
             - name: SSL_REDIRECT
               value: "true"
           ports:
