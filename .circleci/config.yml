@@ -2,8 +2,8 @@ version: 2
 jobs:
   test:
     docker:
-      - image: circleci/golang:1.11
-    working_directory: /go/src/app
+      - image: circleci/golang:1.12
+    working_directory: /go/src/
     steps:
       - checkout #checks out the source code to working directory
       - run:
