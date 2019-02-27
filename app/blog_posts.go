@@ -1,4 +1,4 @@
-package main
+package app
 
 // Metadata for each blog post
 type postData struct {
@@ -16,15 +16,9 @@ type blogPosts map[string]*postData
 // Blog uses this static map to display blog posts, the keys should match files
 // in the template folder (sans the extension)
 var bp = blogPosts{
-	"test_post_2": &postData{
-		Title:    "Test Post 2",
-		Subtitle: "",
-		Keywords: "",
-		Date:     "",
-	},
-	"unicode_and_utf8": &postData{
-		Title:    "Unicode and UTF8",
-		Subtitle: "",
+	"2019-02-26-website-in-a-binary": &postData{
+		Title:    "Website in a Binary",
+		Subtitle: "subtitle subtitle subtitle",
 		Keywords: "",
 		Date:     "",
 	},

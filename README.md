@@ -7,19 +7,17 @@ MyBlog
 [![Maintainability](https://api.codeclimate.com/v1/badges/ddb5503e282c7693f9f5/maintainability)](https://codeclimate.com/github/cflynn07/myblog/maintainability)
 
 My blog website, written in golang. Deployed to google cloud and managed with
-kubernetes (overkill for a blog).
+kubernetes and helm (overkill for a blog).
 
 Attempts to follow golang project standard layout
 [https://github.com/golang-standards/project-layout](https://github.com/golang-standards/project-layout)
 
 Development Instructions
 ------------------------
-```bash
-# Build and run
-$ docker build . -t myblog
-$ docker run -it --name myblog -p 3001:3001 --rm -e "PORT=3001" myblog
+This project uses skaffold and kubernetes for local development.
 
-# Develop using skaffold, image will be rebuild and cluster updated every time code is changed
+```bash
+# Set up kubernetes cluster and configure kubectl to use desired context
 $ skaffold dev
 
 # This project uses gulp to run build tasks (sass)
@@ -28,4 +26,7 @@ $ gulp
 ```
 
 CI/CD Pipeline
-
+- Commits/merges to `develop` are automatically deployed to staging
+  - http://cflynn-blog.com (requires editing /etc/hosts)
+- Commits/merges to `master` are automatically deployed to production
+  - https://cflynn.us

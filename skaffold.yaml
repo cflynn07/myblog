@@ -2,13 +2,16 @@ apiVersion: skaffold/v1beta3
 kind: Config
 build:
   artifacts:
-  - image: cflynnus/blog
-    context: .
-    sync:
-      '**/*.html': "/root"
-      '**/*.md': "/root"
-      '**/*.css': "/root"
-      '**/*.png': "/root"
+    - image: cflynnus/blog
+      context: .
+      docker:
+        buildArgs:
+          production_build: "false"
+      sync:
+        '**/*.html': "/root"
+        '**/*.md': "/root"
+        '**/*.css': "/root"
+        '**/*.png': "/root"
 deploy:
   kubectl:
     manifests:

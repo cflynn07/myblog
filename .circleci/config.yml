@@ -36,7 +36,7 @@ jobs:
           name: Docker build and push
           command: |
             echo $DOCKER_HUB_PASSWORD | docker login --username cflynnus --password-stdin
-            docker build -t cflynnus/blog:${CIRCLE_BRANCH}-${CIRCLE_SHA1} .
+            docker build --build-arg production_build="true" -t cflynnus/blog:${CIRCLE_BRANCH}-${CIRCLE_SHA1} .
             docker push cflynnus/blog:${CIRCLE_BRANCH}-${CIRCLE_SHA1}
             docker tag cflynnus/blog:${CIRCLE_BRANCH}-${CIRCLE_SHA1} cflynnus/blog:latest
             docker push cflynnus/blog:latest
@@ -53,9 +53,6 @@ jobs:
               ./helm
             fi
             kubectl rollout status deployment/${PROJECT_NAME}-${CIRCLE_BRANCH}-app
-#            envsubst < ${HOME}/project/kubernetes/cloud.yaml > ${HOME}/project/kubernetes/cloud_patched.yaml
-#            kubectl apply -f ${HOME}/project/kubernetes/cloud_patched.yaml
-#            kubectl -n ${PROJECT_NAME} rollout status deployment/${PROJECT_NAME}-${CIRCLE_BRANCH}-app
 workflows:
   version: 2
   build_test_deploy:

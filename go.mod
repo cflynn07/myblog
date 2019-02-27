@@ -11,7 +11,7 @@ require (
 	github.com/gobuffalo/buffalo-plugins v1.13.0 // indirect
 	github.com/gobuffalo/flect v0.1.0 // indirect
 	github.com/gobuffalo/meta v0.0.0-20190207205153-50a99e08b8cf // indirect
-	github.com/gobuffalo/packr v1.22.0 // indirect
+	github.com/gobuffalo/packr v1.22.0
 	github.com/gobuffalo/packr/v2 v2.0.1
 	github.com/gobuffalo/release v1.1.8 // indirect
 	github.com/gogo/protobuf v1.2.0 // indirect
