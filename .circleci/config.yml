@@ -36,7 +36,7 @@ jobs:
           name: Docker build and push
           command: |
             echo $DOCKER_HUB_PASSWORD | docker login --username cflynnus --password-stdin
-            docker build --build-arg production_build="true" -t cflynnus/blog:${CIRCLE_BRANCH}-${CIRCLE_SHA1} .
+            docker build -t cflynnus/blog:${CIRCLE_BRANCH}-${CIRCLE_SHA1} .
             docker push cflynnus/blog:${CIRCLE_BRANCH}-${CIRCLE_SHA1}
             docker tag cflynnus/blog:${CIRCLE_BRANCH}-${CIRCLE_SHA1} cflynnus/blog:latest
             docker push cflynnus/blog:latest
