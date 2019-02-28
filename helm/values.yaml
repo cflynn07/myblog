@@ -1,3 +1,2 @@
-image: "cflynnus/blog:latest"
-service_type: NodePort
-circle_branch: "develop"
+develop_image: "cflynnus/blog:latest"
+master_image: "cflynnus/blog:latest"

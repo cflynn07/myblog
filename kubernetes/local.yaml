@@ -41,13 +41,9 @@ spec:
       labels:
         app: blog-app
     spec:
-      initContainers:
-        - name: blog-init
-          image: busybox
-          command: ['sh', '-c', 'echo this is a test']
       containers:
         - name: blog
-          image: cflynnus/myblog:latest
+          image: cflynnus/blog:latest
           env:
             - name: PORT
               value: "80"

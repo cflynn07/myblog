@@ -1,10 +1,9 @@
 {{ define "content" }}
-<div class="card my-4">
+<div class="card">
   <h5 class="card-header">{{ .BlogPostMeta.Title }}</h5>
     <div class="card-body">
-        <h5 class="card-title"></h5>
-        {{ .BlogPost }}
-        <p></p>
+      <h5 class="card-text">{{ .BlogPostMeta.Date.Format "2006-01-02" }}</h5>
+      {{ .BlogPost }}
     </div>
 </div>
 {{ end }}

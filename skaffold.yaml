@@ -2,15 +2,16 @@ apiVersion: skaffold/v1beta3
 kind: Config
 build:
   artifacts:
-  - image: cflynnus/blog
-    context: .
-    sync:
-      '**/*.html': "/root"
-      '**/*.md': "/root"
-      '**/*.css': "/root"
-      '**/*.png': "/root"
+    - image: cflynnus/blog
+      context: .
+      docker:
+        dockerfile: Dockerfile-develop
+      sync:
+        '**/*.html': "/go/src/myblog"
+        '**/*.md': "/go/src/myblog"
+        '**/*.css': "/go/src/myblog"
+        '**/*.png': "/go/src/myblog"
 deploy:
-  helm:
-    releases:
-      - name: "blog"
-        chartPath: "helm"
+  kubectl:
+    manifests:
+      - "kubernetes/local.yaml"

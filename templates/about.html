@@ -1,3 +1,39 @@
 {{ define "content" }}
-<h1 class="text-center">About</h1>
+<div class="card">
+  <h5 class="card-header">About</h5>
+    <div class="card-body">
+      <h2>About Me</h2>
+      <p>I'm a software engineer and digital nomad. I currently live in Taipei,
+        Taiwan where I study Chinese and grind everyday out of coffee
+        shops. I travel a lot. I try prevent myself from becoming tied down to
+        any one place; all my phsyical posessions fit inside two suitcases.</p>
+
+      <p>I passionately believe in working remotely and I believe software
+        companies that embrace a remote-first culture have a serious advantage
+        over traditional companies that constrain themselves to geographically
+        limited talent pools.</p>
+
+      <p>If you're interested in learning a little more about me, glassdoor
+        interviewed me about my experiences working as a ditital nomad.</p>
+
+      <p><a href="https://www.glassdoor.com/blog/digital-nomad-invision/">https://www.glassdoor.com/blog/digital-nomad-invision/</a></p>
+
+      <h2>About This Blog</h2>
+      <p>I started this blog primarily to teach myself. Software engineers are
+        constant learners. One of the best ways to solidify your understanding
+        of new information is to try and teach it to others.</p>
+
+      <p>Initially I'm going to try and keep this software engineering
+        oriented. In the future I'm considering writing about travel related to
+        being a digital nomad and maybe my experiences living in Taiwan and
+      learning Chinese.</p>
+
+      <p>This is a self-rolled blog I wrote in golang. It's hosted on Google
+        Cloud using Kubernetes (GKE). The code is hosted at <a
+          href="https://github.com/cflynn07/myblog">cflynn07/myblog</a>. The
+        project uses circleci for CI/CD and helm as a deployment tool. I chose
+        to build this blog from scratch in order to get more experience writing
+      golang and working with kubernetes.</p>
+    </div>
+</div>
 {{ end }}

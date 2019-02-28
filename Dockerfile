@@ -1,9 +1,10 @@
-FROM golang:1.11.5-alpine3.8 as builder
-WORKDIR /go/src/app
+FROM cflynnus/golang-1.12.0-packr2 as builder
+WORKDIR /go/src/myblog
 COPY . .
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
+RUN packr2
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o ./main .
 
 FROM alpine:latest
 WORKDIR /root
-COPY --from=builder /go/src/app/ .
+COPY --from=builder /go/src/myblog/main ./main
 CMD ["./main"]

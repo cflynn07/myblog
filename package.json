@@ -23,5 +23,8 @@
     "bootstrap": "^4.2.1",
     "gulp": "^4.0.0",
     "gulp-sass": "^4.0.2"
+  },
+  "dependencies": {
+    "color-themes-for-google-code-prettify": "^2.0.4"
   }
 }

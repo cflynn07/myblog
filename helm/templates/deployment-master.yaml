@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "blog.name" . }}-master-app
+  # namespace: {{ include "blog.name" . }}
+  labels:
+    app: {{ include "blog.name" . }}-master-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "blog.name" . }}-master-app
+  template:
+    metadata:
+      labels:
+        app: {{ include "blog.name" . }}-master-app
+    spec:
+      containers:
+        - name: {{ include "blog.name" . }}
+          image: {{ $.Values.master_image }}
+          env:
+            - name: PORT
+              value: "80"
+            - name: SSL_REDIRECT
+              value: "true"
+          ports:
+            - name: {{ include "blog.name" . }}-port
+              containerPort: 80
+          livenessProbe:
+            httpGet:
+              scheme: HTTP
+              path: /healthz
+              port: 80
+            initialDelaySeconds: 3
+            periodSeconds: 3

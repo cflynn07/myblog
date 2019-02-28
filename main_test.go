@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"myblog/app"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -12,13 +13,13 @@ import (
 
 func Router() *mux.Router {
 	router := mux.NewRouter()
-	router.HandleFunc("/", homeEndpoint).Methods("GET")
-	router.HandleFunc("/posts/{slug}", postEndpoint).Methods("GET")
-	router.PathPrefix("/").HandlerFunc(catchAllHandler)
+	router.HandleFunc("/", app.HomeHandler).Methods("GET")
+	router.HandleFunc("/posts/{slug}", app.PostHandler).Methods("GET")
+	router.PathPrefix("/").HandlerFunc(app.CatchAllHandler)
 	return router
 }
 
-func TestHomeEndpoint(t *testing.T) {
+func TestHomeHandler(t *testing.T) {
 	request, _ := http.NewRequest("GET", "/", nil)
 	response := httptest.NewRecorder()
 	Router().ServeHTTP(response, request)
@@ -26,7 +27,7 @@ func TestHomeEndpoint(t *testing.T) {
 	assert.Equal(t, "text/html; charset=utf-8", response.Result().Header["Content-Type"][0], "http content-type header response is expected")
 }
 
-func TestPostEndpoint(t *testing.T) {
+func TestPostHandler(t *testing.T) {
 	request, _ := http.NewRequest("GET", "/posts/a-non-existant-post", nil)
 	response := httptest.NewRecorder()
 	Router().ServeHTTP(response, request)
@@ -34,16 +35,16 @@ func TestPostEndpoint(t *testing.T) {
 	log.Print(response.Result().Header)
 	// assert.Equal(t, "text/html; charset=utf-8", response.Result().Header["Content-Type"][0], "http content-type header response is expected")
 
-	request, _ = http.NewRequest("GET", "/posts/test_post_2", nil)
+	request, _ = http.NewRequest("GET", "/posts/2019-02-26-website-in-a-binary", nil)
 	response = httptest.NewRecorder()
 	Router().ServeHTTP(response, request)
 	assert.Equal(t, 200, response.Code, "200 response is expected")
 }
 
-func TestAboutEndpoint(t *testing.T) {
+func TestAboutHandler(t *testing.T) {
 }
 
-func TestCatchAll(t *testing.T) {
+func TestCatchAllHandler(t *testing.T) {
 	request, _ := http.NewRequest("GET", "/foo", nil)
 	response := httptest.NewRecorder()
 	Router().ServeHTTP(response, request)
