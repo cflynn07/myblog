@@ -7,16 +7,21 @@ files on disk with relative include paths and your tests will fail. The same
 problem exists with `go install`.
 
 [gobuffalo/packr](https://github.com/gobuffalo/packr/) is a library that can
-bundle static files inside binaries for production builds, and automatically
-resolve include statments to absolute file paths so programs that depend on
-files from the disk work no matter what context you run them in. You can even
-use it with multi-stage docker builds to create a single binary containing all
-your website's static assest in an alpine linux container.
+bundle static files inside binaries for production builds, but still load files
+from disk during development, from any context, by automatically converting
+relative include paths to absolute paths.
 
-The code in this project
+It's a great tool for building super lightweight images for deployments. With
+multi-stage docker builds you can build your binary in a container that
+contains the packr binary and the golang compiler, then copy the built binary
+to an alpine linux image. The end product is an alpine linux container plus
+just one additional file.
+
+To illustrate some of the frustrations that can occur without packr, the code
+in this project
 [golang-packr-demo-fail](https://github.com/cflynn07/golang-packr-demo-fail)
 uses the io/ioutils FileOpen() function in route handlers to load templates
-with relative file paths.
+with relative file paths. This file contains our route handler.
 
 <pre class="prettyprint mx-3 px-3 border-secondary rounded">
 // handlers/handlers.go
@@ -53,9 +58,9 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 }
 </pre>
 
-This works if the program is executed within the
-correct context, however it requires the templates and other static assets be
-bundled with the built binary.
+This works if the program is executed within the correct context, however it
+requires the templates and other static assets be bundled with the built
+binary.
 
 For example, the web server will work when `go run main.go` is run within the
 repository, but if you run `go install` and try to run the server from your
