@@ -1,11 +1,16 @@
 package app
 
+import (
+	"html/template"
+	"time"
+)
+
 // Metadata for each blog post
 type postData struct {
 	Title          string
-	Subtitle       string
-	Keywords       string
-	Date           string // time.Time?
+	Description    template.HTML
+	Keywords       []string
+	Date           time.Time
 	Content        string
 	ContentPreview string
 }
@@ -17,9 +22,9 @@ type blogPosts map[string]*postData
 // in the template folder (sans the extension)
 var bp = blogPosts{
 	"2019-02-26-website-in-a-binary": &postData{
-		Title:    "Website in a Binary",
-		Subtitle: "subtitle subtitle subtitle",
-		Keywords: "",
-		Date:     "",
+		Title:       "Bundling static website assets in a single binary with gobuffalo/packr",
+		Description: template.HTML("How to use gobuffalo/packr to build a simple website in golang with static assets that's easy to test and can be bundled into a single binary for deployment."),
+		Keywords:    []string{"golang", "go", "packr", "gobuffalo", "static assets"},
+		Date:        time.Date(2019, time.February, 28, 0, 0, 0, 0, time.UTC),
 	},
 }

@@ -2,14 +2,15 @@ package app
 
 import (
 	"bytes"
-	"github.com/gobuffalo/packr/v2"
-	"github.com/gorilla/mux"
-	"github.com/russross/blackfriday/v2"
 	"html/template"
 	"log"
 	"math"
 	"net/http"
 	"strings"
+
+	"github.com/gobuffalo/packr/v2"
+	"github.com/gorilla/mux"
+	"github.com/russross/blackfriday/v2"
 )
 
 var postsBox = packr.New("Posts", "../posts")
@@ -155,7 +156,6 @@ func AboutHandler(w http.ResponseWriter, r *http.Request) {
 	t.Parse(templateLayout)
 	t.Parse(templateContent)
 	err = t.ExecuteTemplate(w, "layout", apv)
-
 }
 
 // CatchAllHandler Handler for undefined routes

@@ -1,8 +1,10 @@
 *.log
 *.tmp
+*.scss
 .DS_store
 *-packr.go
 README.md
 coverage.txt
 helm/
 kubernetes/
+node_modules/
