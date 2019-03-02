@@ -27,14 +27,12 @@ func truncHelper(s string) string {
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	type homePageVars struct {
 		globalPageVars
-		SubTitle  string
 		BlogPosts blogPosts
 		Path      string
 	}
 
 	hpv := homePageVars{
 		globalPageVars: gpv,
-		SubTitle:       "",
 		BlogPosts:      bp,
 		Path:           "/",
 	}
@@ -72,7 +70,6 @@ func PostHandler(w http.ResponseWriter, r *http.Request) {
 
 	type postPageVars struct {
 		globalPageVars
-		SubTitle     string
 		BlogPost     template.HTML
 		BlogPostMeta *postData
 		Path         string
@@ -80,7 +77,6 @@ func PostHandler(w http.ResponseWriter, r *http.Request) {
 
 	ppv := postPageVars{
 		globalPageVars: gpv,
-		SubTitle:       "",
 		Path:           "/posts/" + vars["slug"],
 	}
 
@@ -100,6 +96,8 @@ func PostHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	} else {
 		ppv.BlogPostMeta = post
+		ppv.Description = post.Description
+		ppv.Keywords = strings.Join(post.Keywords, ",")
 		data, err := postsBox.Find(vars["slug"] + ".md")
 		if err != nil {
 			log.Fatal(err)
