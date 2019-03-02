@@ -8,6 +8,24 @@ body {
   background: linear-gradient(to right, #F27121, #E94057, #8A2387); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
+// Little custom formatting for code blocks
+pre.prettyprint {
+  @extend .px-2;
+  @for $i from 0 through 9 {
+    li.L#{$i} {
+      list-style-type: decimal;
+    }
+  }
+}
+
+pre.prettyprint {
+  @extend .bg-light;
+}
+
+pre.prettyprint.linenums {
+  @extend .bg-secondary;
+}
+
 // Reference
 // @include media-breakpoint-up(xs) { ... }
 // @include media-breakpoint-up(sm) { ... }

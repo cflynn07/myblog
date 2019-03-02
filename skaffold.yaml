@@ -11,6 +11,7 @@ build:
         '**/*.md': "/go/src/myblog"
         '**/*.css': "/go/src/myblog"
         '**/*.png': "/go/src/myblog"
+        '**/*.scss': "/go/src/myblog" # Only until skaffold ignore works
 deploy:
   kubectl:
     manifests:
