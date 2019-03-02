@@ -4483,7 +4483,7 @@ button.bg-primary:hover,
 button.bg-primary:focus {
   background-color: #0062cc !important; }
 
-.bg-secondary {
+.bg-secondary, pre.prettyprint.linenums {
   background-color: #6c757d !important; }
 
 a.bg-secondary:hover, a.bg-secondary:focus,
@@ -4523,7 +4523,7 @@ button.bg-danger:hover,
 button.bg-danger:focus {
   background-color: #bd2130 !important; }
 
-.bg-light {
+.bg-light, pre.prettyprint {
   background-color: #f8f9fa !important; }
 
 a.bg-light:hover, a.bg-light:focus,
@@ -5498,7 +5498,8 @@ button.bg-dark:focus {
   padding-top: 0.5rem !important; }
 
 .pr-2,
-.px-2 {
+.px-2,
+pre.prettyprint {
   padding-right: 0.5rem !important; }
 
 .pb-2,
@@ -5506,7 +5507,8 @@ button.bg-dark:focus {
   padding-bottom: 0.5rem !important; }
 
 .pl-2,
-.px-2 {
+.px-2,
+pre.prettyprint {
   padding-left: 0.5rem !important; }
 
 .p-3 {
@@ -6921,6 +6923,78 @@ a.text-dark:hover, a.text-dark:focus {
     color: inherit;
     border-color: #dee2e6; } }
 
+.prettyprint {
+  background: #fff;
+  font-family: Menlo, "Bitstream Vera Sans Mono", "DejaVu Sans Mono", Monaco, Consolas, monospace;
+  border: 0 !important; }
+
+.pln {
+  color: #333; }
+
+@media screen {
+  /* string content */
+  .str {
+    color: #d14; }
+  /* keyword */
+  .kwd {
+    color: #333; }
+  /* comment */
+  .com {
+    color: #998; }
+  /* type name */
+  .typ {
+    color: #458; }
+  /* literal value */
+  .lit {
+    color: #458; }
+  /* punctuation */
+  .pun {
+    color: #333; }
+  /* lisp open bracket */
+  .opn {
+    color: #333; }
+  /* lisp close bracket */
+  .clo {
+    color: #333; }
+  /* markup tag name */
+  .tag {
+    color: #000080; }
+  /* markup attribute name */
+  .atn {
+    color: #008080; }
+  /* markup attribute value */
+  .atv {
+    color: #d14; }
+  /* declaration */
+  .dec {
+    color: #333; }
+  /* variable name */
+  .var {
+    color: #008080; }
+  /* function name */
+  .fun {
+    color: #900; } }
+
+/* Specify class=linenums on a pre to get line numbering */
+ol.linenums {
+  margin-top: 0;
+  margin-bottom: 0;
+  color: #cccccc; }
+
+li.L0,
+li.L1,
+li.L2,
+li.L3,
+li.L4,
+li.L5,
+li.L6,
+li.L7,
+li.L8,
+li.L9 {
+  padding-left: 1em;
+  background-color: #fff;
+  list-style-type: decimal; }
+
 body {
   background: #8A2387;
   /* fallback for old browsers */
@@ -6928,3 +7002,33 @@ body {
   /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to right, #F27121, #E94057, #8A2387);
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+
+pre.prettyprint li.L0 {
+  list-style-type: decimal; }
+
+pre.prettyprint li.L1 {
+  list-style-type: decimal; }
+
+pre.prettyprint li.L2 {
+  list-style-type: decimal; }
+
+pre.prettyprint li.L3 {
+  list-style-type: decimal; }
+
+pre.prettyprint li.L4 {
+  list-style-type: decimal; }
+
+pre.prettyprint li.L5 {
+  list-style-type: decimal; }
+
+pre.prettyprint li.L6 {
+  list-style-type: decimal; }
+
+pre.prettyprint li.L7 {
+  list-style-type: decimal; }
+
+pre.prettyprint li.L8 {
+  list-style-type: decimal; }
+
+pre.prettyprint li.L9 {
+  list-style-type: decimal; }
