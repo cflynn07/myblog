@@ -1,4 +1,3 @@
 develop_image: "cflynnus/blog:latest"
 master_image: "cflynnus/blog:latest"
-
 google_analytics: "UA-135553742-1"
