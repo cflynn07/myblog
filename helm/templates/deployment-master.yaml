@@ -24,7 +24,7 @@ spec:
             - name: SSL_REDIRECT
               value: "true"
             - name: GOOGLE_ANALYTICS
-              value: {{ $.Values.google_analytics }}
+              value: {{ $.Values.google_analytics | quote }}
           ports:
             - name: {{ include "blog.name" . }}-port
               containerPort: 80
