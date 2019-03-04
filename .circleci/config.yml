@@ -8,7 +8,7 @@ jobs:
       - checkout #checks out the source code to working directory
       - run:
           name: Run E2E tests
-          command: go test -race -coverprofile=coverage.txt -covermode=atomic
+          command: go test ./... -race -coverprofile=coverage.txt -covermode=atomic
       - run:
           name: Upload coverage report to codecov
           command: bash <(curl -s https://codecov.io/bash)
