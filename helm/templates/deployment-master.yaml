@@ -23,8 +23,10 @@ spec:
               value: "80"
             - name: SSL_REDIRECT
               value: "true"
+            {{- if ne $.Values.google_analytics "" }}
             - name: GOOGLE_ANALYTICS
               value: {{ $.Values.google_analytics | quote }}
+            {{- end }}
           ports:
             - name: {{ include "blog.name" . }}-port
               containerPort: 80
