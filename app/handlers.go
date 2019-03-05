@@ -160,14 +160,17 @@ func AboutHandler(w http.ResponseWriter, r *http.Request) {
 
 // CatchAllHandler Handler for undefined routes
 func CatchAllHandler(w http.ResponseWriter, r *http.Request) {
+	log.Println("catch all handler")
 	w.WriteHeader(http.StatusNotFound)
 
 	type notFoundPageVars struct {
 		globalPageVars
+		Path string
 	}
 
 	nfpv := notFoundPageVars{
 		globalPageVars: gpv,
+		Path:           "",
 	}
 
 	templateLayout, err := templateBox.FindString("layout.html")

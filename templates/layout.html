@@ -27,7 +27,9 @@
     <meta name="Keywords" content="{{ .Keywords }}" />
     <meta name="Description" content="{{ .Description }}" />
 
+    {{- if ne .Path "" }}
     <link rel="canonical" href="{{ .Host }}{{ .Path }}" />
+    {{- end }}
 </head>
 
 <body>

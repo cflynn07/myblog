@@ -36,11 +36,12 @@ func main() {
 
 	subRouter := router.PathPrefix("/").Subrouter()
 	subRouter.Use(secureMiddleware.Handler)
-	subRouter.HandleFunc("/posts/{slug}", app.PostHandler).Methods("GET")
-	subRouter.HandleFunc("/about", app.AboutHandler).Methods("GET")
 	subRouter.HandleFunc("/", app.HomeHandler).Methods("GET")
+	subRouter.HandleFunc("/about", app.AboutHandler).Methods("GET")
+	subRouter.HandleFunc("/posts/{slug}", app.PostHandler).Methods("GET")
 	subRouter.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(staticBox)))
-	subRouter.PathPrefix("/").HandlerFunc(app.CatchAllHandler)
+
+	router.PathPrefix("/").HandlerFunc(app.CatchAllHandler)
 
 	log.Println("Listening on port " + os.Getenv("PORT"))
 	http.ListenAndServe(":"+os.Getenv("PORT"), router)
