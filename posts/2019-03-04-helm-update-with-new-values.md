@@ -11,13 +11,13 @@ $ tree ./helm
 ./helm
 ├── Chart.yaml
 ├── templates
-│   ├── NOTES.txt
-│   ├── _helpers.tpl
-│   ├── deployment-develop.yaml
-│   ├── deployment-master.yaml
-│   ├── ingress.yaml
-│   ├── service-develop.yaml
-│   └── service-master.yaml
+│   ├── NOTES.txt
+│   ├── _helpers.tpl
+│   ├── deployment-develop.yaml
+│   ├── deployment-master.yaml
+│   ├── ingress.yaml
+│   ├── service-develop.yaml
+│   └── service-master.yaml
 └── values.yaml
 </pre>
 
@@ -65,6 +65,9 @@ CI run the deployment job. Since the value is already present in tiller,
 using `--reuse-values` will lead to the correct yaml being generated.
 
 <pre class="prettyprint">
-// This wont cause any changes to kuberenetes resources since no resources use 'google_analytics' yet
+// This won't cause any changes to kubernetes resources since no resources use 'google_analytics' yet
 $ helm upgrade --install YOUR_DEPLOYMENT --set google_analytics="xxxxxxxxxxxxxxx" .
 </pre>
+
+After doing this, code can be pushed to the remote git repository and trigger
+the CI deployment job shown above.
