@@ -28,9 +28,9 @@ var bp = blogPosts{
 		Date:        time.Date(2019, time.February, 28, 0, 0, 0, 0, time.UTC),
 	},
 	"2019-03-04-helm-update-with-new-values": &postData{
-		Title:       "HELM UPDATE WITH NEW VALUES",
-		Description: template.HTML("How to use gobuffalo/packr to build a simple website in golang with static assets that's easy to test and can be bundled into a single binary for deployment."),
-		Keywords:    []string{"golang", "", "static assets"},
+		Title:       "Deploying with helm from CI using --reuse-values and adding new values to your values.yaml file",
+		Description: template.HTML("Adding new values to your values.yaml file and deploying from CI with --reuse-values can get you into trouble since tiller won't reference changes to values.yaml when creating kubernetes resources yaml."),
+		Keywords:    []string{"kubernetes", "helm", "helm update", "CI deployment"},
 		Date:        time.Date(2019, time.March, 5, 0, 0, 0, 0, time.UTC),
 	},
 }
