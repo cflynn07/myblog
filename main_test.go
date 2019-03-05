@@ -15,6 +15,7 @@ func Router() *mux.Router {
 	router := mux.NewRouter()
 	router.HandleFunc("/", app.HomeHandler).Methods("GET")
 	router.HandleFunc("/posts/{slug}", app.PostHandler).Methods("GET")
+	router.HandleFunc("/about", app.AboutHandler).Methods("GET")
 	router.PathPrefix("/").HandlerFunc(app.CatchAllHandler)
 	return router
 }
@@ -42,6 +43,11 @@ func TestPostHandler(t *testing.T) {
 }
 
 func TestAboutHandler(t *testing.T) {
+	request, _ := http.NewRequest("GET", "/about", nil)
+	response := httptest.NewRecorder()
+	Router().ServeHTTP(response, request)
+	assert.Equal(t, 200, response.Code, "OK response is expected")
+	assert.Equal(t, "text/html; charset=utf-8", response.Result().Header["Content-Type"][0], "http content-type header response is expected")
 }
 
 func TestCatchAllHandler(t *testing.T) {

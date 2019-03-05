@@ -27,13 +27,15 @@ func truncHelper(s string) string {
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	type homePageVars struct {
 		globalPageVars
-		BlogPosts blogPosts
-		Path      string
+		BlogPosts     blogPosts
+		BlogPostsKeys []string
+		Path          string
 	}
 
 	hpv := homePageVars{
 		globalPageVars: gpv,
 		BlogPosts:      bp,
+		BlogPostsKeys:  bpKeys,
 		Path:           "/",
 	}
 

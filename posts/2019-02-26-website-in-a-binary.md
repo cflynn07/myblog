@@ -2,7 +2,7 @@ Most websites typically consist of server code and static files like css, js
 and images. With golang, testing http route handlers that look for specific
 files on disk, such as templates, can be a bit tricky. `go test` compiles your
 go code and runs the binary from a temporary directory. It does not copy your
-static files to the temporary directory, so route handlers wont be able to find
+static files to the temporary directory, so route handlers won't be able to find
 files on disk with relative include paths and your tests will fail. The same
 problem exists with `go install`.
 
@@ -64,7 +64,7 @@ binary.
 
 For example, the web server will work when `go run main.go` is run within the
 repository, but if you run `go install` and try to run the server from your
-PATH and the relative include paths wont resove, resulting in the server
+PATH and the relative include paths won't resolve, resulting in the server
 crashing.
 
 ###### Working Example: `go run main.go` from within repository

@@ -4,13 +4,15 @@
 
 <h5 class="text-white mt-4 mb-0">Recent Posts by Casey Flynn</h5>
 
-{{ range $key, $value := .BlogPosts }}
+{{ range $key := .BlogPostsKeys }}
 <div class="card my-2">
-    <a href="/posts/{{ $key }}"><h5 class="card-header">{{ $value.Title }}</h5></a>
+ {{ with index $.BlogPosts $key }}
+    <a href="/posts/{{ $key }}"><h5 class="card-header">{{ .Title }}</h5></a>
     <div class="card-body">
-        <h6 class="card-title text-secondary">{{ $value.Date.Format "2006-01-02" }}</h6>
-        <p class="card-text">{{ $value.Description }}</p>
+        <h6 class="card-title text-secondary">{{ .Date.Format "2006-01-02" }}</h6>
+        <p class="card-text">{{ .Description }}</p>
     </div>
+  {{ end }}
 </div>
 {{ end }}
 
