@@ -18,6 +18,6 @@ var gpv = globalPageVars{
 	Title:           "Casey Flynn",
 	Host:            "https://cflynn.us",
 	Keywords:        "Casey Flynn, blog, web development, programming, digital nomad",
-	Description:     template.HTML("Casey Flynn's ditital nomad programming, web development blog."),
+	Description:     template.HTML("Casey Flynn's digital nomad programming, web development blog."),
 	GoogleAnalytics: os.Getenv("GOOGLE_ANALYTICS"),
 }
