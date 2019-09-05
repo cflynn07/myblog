@@ -16,3 +16,8 @@ jobs:
           args: go test ./... -coverprofile=coverage.txt -covermode=atomic -coverpkg=myblog/app
         env:
           GO111MODULE: "on"
+      - name: Codecov
+        uses: codecov/codecov-action@v1.0.2
+        with:
+          token: ${{secrets.CODECOV_TOKEN}}
+          file: ./coverage.txt
