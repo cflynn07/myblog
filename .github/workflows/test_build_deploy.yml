@@ -7,7 +7,7 @@ on:
 jobs:
   test:
     name: test
-    runs-on: docker://golang:1.12.9
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
       - name: Go Test
