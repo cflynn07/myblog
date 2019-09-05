@@ -8,4 +8,5 @@ jobs:
   test:
     name: test
     runs-on: docker://golang:1.12.9
-    run: go test ./...
+    steps:
+      - run: go test ./...
