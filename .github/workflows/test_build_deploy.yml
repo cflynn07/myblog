@@ -10,5 +10,6 @@ jobs:
     runs-on: docker://golang:1.12.9
     steps:
       - uses: actions/checkout@master
-      - name: Go Test
-        run: go test ./...
+      - name: Display the path
+        run: echo ${PATH}
+        shell: bash
