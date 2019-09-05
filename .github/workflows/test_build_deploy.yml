@@ -9,4 +9,6 @@ jobs:
     name: test
     runs-on: docker://golang:1.12.9
     steps:
-      - run: go test ./...
+      - uses: actions/checkout@master
+      - name: Go Test
+        run: go test ./...
