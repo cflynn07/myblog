@@ -10,12 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - name: ubuntu-test
-        run: pwd && ls -l
-      - name: go-test-test
-        uses: cedrickring/golang-action/go1.12@1.3.0
-        with:
-          args: pwd && ls -l
       - name: Go Test
         uses: cedrickring/golang-action/go1.12@1.3.0
         with:
@@ -25,8 +19,8 @@ jobs:
           GOFLAGS: "-mod=vendor"
       - name: Upload Coverage
         run: curl -s https://codecov.io/bash | bash -s -- -t ${{secrets.CODECOV_TOKEN}} -f ./coverage.txt
-#      - name: Codecov
-#        uses: codecov/codecov-action@v1.0.2
-#        with:
-#          token: ${{secrets.CODECOV_TOKEN}}
-#          file: ./coverage.txt
+      - name: Docker Login
+        uses: "actions/docker/login@master"
+        env:
+          DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
+          DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
