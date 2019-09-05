@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - master
+      - circleci-to-github-actions
 jobs:
   test:
     name: test
