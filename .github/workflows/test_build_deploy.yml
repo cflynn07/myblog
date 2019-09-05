@@ -27,4 +27,4 @@ jobs:
       - name: Docker Build
         uses: "actions/docker/cli@master"
         with:
-          args: "build . --file Dockerfile --t cflynnus/blog:${GITHUB_REF}-${GITHUB_SHA}"
+          args: "build . --file Dockerfile -t cflynnus/blog:${GITHUB_REF}-${GITHUB_SHA}"
