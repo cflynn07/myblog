@@ -1,0 +1,10 @@
+name: Test, Build and Deploy
+on:
+  push:
+    branches:
+      - master
+jobs:
+  test:
+    name: test
+    runs-on: docker://golang:1.12.9
+    run: go test ./...
