@@ -43,6 +43,7 @@ func main() {
 
 	router.PathPrefix("/").HandlerFunc(app.CatchAllHandler)
 
+	log.Println("test")
 	log.Println("Listening on port " + os.Getenv("PORT"))
 	http.ListenAndServe(":"+os.Getenv("PORT"), router)
 }
