@@ -10,6 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
+      - name: ubuntu-test
+        run: pwd && ls -l
+      - name: go-test-test
+        uses: cedrickring/golang-action/go1.12@1.3.0
+        with:
+          args: pwd && ls -l
       - name: Go Test
         uses: cedrickring/golang-action/go1.12@1.3.0
         with:
