@@ -24,3 +24,7 @@ jobs:
         env:
           DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
           DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+      - name: Docker Build
+        uses: "actions/docker/cli@master"
+        with:
+          args: "build . --file Dockerfile --t cflynnus/blog:${GITHUB_REF}-${GITHUB_SHA}"
