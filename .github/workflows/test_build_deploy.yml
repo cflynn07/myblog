@@ -14,6 +14,9 @@ jobs:
         uses: cedrickring/golang-action/go1.12@1.3.0
         with:
           args: go test ./... -coverprofile=coverage.txt -covermode=atomic -coverpkg=myblog/app
+        env:
+          GO111MODULE: "on"
+          GOFLAGS: "-mod=vendor"
       - name: Codecov
         uses: codecov/codecov-action@v1.0.2
         with:
