@@ -11,8 +11,8 @@ jobs:
         with:
           args: go test ./... -coverprofile=coverage.txt -covermode=atomic -coverpkg=myblog/app
         env:
-          GO111MODULE: "on"
-          GOFLAGS: "-mod=vendor"
+          GO111MODULE: on
+          GOFLAGS: -mod=vendor
       - name: Upload Coverage
         run: curl -s https://codecov.io/bash | bash -s -- -t ${{secrets.CODECOV_TOKEN}} -f ./coverage.txt
   build_and_push:
@@ -22,24 +22,24 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: Docker Login
-        uses: "actions/docker/login@master"
+        uses: actions/docker/login@master
         env:
           DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
           DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
       - name: Docker Build
-        uses: "actions/docker/cli@master"
+        uses: actions/docker/cli@master
         with:
           args: build . --file Dockerfile -t cflynnus/blog:`echo ${GITHUB_REF} | cut -d'/' -f3`-${GITHUB_SHA}
       - name: Docker Tag Latest
-        uses: "actions/docker/cli@master"
+        uses: actions/docker/cli@master
         with:
           args: tag cflynnus/blog:`echo ${GITHUB_REF} | cut -d'/' -f3`-${GITHUB_SHA} cflynnus/blog:latest
       - name: Docker Push Hash Tag
-        uses: "actions/docker/cli@master"
+        uses: actions/docker/cli@master
         with:
           args: push cflynnus/blog:`echo ${GITHUB_REF} | cut -d'/' -f3`-${GITHUB_SHA} 
       - name: Docker Push Latest
-        uses: "actions/docker/cli@master"
+        uses: actions/docker/cli@master
         with:
           args: push cflynnus/blog:latest
   deploy_staging:
@@ -51,3 +51,7 @@ jobs:
         uses: actions/gcloud/auth@master
         env:
           GCLOUD_AUTH: ${{secrets.GCLOUD_AUTH}}
+      - name: GCP List Containers
+        uses: actions/gcloud/cli@master
+        with:
+          args: container clusters list
