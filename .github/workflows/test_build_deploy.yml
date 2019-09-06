@@ -48,6 +48,5 @@ jobs:
     needs: build_and_push
     steps:
       - name: test
-        if: github.ref == "refs/heads/develop"
-        run: echo test
-        
+        if: github.ref == 'refs/heads/develop'
+        run: echo test        
