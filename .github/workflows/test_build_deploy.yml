@@ -76,4 +76,4 @@ jobs:
       - name: Helm Test
         uses: stefanprodan/gh-actions/helm@master
         with:
-          args: list 
+          args: status blog
