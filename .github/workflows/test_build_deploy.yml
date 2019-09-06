@@ -6,7 +6,7 @@ on:
       - circleci-to-github-actions
 jobs:
   test:
-    name: test
+    name: Go Test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
@@ -24,7 +24,15 @@ jobs:
         env:
           DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
           DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+  build_and_push:
+    name: Build and Push
+    runs-on: ubuntu-latest
+    steps:
       - name: Docker Build
         uses: "actions/docker/cli@master"
         with:
-          args: "build . --file Dockerfile -t cflynnus/blog:`echo ${GITHUB_REF} | cut -d'/' -f3`-${GITHUB_SHA}"
+          args: build . --file Dockerfile -t cflynnus/blog:`echo ${GITHUB_REF} | cut -d'/' -f3`-${GITHUB_SHA}
+      - name: Docker Tag Latest
+        uses: "actions/docker/cli@master"
+        with:
+          args: tag cflynnus/blog:`echo ${GITHUB_REF} | cut -d'/' -f3`-${GITHUB_SHA} cflynnus/blog:latest
