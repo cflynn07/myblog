@@ -46,5 +46,3 @@ jobs:
         uses: "actions/docker/cli@master"
         with:
           args: push cflynnus/blog:latest
-  deploy_develop:
-
