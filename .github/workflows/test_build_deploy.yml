@@ -19,16 +19,17 @@ jobs:
           GOFLAGS: "-mod=vendor"
       - name: Upload Coverage
         run: curl -s https://codecov.io/bash | bash -s -- -t ${{secrets.CODECOV_TOKEN}} -f ./coverage.txt
+  build_and_push:
+    name: Build and Push
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@master
       - name: Docker Login
         uses: "actions/docker/login@master"
         env:
           DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
           DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-  build_and_push:
-    name: Build and Push
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
       - name: Docker Build
         uses: "actions/docker/cli@master"
         with:
