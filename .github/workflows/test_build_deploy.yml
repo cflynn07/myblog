@@ -28,6 +28,7 @@ jobs:
     name: Build and Push
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@master
       - name: Docker Build
         uses: "actions/docker/cli@master"
         with:
