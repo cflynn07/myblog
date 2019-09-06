@@ -45,4 +45,6 @@ jobs:
       - name: Docker Push Latest
         uses: "actions/docker/cli@master"
         with:
-          args: push latest
+          args: push cflynnus/blog:latest
+  deploy_develop:
+
