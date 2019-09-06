@@ -1,0 +1,84 @@
+name: Test, Build and Deploy
+on: [push]
+jobs:
+  test:
+    name: Go Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Go Test
+        uses: cedrickring/golang-action/go1.12@1.3.0
+        with:
+          args: go test ./... -coverprofile=coverage.txt -covermode=atomic -coverpkg=myblog/app
+        env:
+          GO111MODULE: on
+          GOFLAGS: -mod=vendor
+      - name: Upload Coverage
+        run: curl -s https://codecov.io/bash | bash -s -- -t ${{secrets.CODECOV_TOKEN}} -f ./coverage.txt
+  build_and_push:
+    name: Build and Push
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@master
+      - name: Docker Login
+        uses: actions/docker/login@master
+        env:
+          DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
+          DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+      - name: Docker Build
+        uses: actions/docker/cli@master
+        with:
+          args: build . --file Dockerfile -t cflynnus/blog:`echo ${GITHUB_REF} | cut -d'/' -f3`-${GITHUB_SHA}
+      - name: Docker Tag Latest
+        uses: actions/docker/cli@master
+        with:
+          args: tag cflynnus/blog:`echo ${GITHUB_REF} | cut -d'/' -f3`-${GITHUB_SHA} cflynnus/blog:latest
+      - name: Docker Push Hash Tag
+        uses: actions/docker/cli@master
+        with:
+          args: push cflynnus/blog:`echo ${GITHUB_REF} | cut -d'/' -f3`-${GITHUB_SHA} 
+      - name: Docker Push Latest
+        uses: actions/docker/cli@master
+        with:
+          args: push cflynnus/blog:latest
+  deploy_staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: build_and_push
+    steps:
+      - uses: actions/checkout@master
+      - name: Google Cloud Authenticate
+        uses: actions/gcloud/auth@master
+        env:
+          GCLOUD_AUTH: ${{secrets.GCLOUD_AUTH}}
+      - name: GC Set Project ID
+        uses: actions/gcloud/cli@master
+        env:
+          GOOGLE_PROJECT_ID: blog-229516
+        with:
+          args: config set project ${GOOGLE_PROJECT_ID}
+      - name: GC set compute/zone
+        uses: actions/gcloud/cli@master
+        env:
+          GOOGLE_COMPUTE_ZONE: us-central1-b
+        with:
+          args: config set compute/zone ${GOOGLE_COMPUTE_ZONE}
+      - name: GC get-credentials
+        uses: actions/gcloud/cli@master
+        env:
+          GOOGLE_CLUSTER_NAME: blog-cluster
+        with:
+          args: container clusters get-credentials ${GOOGLE_CLUSTER_NAME}
+      - name: GCP List Containers
+        uses: actions/gcloud/cli@master
+        with:
+          args: container clusters list
+      - name: Helm Deploy
+        uses: stefanprodan/gh-actions/helm@master
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop'
+        with:
+          args: |
+            upgrade --install blog --reuse-values --debug \
+            --set develop_image=cflynnus/blog:`echo ${GITHUB_REF} | cut -d'/' -f3`-${GITHUB_SHA}
+            ./helm
