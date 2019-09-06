@@ -80,5 +80,5 @@ jobs:
         with:
           args: |
             upgrade --install blog --reuse-values --debug \
-            --set develop_image=cflynnus/blog:`echo ${GITHUB_REF} | cut -d'/' -f3`-${GITHUB_SHA}
+            --set develop_image=cflynnus/blog:`echo ${GITHUB_REF} | cut -d'/' -f3`-${GITHUB_SHA} \
             ./helm
