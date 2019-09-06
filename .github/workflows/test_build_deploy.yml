@@ -37,3 +37,7 @@ jobs:
         uses: "actions/docker/cli@master"
         with:
           args: tag cflynnus/blog:`echo ${GITHUB_REF} | cut -d'/' -f3`-${GITHUB_SHA} cflynnus/blog:latest
+      - name: Docker Push Hash Tag
+        uses: "actions/docker/cli@master"
+        with:
+          args: push cflynnus/blog:`echo ${GITHUB_REF} | cut -d'/' -f3`-${GITHUB_SHA} 
