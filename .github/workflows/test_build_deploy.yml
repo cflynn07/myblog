@@ -47,6 +47,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build_and_push
     steps:
+      - uses: actions/checkout@master
       - name: Google Cloud Authenticate
         uses: actions/gcloud/auth@master
         env:
@@ -75,5 +76,9 @@ jobs:
           args: container clusters list
       - name: Helm Test
         uses: stefanprodan/gh-actions/helm@master
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop'
         with:
-          args: status blog
+          args: |
+            upgrade --install blog --reuse-values --debug \
+            --set develop_image=cflynnus/blog:`echo ${GITHUB_REF} | cut -d'/' -f3`-${GITHUB_SHA}
+            ./helm
