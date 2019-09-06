@@ -51,6 +51,12 @@ jobs:
         uses: actions/gcloud/auth@master
         env:
           GCLOUD_AUTH: ${{secrets.GCLOUD_AUTH}}
+      - name: gcloud config
+        uses: actions/gcloud/cli@master
+        env:
+          GOOGLE_PROJECT_ID: blog-229516
+        with:
+          args: config set project ${GOOGLE_PROJECT_ID}
       - name: GCP List Containers
         uses: actions/gcloud/cli@master
         with:
