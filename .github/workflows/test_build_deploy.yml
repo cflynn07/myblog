@@ -42,3 +42,7 @@ jobs:
         uses: "actions/docker/cli@master"
         with:
           args: push cflynnus/blog:`echo ${GITHUB_REF} | cut -d'/' -f3`-${GITHUB_SHA} 
+      - name: Docker Push Latest
+        uses: "actions/docker/cli@master"
+        with:
+          args: push latest
