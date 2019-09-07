@@ -48,37 +48,51 @@ jobs:
     needs: build_and_push
     steps:
       - uses: actions/checkout@master
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop'
       - name: Google Cloud Authenticate
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop'
         uses: actions/gcloud/auth@master
         env:
           GCLOUD_AUTH: ${{secrets.GCLOUD_AUTH}}
       - name: GC Set Project ID
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop'
         uses: actions/gcloud/cli@master
         env:
           GOOGLE_PROJECT_ID: blog-229516
         with:
           args: config set project ${GOOGLE_PROJECT_ID}
       - name: GC set compute/zone
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop'
         uses: actions/gcloud/cli@master
         env:
           GOOGLE_COMPUTE_ZONE: us-central1-b
         with:
           args: config set compute/zone ${GOOGLE_COMPUTE_ZONE}
       - name: GC get-credentials
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop'
         uses: actions/gcloud/cli@master
         env:
           GOOGLE_CLUSTER_NAME: blog-cluster
         with:
           args: container clusters get-credentials ${GOOGLE_CLUSTER_NAME}
       - name: GCP List Containers
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop'
         uses: actions/gcloud/cli@master
         with:
           args: container clusters list
-      - name: Helm Deploy
+      - name: Helm Deploy Develop
         uses: stefanprodan/gh-actions/helm@master
-        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop'
+        if: github.ref == 'refs/heads/develop'
         with:
           args: |
             upgrade --install blog --reuse-values --debug \
             --set develop_image=cflynnus/blog:`echo ${GITHUB_REF} | cut -d'/' -f3`-${GITHUB_SHA} \
+            ./helm
+      - name: Helm Deploy Master
+        uses: stefanprodan/gh-actions/helm@master
+        if: github.ref == 'refs/heads/master'
+        with:
+          args: |
+            upgrade --install blog --reuse-values --debug \
+            --set master_image=cflynnus/blog:`echo ${GITHUB_REF} | cut -d'/' -f3`-${GITHUB_SHA} \
             ./helm
