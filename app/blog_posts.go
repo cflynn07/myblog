@@ -22,7 +22,7 @@ type blogPosts map[string]*postData
 // in the template folder (sans the extension)
 var bp = blogPosts{
 	"2019-08-30-automatically-initialized-and-version-controlled-database-in-kubernetes-and-helm-development-environments": &postData{
-		Title:       "TEST Automatically initalized and version controlled MySQL database in kubernetes and helm development environment",
+		Title:       "Automatically initalized and version controlled MySQL database in kubernetes and helm development environment",
 		Description: template.HTML("A simple setup for an automatically initialized and version controlled MySQL database in kubernetes & helm development environments"),
 		Keywords:    []string{"kubernetes", "helm", "skaffold", "development environment", "development environment mysql"},
 		Date:        time.Date(2019, time.August, 30, 0, 0, 0, 0, time.UTC),
