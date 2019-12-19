@@ -20,6 +20,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: test
     steps:
+      - name: testing123
+        run: which docker
       - uses: actions/checkout@master
       - name: Docker Login
         uses: actions/docker/login@master

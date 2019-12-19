@@ -20,7 +20,7 @@ I use Github Actions to automatically build & push to the docker hub image
 registry on any push to the master branch of the repository.
 https://github.com/cflynn07/rgbm-mysql/blob/master/.github/workflows/dockerimage.yml
 #### Github Action
-<pre class="prettyprint">
+<pre class="prettyprint linenums">
 name: Docker Image CI
 on:
   push:
@@ -64,7 +64,7 @@ development environment docker will pull the latest image. The default value of
 imagePullPolicy is `IfNotPresent`. 
 https://github.com/cflynn07/rgbm/blob/master/helm/templates/deployment.yaml
 #### Kubernetes (helm managed) Deployment Object
-<pre class="prettyprint">
+<pre class="prettyprint linenums">
 apiVersion: apps/v1
 kind: Deployment
 metadata:
