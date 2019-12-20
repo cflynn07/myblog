@@ -31,27 +31,12 @@ jobs:
           IMAGE_TAG_NAME="cflynnus/blog:${BRANCH_NAME}-${GITHUB_SHA}"; \
           echo "IMAGE_TAG_NAME: $IMAGE_TAG_NAME"; \
           docker build . --file Dockerfile -t $IMAGE_TAG_NAME;
-#      - name: Docker Login
-#        uses: actions/docker/login@master
-#        env:
-#          DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
-#          DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-#      - name: Docker Build
-#        uses: actions/docker/cli@master
-#        with:
-#          args: build . --file Dockerfile -t cflynnus/blog:`echo ${GITHUB_REF} | cut -d'/' -f3`-${GITHUB_SHA}
-#      - name: Docker Tag Latest
-#        uses: actions/docker/cli@master
-#        with:
-#          args: tag cflynnus/blog:`echo ${GITHUB_REF} | cut -d'/' -f3`-${GITHUB_SHA} cflynnus/blog:latest
-#      - name: Docker Push Hash Tag
-#        uses: actions/docker/cli@master
-#        with:
-#          args: push cflynnus/blog:`echo ${GITHUB_REF} | cut -d'/' -f3`-${GITHUB_SHA} 
-#      - name: Docker Push Latest
-#        uses: actions/docker/cli@master
-#        with:
-#          args: push cflynnus/blog:latest
+      - name: Docker Tag Latest
+        run: docker tag "$IMAGE_TAG_NAME" cflynnus/blog:latest
+      - name: Docker Push Tags
+        run: |
+          docker push "$IMAGE_TAG_NAME"; \
+          docker push cflynnus/blog:latest;
   deploy_staging:
     name: Deploy to Staging
     runs-on: ubuntu-latest
