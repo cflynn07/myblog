@@ -52,6 +52,14 @@ jobs:
 #        uses: actions/docker/cli@master
 #        with:
 #          args: push cflynnus/blog:latest
+  deploy_staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: build_and_push
+    if: ${{ gitub.ref == "refs/heads/develop" }}
+    steps:
+      - name: Test
+        run: echo OK
 #  deploy_staging:
 #    name: Deploy to Staging
 #    runs-on: ubuntu-latest
