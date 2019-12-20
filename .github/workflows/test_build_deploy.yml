@@ -30,6 +30,7 @@ jobs:
           echo "BRANCH_NAME: $BRANCH_NAME"; \
           IMAGE_TAG_NAME="cflynnus/blog:${BRANCH_NAME}-${GITHUB_SHA}"; \
           echo "IMAGE_TAG_NAME: $IMAGE_TAG_NAME"; \
+          echo "::set-env IMAGE_TAG_NAME=$IMAGE_TAG_NAME"; \
           docker build . --file Dockerfile -t $IMAGE_TAG_NAME;
       - name: Docker Tag Latest
         run: docker tag "$IMAGE_TAG_NAME" cflynnus/blog:latest
@@ -37,7 +38,7 @@ jobs:
         run: |
           docker push "$IMAGE_TAG_NAME"; \
           docker push cflynnus/blog:latest;
-  deploy_staging:
+  deploy:
     name: Deploy to Staging
     runs-on: ubuntu-latest
     needs: build_and_push
