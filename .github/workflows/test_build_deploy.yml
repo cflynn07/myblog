@@ -25,11 +25,11 @@ jobs:
         run: echo "${{secrets.DOCKER_PASSWORD}}" | docker login -u ${{secrets.DOCKER_USERNAME}} --password-stdin
       - name: Docker Build
         run: |
-          echo "GHR: $GITHUB_REF" \
-          BRANCH_NAME="`echo $GITHUB_REF | awk -F'\' '{print $3}'`" \
-          IMAGE_TAG_NAME="cflynnus/blog:${BRANCH_NAME}-${GITHUB_SHA}" \
-          echo $IMAGE_TAG_NAME \
-          docker build . --file Dockerfile -t $IMAGE_TAG_NAME
+          echo "GHR: $GITHUB_REF"; \
+          BRANCH_NAME="`echo $GITHUB_REF | awk -F'\' '{print $3}'`"; \
+          IMAGE_TAG_NAME="cflynnus/blog:${BRANCH_NAME}-${GITHUB_SHA}"; \
+          echo $IMAGE_TAG_NAME; \
+          docker build . --file Dockerfile -t $IMAGE_TAG_NAME;
 #      - name: Docker Login
 #        uses: actions/docker/login@master
 #        env:
