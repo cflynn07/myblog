@@ -1,9 +1,9 @@
 I decided to switch the CI/CD pipeline of this blog from CircleCI to Github
 Actions just to check it out. I know it's basically overkill to have a CI/CD
-setup for a blog, but I did it for curiosity. One of the most obvious
-advantages of Github Actions is its tight integration with Github. If nothing
-else, it's nice just to have your repository and CI information together on one
-website.
+setup for a blog (and to use Kubernetes), but I did it for curiosity. One of
+the most obvious advantages of Github Actions is tight integration with
+Github. If nothing else, it's nice just to have your repository and CI
+information together on one website.
 
 My CI/CD flow is:
 <ol>
@@ -110,7 +110,7 @@ jobs:
           GO111MODULE: on
           GOFLAGS: -mod=vendor
       - name: Upload Coverage
-        run: curl -s https://codecov.io/bash | bash -s -- -t ${{ "{{" }}secrets.CODECOV_TOKEN}} -f ./coverage.txt
+        run: curl -s https://codecov.io/bash | bash -s -- -t ${{secrets.CODECOV_TOKEN}} -f ./coverage.txt
   build_and_push:
     name: Build and Push
     runs-on: ubuntu-latest
@@ -118,61 +118,61 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: Docker Login
-        uses: actions/docker/login@master
-        env:
-          DOCKER_USERNAME: ${{ "{{" }} secrets.DOCKER_USERNAME {{ "}}" }}
-          DOCKER_PASSWORD: ${{ "{{" }} ssecrets.DOCKER_PASSWORD {{ "}}" }}
+        run: echo "${{secrets.DOCKER_PASSWORD}}" | docker login -u ${{secrets.DOCKER_USERNAME}} --password-stdin
       - name: Docker Build
-        uses: actions/docker/cli@master
-        with:
-          args: build . --file Dockerfile -t cflynnus/blog:`echo ${GITHUB_REF} | cut -d'/' -f3`-${GITHUB_SHA}
+        run: |
+          echo "GITHUB_REF: $GITHUB_REF"; \
+          BRANCH_NAME="`echo $GITHUB_REF | awk -F'/' '{print $3}'`"; \
+          echo "BRANCH_NAME: $BRANCH_NAME"; \
+          IMAGE_TAG_NAME="cflynnus/blog:${BRANCH_NAME}-${GITHUB_SHA}"; \
+          echo "IMAGE_TAG_NAME: $IMAGE_TAG_NAME"; \
+          echo "::set-env name=IMAGE_TAG_NAME::$IMAGE_TAG_NAME"; \
+          docker build . --file Dockerfile -t $IMAGE_TAG_NAME;
       - name: Docker Tag Latest
-        uses: actions/docker/cli@master
-        with:
-          args: tag cflynnus/blog:`echo ${GITHUB_REF} | cut -d'/' -f3`-${GITHUB_SHA} cflynnus/blog:latest
-      - name: Docker Push Hash Tag
-        uses: actions/docker/cli@master
-        with:
-          args: push cflynnus/blog:`echo ${GITHUB_REF} | cut -d'/' -f3`-${GITHUB_SHA} 
-      - name: Docker Push Latest
-        uses: actions/docker/cli@master
-        with:
-          args: push cflynnus/blog:latest
-  deploy_staging:
+        run: docker tag "$IMAGE_TAG_NAME" cflynnus/blog:latest
+      - name: Docker Push Tags
+        run: |
+          echo "IMAGE_TAG_NAME: $IMAGE_TAG_NAME"; \
+          docker push "$IMAGE_TAG_NAME"; \
+          docker push cflynnus/blog:latest;
+  deploy:
     name: Deploy to Staging
     runs-on: ubuntu-latest
     needs: build_and_push
+    if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master'
     steps:
       - uses: actions/checkout@master
-        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop'
+      - name: Set Envs
+        run: |
+          echo "GITHUB_REF: $GITHUB_REF"; \
+          BRANCH_NAME="`echo $GITHUB_REF | awk -F'/' '{print $3}'`"; \
+          echo "BRANCH_NAME: $BRANCH_NAME"; \
+          IMAGE_TAG_NAME="cflynnus/blog:${BRANCH_NAME}-${GITHUB_SHA}"; \
+          echo "IMAGE_TAG_NAME: $IMAGE_TAG_NAME"; \
+          echo "::set-env name=IMAGE_TAG_NAME::$IMAGE_TAG_NAME"; \
       - name: Google Cloud Authenticate
-        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop'
         uses: actions/gcloud/auth@master
         env:
-          GCLOUD_AUTH: ${{ "{{" }}secrets.GCLOUD_AUTH}}
+          GCLOUD_AUTH: ${{secrets.GCLOUD_AUTH}}
       - name: GC Set Project ID
-        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop'
         uses: actions/gcloud/cli@master
         env:
-          GOOGLE_PROJECT_ID: blog-229516
+          GCLOUD_PROJECT_ID: ${{secrets.GCLOUD_PROJECT_ID}}
         with:
-          args: config set project ${GOOGLE_PROJECT_ID}
+          args: config set project ${GCLOUD_PROJECT_ID}
       - name: GC set compute/zone
-        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop'
         uses: actions/gcloud/cli@master
         env:
-          GOOGLE_COMPUTE_ZONE: us-central1-b
+          GCLOUD_COMPUTE_ZONE: ${{secrets.GCLOUD_COMPUTE_ZONE}}
         with:
-          args: config set compute/zone ${GOOGLE_COMPUTE_ZONE}
+          args: config set compute/zone ${GCLOUD_COMPUTE_ZONE}
       - name: GC get-credentials
-        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop'
         uses: actions/gcloud/cli@master
         env:
-          GOOGLE_CLUSTER_NAME: blog-cluster
+          GCLOUD_CLUSTER_NAME: ${{secrets.GCLOUD_CLUSTER_NAME}}
         with:
-          args: container clusters get-credentials ${GOOGLE_CLUSTER_NAME}
+          args: container clusters get-credentials ${GCLOUD_CLUSTER_NAME}
       - name: GCP List Containers
-        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop'
         uses: actions/gcloud/cli@master
         with:
           args: container clusters list
@@ -182,7 +182,7 @@ jobs:
         with:
           args: |
             upgrade --install blog --reuse-values --debug \
-            --set develop_image=cflynnus/blog:`echo ${GITHUB_REF} | cut -d'/' -f3`-${GITHUB_SHA} \
+            --set develop_image="$IMAGE_TAG_NAME" \
             ./helm
       - name: Helm Deploy Master
         uses: stefanprodan/gh-actions/helm@master
@@ -190,6 +190,13 @@ jobs:
         with:
           args: |
             upgrade --install blog --reuse-values --debug \
-            --set master_image=cflynnus/blog:`echo ${GITHUB_REF} | cut -d'/' -f3`-${GITHUB_SHA} \
+            --set master_image="$IMAGE_TAG_NAME" \
             ./helm
 </pre>
+
+Pretty similar. My Github Action has 3 jobs and runs on a push event (to any
+branch). Actions can run on events, on a cron schedule, or manually. For my
+purposes, running on push events works. My first two jobs run on pushes to all
+branches. The third job, which deploys my code to my kubernetes cluster running
+on google cloud, only runs on the develop and master branches.
+
