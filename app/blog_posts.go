@@ -34,6 +34,18 @@ func init() {
 		string(post2019_03_04),
 		string(post2019_02_26),
 	}
+	bp[post2019_12_23] = &postData{
+		Title:       "",
+		Description: template.HTML(""),
+		Keywords:    []string{""},
+		Date:        time.Date(2019, time.September, 10, 0, 0, 0, 0, time.UTC),
+	}
+	bp[post2019_09_10] = &postData{
+		Title:       "CircleCI to Github Actions",
+		Description: template.HTML("Migrating a test, build and deploy pipeline from CircleCI to Github Actions"),
+		Keywords:    []string{"Github Actions", "CircleCI", "CI", "CD"},
+		Date:        time.Date(2019, time.September, 10, 0, 0, 0, 0, time.UTC),
+	}
 	bp[post2019_08_30] = &postData{
 		Title:       "Automatically initalized and version controlled MySQL database in kubernetes and helm development environment",
 		Description: template.HTML("A simple setup for an automatically initialized and version controlled MySQL database in kubernetes & helm development environments"),
@@ -41,25 +53,15 @@ func init() {
 		Date:        time.Date(2019, time.August, 30, 0, 0, 0, 0, time.UTC),
 	}
 	bp[post2019_03_04] = &postData{
-		Title: "Deploying with helm from CI using --reuse-values and adding new values to your values.yaml file", Description: template.HTML("Adding new values to your values.yaml file and deploying from CI with --reuse-values can get you into trouble since tiller won't reference changes to values.yaml when creating kubernetes resources yaml."), Keywords: []string{"kubernetes", "helm", "helm update", "CI deployment"},
-		Date: time.Date(2019, time.March, 5, 0, 0, 0, 0, time.UTC),
+		Title:       "Deploying with helm from CI using --reuse-values and adding new values to your values.yaml file",
+		Description: template.HTML("Adding new values to your values.yaml file and deploying from CI with --reuse-values can get you into trouble since tiller won't reference changes to values.yaml when creating kubernetes resources yaml."),
+		Keywords:    []string{"kubernetes", "helm", "helm update", "CI deployment"},
+		Date:        time.Date(2019, time.March, 5, 0, 0, 0, 0, time.UTC),
 	}
 	bp[post2019_02_26] = &postData{
 		Title:       "Bundling static website assets in a single binary with gobuffalo/packr",
-		Description: template.HTML("How to use gobuffalo/packr to build a simple website in golang with static assets that's easy to test and can be bundled into a single binary for deployment."),
+		Description: template.HTML("How to use gobuffalo/packr to build a simple website in golang with static assets that's easy to test and can be bundled into a single binary for deployment"),
 		Keywords:    []string{"golang", "go", "packr", "gobuffalo", "static assets"},
 		Date:        time.Date(2019, time.February, 26, 0, 0, 0, 0, time.UTC),
-	}
-	bp[post2019_09_10] = &postData{
-		Title:       "CircleCI to Github Actions",
-		Description: template.HTML(""),
-		Keywords:    []string{""},
-		Date:        time.Date(2019, time.September, 10, 0, 0, 0, 0, time.UTC),
-	}
-	bp[post2019_12_23] = &postData{
-		Title:       "",
-		Description: template.HTML(""),
-		Keywords:    []string{""},
-		Date:        time.Date(2019, time.September, 10, 0, 0, 0, 0, time.UTC),
 	}
 }

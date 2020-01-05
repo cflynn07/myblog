@@ -1,19 +1,22 @@
 I decided to switch the CI/CD pipeline of this blog from CircleCI to Github
-Actions just to check it out. I know it's basically overkill to have a CI/CD
-setup for a blog (and to use Kubernetes), but I did it for curiosity. One of
-the most obvious advantages of Github Actions is tight integration with
-Github. If nothing else, it's nice just to have your repository and CI
-information together on one website.
+Actions just to check it out. It's overkill to have a CI/CD setup for a blog
+(and to use Kubernetes), but I did it out of curiosity. One of the most obvious
+advantages of Github Actions is tight integration with Github. If nothing else,
+it's nice just to have your repository and CI/CD together on one platform.
 
-My CI/CD flow is:
+For pushes to all branches my Github Actions workflow:
 <ol>
 <li>Run tests & upload coverage reports to CodeCov</li>
 <li>Build & push a docker image</li>
+</ol>
+
+For pushes to the `master` and `develop` branches:
+<ol>
 <li>Deploy to kubernetes cluster, either staging or production, using helm</li>
 </ol>
 
 Previously, with CircleCI my configuration file looked like this.
-#### .circleci/config.yml
+##### .circleci/config.yml
 <pre class="prettyprint linenums">
 version: 2
 jobs:
@@ -86,13 +89,13 @@ workflows:
 </pre>
 
 Pretty simple. It has two jobs, `test` and `build_and_deploy`.
-`build_and_deploy` runs conditionally on `test` completing successfully.
-`$GCLOUD_SERVICE_KEY` and `$DOCKER_HUB_PASSWORD` are "secrets" that are stored
-and encrypted with CircleCI.
+`build_and_deploy` runs conditionally on the `test` job completing
+successfully.  `$GCLOUD_SERVICE_KEY` and `$DOCKER_HUB_PASSWORD` are "secrets"
+that are stored and encrypted with CircleCI.
 
 And after some hacking around, here's the solution I came up with for Github
 Actions.
-#### .github/workflows/test_build_deploy.yml
+##### .github/workflows/test_build_deploy.yml
 <pre class="prettyprint linenums">
 name: Test, Build and Deploy
 on: [push]
@@ -195,8 +198,15 @@ jobs:
 </pre>
 
 Pretty similar. My Github Action has 3 jobs and runs on a push event (to any
-branch). Actions can run on events, on a cron schedule, or manually. For my
-purposes, running on push events works. My first two jobs run on pushes to all
-branches. The third job, which deploys my code to my kubernetes cluster running
-on google cloud, only runs on the develop and master branches.
+branch). Actions can run on events, on a cron schedule, or manually. For the
+purposes of this blog purposes, running on push events works. My first two
+jobs, testing and image building, run any push to any branch. The third job,
+which deploys this blog to a kubernetes cluster running on google cloud, only
+runs on the develop and master branches. Pushes to develop are deployed to a
+staging environemnt and pushes to master are deployed to my main environment.
+Both are simply different services running in the same cluster.
 
+Github Actions provides easy-to-use, sharable `actions` - units of code that
+perform common tasks in CI/CD systems such as building & push docker images,
+running tests or deploying code. Actions definitely made setting up my CI/CD
+pipeline easier.
