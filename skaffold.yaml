@@ -6,15 +6,15 @@ build:
       sync:
         manual:
           - src: '**/*.html'
-            dest: 'go/src/myblog'
+            dest: '/go/src/myblog'
           - src: '**/*.md'
-            dest: 'go/src/myblog'
+            dest: '/go/src/myblog'
           - src: '**/*.css'
-            dest: 'go/src/myblog'
+            dest: '/go/src/myblog'
           - src: '**/*.png'
-            dest: 'go/src/myblog'
+            dest: '/go/src/myblog'
           - src: '**/*.scss'
-            dest: 'go/src/myblog'
+            dest: '/go/src/myblog'
       context: .
       docker:
         dockerfile: Dockerfile-develop
