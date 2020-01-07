@@ -30,6 +30,11 @@ spec:
           ports:
             - name: {{ include "blog.name" . }}-port
               containerPort: 80
+          readinessProbe:
+            httpGet:
+              scheme: HTTP
+              path: /healthz
+              port: 80
           livenessProbe:
             httpGet:
               scheme: HTTP
