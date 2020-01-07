@@ -47,6 +47,8 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: Set Envs
+        # ::set-env explanation
+        # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/development-tools-for-github-actions#set-an-environment-variable-set-env
         run: |
           echo "GITHUB_REF: $GITHUB_REF"; \
           BRANCH_NAME="`echo $GITHUB_REF | awk -F'/' '{print $3}'`"; \
@@ -81,18 +83,22 @@ jobs:
         with:
           args: container clusters list
       - name: Helm Deploy Develop
-        uses: stefanprodan/gh-actions/helm@master
+        uses: cflynn07/gha-helm3@master
         if: github.ref == 'refs/heads/develop'
-        with:
-          args: |
-            upgrade --install blog --reuse-values --debug \
+        run: |
+          helm3 upgrade blog \
+            --install \
+            --reuse-values \
+            --debug \
             --set develop_image="$IMAGE_TAG_NAME" \
             ./helm
       - name: Helm Deploy Master
-        uses: stefanprodan/gh-actions/helm@master
+        uses: cflynn07/gha-helm3@master
         if: github.ref == 'refs/heads/master'
-        with:
-          args: |
-            upgrade --install blog --reuse-values --debug \
+        run: |
+          helm3 upgrade blog \
+            --install \
+            --reuse-values \
+            --debug \
             --set master_image="$IMAGE_TAG_NAME" \
             ./helm
