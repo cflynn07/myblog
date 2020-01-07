@@ -85,20 +85,22 @@ jobs:
       - name: Helm Deploy Develop
         uses: cflynn07/gha-helm3@master
         if: github.ref == 'refs/heads/develop'
-        run: |
-          helm3 upgrade blog \
-            --install \
-            --reuse-values \
-            --debug \
-            --set develop_image="$IMAGE_TAG_NAME" \
-            ./helm
+        with: 
+          args: |
+            upgrade blog \
+              --install \
+              --reuse-values \
+              --debug \
+              --set develop_image="$IMAGE_TAG_NAME" \
+              ./helm
       - name: Helm Deploy Master
         uses: cflynn07/gha-helm3@master
         if: github.ref == 'refs/heads/master'
-        run: |
-          helm3 upgrade blog \
-            --install \
-            --reuse-values \
-            --debug \
-            --set master_image="$IMAGE_TAG_NAME" \
-            ./helm
+        with: 
+          args: |
+            upgrade blog \
+              --install \
+              --reuse-values \
+              --debug \
+              --set master_image="$IMAGE_TAG_NAME" \
+              ./helm
