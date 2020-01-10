@@ -1,5 +1,12 @@
 name: Test, Build and Deploy
 on: [push]
+
+# env:
+#   GKE_PROJECT:
+#   GKE_EMAIL:
+#   GKE_ZONE:
+#   GKE_CLUSTER: 
+
 jobs:
   test:
     name: Go Test
@@ -48,7 +55,9 @@ jobs:
     needs: build_and_push
     if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master'
     steps:
-      - uses: actions/checkout@master
+      - name: Checkout
+        uses: actions/checkout@master
+
       - name: Set Envs
         # | ::set-env explanation
         # Bit of non-dry code here, also copied to the "Deploy to Staging" job to calculate ENVs
@@ -87,10 +96,14 @@ jobs:
         with:
           args: container clusters list
       - name: Helm Deploy Develop
-        uses: cflynn07/gha-helm3@master
         if: github.ref == 'refs/heads/develop'
-        with: 
-          args: list
+        uses: stefanprodan/kube-tools@v1
+        with:
+          helmv3: 3.0.0
+        command: |
+          helm3 status blog
+        # with: 
+        #  args: list
         #          args: |
         #            upgrade blog \
         #              --install \
