@@ -97,11 +97,9 @@ jobs:
           args: container clusters list
       - name: Helm Deploy Develop
         if: github.ref == 'refs/heads/develop'
-        uses: stefanprodan/kube-tools@v1
+        uses: cflynn07/gha-helm3@master
         with:
-          helmv3: 3.0.0
-        command: |
-          helm3 status blog
+          args: status blog
         # with: 
         #  args: list
         #          args: |
