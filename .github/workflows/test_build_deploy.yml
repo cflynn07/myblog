@@ -47,7 +47,7 @@ jobs:
         run: "gcloud container clusters get-credentials \"$GCLOUD_CLUSTER_NAME\""
 
       - name: test
-        run: which helm3 && helm3 version
+        run: which helm3 && helm3 version && helm3 status blog
 
       - name: Debugging with tmate
         uses: mxschmitt/action-tmate@v1.0.2
