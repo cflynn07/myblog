@@ -41,6 +41,8 @@ jobs:
           GCLOUD_CLUSTER_NAME: ${{secrets.GCLOUD_CLUSTER_NAME}}
         with:
           args: container clusters get-credentials ${GCLOUD_CLUSTER_NAME}
+      - name: Debugging with tmate
+        uses: mxschmitt/action-tmate@v1.0.2
       - name: GCP List Containers
         uses: actions/gcloud/cli@master
         with:
