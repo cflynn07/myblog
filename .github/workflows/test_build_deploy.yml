@@ -8,6 +8,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@master
+
       - name: Set Envs
         # | ::set-env explanation
         # Bit of non-dry code here, also copied to the "Deploy to Staging" job to calculate ENVs
@@ -19,15 +20,33 @@ jobs:
           IMAGE_TAG_NAME="cflynnus/blog:${BRANCH_NAME}-${GITHUB_SHA}"; \
           echo "IMAGE_TAG_NAME: $IMAGE_TAG_NAME"; \
           echo "::set-env name=IMAGE_TAG_NAME::$IMAGE_TAG_NAME"; \
+
       - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
           version: '270.0.0'
           service_account_email: ${{ secrets.GCLOUD_SA_EMAIL }}
           service_account_key: ${{ secrets.GCLOUD_SA_KEY }}
+
+      - name: gcloud set project id
+        env:
+          GCLOUD_PROJECT_ID: ${{secrets.GCLOUD_PROJECT_ID}}
+        run: "gcloud config set project \"$GCLOUD_PROJECT_ID\""
+
+      - name: gcloud set compute/zone
+        env:
+          GCLOUD_COMPUTE_ZONE: ${{secrets.GCLOUD_COMPUTE_ZONE}}
+        run: "gcloud config set compute/zone \"$GCLOUD_COMPUTE_ZONE\""
+
       - name: gcloud get-credentials
         env:
           GCLOUD_CLUSTER_NAME: ${{secrets.GCLOUD_CLUSTER_NAME}}
-        run: gcloud container clusters get-credentials $GCLOUD_CLUSTER_NAME
+        run: "gcloud container clusters get-credentials \"$GCLOUD_CLUSTER_NAME\""
+
+      - name: Helm Version Test
+        uses: cflynn07/gha-helm3@master
+        with:
+          args: version
+
       - name: Helm Status Test
         uses: cflynn07/gha-helm3@master
         with:
