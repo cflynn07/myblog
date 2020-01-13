@@ -31,23 +31,20 @@ jobs:
           service_account_email: ${{ secrets.GCLOUD_SA_EMAIL }}
           service_account_key: ${{ secrets.GCLOUD_SA_KEY }}
 
+      - name: gcloud set project id
+        env:
+          GCLOUD_PROJECT_ID: ${{secrets.GCLOUD_PROJECT_ID}}
+        run: "gcloud config set project \"$GCLOUD_PROJECT_ID\""
 
-          #
-          #      - name: gcloud set project id
-          #        env:
-          #          GCLOUD_PROJECT_ID: ${{secrets.GCLOUD_PROJECT_ID}}
-          #        run: "gcloud config set project \"$GCLOUD_PROJECT_ID\""
-          #
-          #      - name: gcloud set compute/zone
-          #        env:
-          #          GCLOUD_COMPUTE_ZONE: ${{secrets.GCLOUD_COMPUTE_ZONE}}
-          #        run: "gcloud config set compute/zone \"$GCLOUD_COMPUTE_ZONE\""
-          #
-          #      - name: gcloud get-credentials
-          #        env:
-          #          GCLOUD_CLUSTER_NAME: ${{secrets.GCLOUD_CLUSTER_NAME}}
-          #        run: "gcloud container clusters get-credentials \"$GCLOUD_CLUSTER_NAME\""
-          #
+      - name: gcloud set compute/zone
+        env:
+          GCLOUD_COMPUTE_ZONE: ${{secrets.GCLOUD_COMPUTE_ZONE}}
+        run: "gcloud config set compute/zone \"$GCLOUD_COMPUTE_ZONE\""
+
+      - name: gcloud get-credentials
+        env:
+          GCLOUD_CLUSTER_NAME: ${{secrets.GCLOUD_CLUSTER_NAME}}
+        run: "gcloud container clusters get-credentials \"$GCLOUD_CLUSTER_NAME\""
 
       - name: test
         run: which helm3 && helm3 version
