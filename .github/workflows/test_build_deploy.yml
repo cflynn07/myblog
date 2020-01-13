@@ -25,6 +25,7 @@ jobs:
           service_account_email: ${{ secrets.GCLOUD_SA_EMAIL }}
           service_account_key: ${{ secrets.GCLOUD_SA_KEY }}
       - run: gcloud info
+      - run: kubectl get pods
       - name: Debugging with tmate
         uses: mxschmitt/action-tmate@v1.0.2
 
