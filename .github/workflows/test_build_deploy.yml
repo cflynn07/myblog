@@ -19,12 +19,17 @@ jobs:
           IMAGE_TAG_NAME="cflynnus/blog:${BRANCH_NAME}-${GITHUB_SHA}"; \
           echo "IMAGE_TAG_NAME: $IMAGE_TAG_NAME"; \
           echo "::set-env name=IMAGE_TAG_NAME::$IMAGE_TAG_NAME"; \
-      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
-        with:
-          version: '270.0.0'
-          service_account_email: ${{ secrets.GCLOUD_SA_EMAIL }}
-          service_account_key: ${{ secrets.GCLOUD_SA_KEY }}
-      - run: gcloud info
+
+#      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+#        with:
+#          version: '270.0.0'
+#          service_account_email: ${{ secrets.GCLOUD_SA_EMAIL }}
+#          service_account_key: ${{ secrets.GCLOUD_SA_KEY }}
+#      - name: gcloud get-credentials
+#        env:
+#          GCLOUD_CLUSTER_NAME: ${{secrets.GCLOUD_CLUSTER_NAME}}
+#        run: gcloud container clusters get-credentials $GCLOUD_CLUSTER_NAME
+
       - name: Debugging with tmate
         uses: mxschmitt/action-tmate@v1.0.2
 
