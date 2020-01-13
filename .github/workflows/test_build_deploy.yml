@@ -42,16 +42,6 @@ jobs:
           GCLOUD_CLUSTER_NAME: ${{secrets.GCLOUD_CLUSTER_NAME}}
         run: "gcloud container clusters get-credentials \"$GCLOUD_CLUSTER_NAME\""
 
-      - name: Helm Version Test
-        uses: cflynn07/gha-helm3@master
-        with:
-          args: version
-
-      - name: Helm Status Test
-        uses: cflynn07/gha-helm3@master
-        with:
-          args: status blog
-
       - name: Debugging with tmate
         uses: mxschmitt/action-tmate@v1.0.2
 
