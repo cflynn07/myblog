@@ -20,7 +20,7 @@ jobs:
 
           BASE_URL="https://get.helm.sh"; \
           HELM_3_FILE="helm-v3.0.0-linux-amd64.tar.gz"; \
-          curl -L "$BASE_URL/$HELM_3_FILE" | tar xvz; \
+          curl -Ls "$BASE_URL/$HELM_3_FILE" | tar xvz; \
           mkdir -p "$GITHUB_WORKSPACE/bin"; \
           mv linux-amd64/helm "$GITHUB_WORKSPACE/bin/helm3"; \
           echo "::add-path::$GITHUB_WORKSPACE/bin"; \
@@ -50,7 +50,7 @@ jobs:
           #
 
       - name: test
-        run: which helm3 && heml3 version
+        run: which helm3 && helm3 version
 
       - name: Debugging with tmate
         uses: mxschmitt/action-tmate@v1.0.2
