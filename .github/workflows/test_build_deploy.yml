@@ -19,36 +19,45 @@ jobs:
           IMAGE_TAG_NAME="cflynnus/blog:${BRANCH_NAME}-${GITHUB_SHA}"; \
           echo "IMAGE_TAG_NAME: $IMAGE_TAG_NAME"; \
           echo "::set-env name=IMAGE_TAG_NAME::$IMAGE_TAG_NAME"; \
-      - name: Google Cloud Authenticate
-        uses: actions/gcloud/auth@master
-        env:
-          GCLOUD_AUTH: ${{secrets.GCLOUD_AUTH}}
-      - name: GC Set Project ID
-        uses: actions/gcloud/cli@master
-        env:
-          GCLOUD_PROJECT_ID: ${{secrets.GCLOUD_PROJECT_ID}}
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
-          args: config set project ${GCLOUD_PROJECT_ID}
-      - name: GC set compute/zone
-        uses: actions/gcloud/cli@master
-        env:
-          GCLOUD_COMPUTE_ZONE: ${{secrets.GCLOUD_COMPUTE_ZONE}}
-        with:
-          args: config set compute/zone ${GCLOUD_COMPUTE_ZONE}
-      - name: GC get-credentials
-        uses: actions/gcloud/cli@master
-        env:
-          GCLOUD_CLUSTER_NAME: ${{secrets.GCLOUD_CLUSTER_NAME}}
-        with:
-          args: container clusters get-credentials ${GCLOUD_CLUSTER_NAME}
+          version: '270.0.0'
+          service_account_email: ${{ secrets.GCLOUD_SA_EMAIL }}
+          service_account_key: ${{ secrets.GCLOUD_SA_KEY }}
+      - run: gcloud info
       - name: Debugging with tmate
         uses: mxschmitt/action-tmate@v1.0.2
-      - name: GCP List Containers
-        uses: actions/gcloud/cli@master
-        with:
-          args: container clusters list
-      - name: Helm Deploy Develop
-        if: github.ref == 'refs/heads/develop'
-        uses: cflynn07/gha-helm3@master
-        with:
-          args: status blog
+
+        #      - name: Google Cloud Authenticate
+        #        uses: actions/gcloud/auth@master
+        #        env:
+        #          GCLOUD_AUTH: ${{secrets.GCLOUD_AUTH}}
+        #      - name: GC Set Project ID
+        #        uses: actions/gcloud/cli@master
+        #        env:
+        #          GCLOUD_PROJECT_ID: ${{secrets.GCLOUD_PROJECT_ID}}
+        #        with:
+        #          args: config set project ${GCLOUD_PROJECT_ID}
+        #      - name: GC set compute/zone
+        #        uses: actions/gcloud/cli@master
+        #        env:
+        #          GCLOUD_COMPUTE_ZONE: ${{secrets.GCLOUD_COMPUTE_ZONE}}
+        #        with:
+        #          args: config set compute/zone ${GCLOUD_COMPUTE_ZONE}
+        #      - name: GC get-credentials
+        #        uses: actions/gcloud/cli@master
+        #        env:
+        #          GCLOUD_CLUSTER_NAME: ${{secrets.GCLOUD_CLUSTER_NAME}}
+        #        with:
+        #          args: container clusters get-credentials ${GCLOUD_CLUSTER_NAME}
+        #      - name: Debugging with tmate
+        #        uses: mxschmitt/action-tmate@v1.0.2
+        #      - name: GCP List Containers
+        #        uses: actions/gcloud/cli@master
+        #        with:
+        #          args: container clusters list
+        #      - name: Helm Deploy Develop
+        #        if: github.ref == 'refs/heads/develop'
+        #        uses: cflynn07/gha-helm3@master
+        #        with:
+        #          args: status blog
