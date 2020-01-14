@@ -100,22 +100,28 @@ func PostHandler(w http.ResponseWriter, r *http.Request) {
 		ppv.BlogPostMeta = post
 		ppv.Description = post.Description
 		ppv.Keywords = strings.Join(post.Keywords, ",")
-		data, err := postsBox.Find(vars["slug"] + ".md")
+
+		data, err := postsBox.FindString(vars["slug"] + ".md")
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		t := template.New("")
-		t.Parse(string(data))
+		// New delims due to conflict with source code in blog posts
+		t := template.New("").Delims(":::", ":::")
+		_, err = t.Parse(data)
+		if err != nil {
+			log.Fatal(err)
+		}
+
 		buf := bytes.NewBufferString("")
 		err = t.Execute(buf, post)
 		if err != nil {
 			log.Fatal(err)
 		}
-		data = buf.Bytes()
 
-		blogPost := blackfriday.Run(data)
+		blogPost := blackfriday.Run(buf.Bytes())
 		ppv.BlogPost = template.HTML(blogPost)
+
 		// use post template
 		templateContent, err = templateBox.FindString("post.html")
 		if err != nil {

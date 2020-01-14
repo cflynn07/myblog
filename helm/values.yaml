@@ -1,3 +1,9 @@
 develop_image: "cflynnus/blog:latest"
 master_image: "cflynnus/blog:latest"
 google_analytics: "UA-135553742-1"
+
+develop_deployment_time: "develop-time"
+master_deployment_time: "master-time"
+
+develop_deployment_sha: "develop-123456789"
+master_deployment_sha: "master-123456789"

@@ -23,9 +23,18 @@ spec:
               value: "80"
             - name: SSL_REDIRECT
               value: "false"
+            - name: DEPLOYMENT_TIME
+              value: {{ $.Values.develop_deployment_time }}
+            - name: DEPLOYMENT_SHA
+              value: {{ $.Values.develop_deployment_sha }}
           ports:
             - name: {{ include "blog.name" . }}-port
               containerPort: 80
+          readinessProbe:
+            httpGet:
+              scheme: HTTP
+              path: /healthz
+              port: 80
           livenessProbe:
             httpGet:
               scheme: HTTP

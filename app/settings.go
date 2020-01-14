@@ -12,6 +12,8 @@ type globalPageVars struct {
 	Keywords        string
 	Description     template.HTML
 	GoogleAnalytics string
+	DeploymentTime  string
+	DeploymentSHA   string
 }
 
 var gpv = globalPageVars{
@@ -20,4 +22,6 @@ var gpv = globalPageVars{
 	Keywords:        "Casey Flynn, blog, web development, programming, digital nomad",
 	Description:     template.HTML("Casey Flynn's digital nomad programming, web development blog."),
 	GoogleAnalytics: os.Getenv("GOOGLE_ANALYTICS"),
+	DeploymentTime:  os.Getenv("DEPLOYMENT_TIME"),
+	DeploymentSHA:   os.Getenv("DEPLOYMENT_SHA"),
 }

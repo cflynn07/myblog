@@ -8,3 +8,4 @@ coverage.txt
 helm/
 kubernetes/
 node_modules/
+.git/

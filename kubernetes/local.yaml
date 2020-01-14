@@ -46,7 +46,11 @@ spec:
           image: cflynnus/blog:latest
           env:
             - name: PORT
-              value: "80"
+              value: 80
+            - name: DEPLOYMENT_TIME
+              value: 2020-01-14 15:10pm
+            - name: DEPLOYMENT_SHA
+              value: 5efd24ebfb06f5423803358162db78c7b5530bc3
           ports:
             - name: blog-port
               containerPort: 80
