@@ -86,14 +86,14 @@ jobs:
         run: |
           overrides=(
             "develop_image=$IMAGE_TAG_NAME"
-            "deployment_time=\\\"$(date)\\\""
+            "deployment_time=\\"$(date)\\""
             "deployment_sha=$GITHUB_SHA"
             "action_id=$GITHUB_ACTION"
           )
 
           echo "overrides0: ${overrides[@]}"
 
-          overrides=$(for i in "${overrides[@]}"; do echo -n "$i,"; done)
+          overrides=$(for i in ${overrides[@]}; do echo -n "$i,"; done)
 
           echo "overrides: $overrides"
 
