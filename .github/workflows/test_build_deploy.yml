@@ -91,6 +91,9 @@ jobs:
             action_id="$GITHUB_ACTION"
           )
           overrides=`for i in overrides; do echo -n "$i,"; done`
+
+          echo "overrides: ${overrides:0:${#overrides}-1}"
+
           helm3 upgrade blog --install --reuse-values --debug \
             --set "${overrides:0:${#overrides}-1}"
             ./helm
