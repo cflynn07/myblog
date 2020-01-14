@@ -87,7 +87,7 @@ jobs:
         run: |
           overrides=(
             "develop_deployment_sha=$GITHUB_SHA"
-            "develop_deployment_time=`date`"
+            "develop_deployment_time=`TZ=Asia/Taipei date`"
             "develop_image=$IMAGE_TAG_NAME"
           )
           overrides=$(for i in "${overrides[@]}"; do echo -n "$i,"; done)
@@ -103,7 +103,7 @@ jobs:
         run: |
           overrides=(
             "master_deployment_sha=$GITHUB_SHA"
-            "master_deployment_time=`date`"
+            "master_deployment_time=`TZ=Asia/Taipei date`"
             "master_image=$IMAGE_TAG_NAME"
           )
           overrides=$(for i in "${overrides[@]}"; do echo -n "$i,"; done)
