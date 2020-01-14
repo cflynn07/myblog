@@ -91,6 +91,9 @@ jobs:
             action_id="$GITHUB_ACTION"
           )
           overrides=`for i in overrides; do echo -n "$i,"; done`
+          echo "1: $overrides"
+          echo "2: ${#overrides}"
+          echo "3: ${overrides:0:${#overrides}-1}"
 
           echo "overrides: ${overrides:0:${#overrides}-1}"
 
@@ -108,8 +111,10 @@ jobs:
             action_id="$GITHUB_ACTION"
           )
           overrides=`for i in overrides; do echo -n "$i,"; done`
-          helm3 upgrade blog --install --reuse-values --debug \
+
+          helm3 upgrade blog ./helm --install \
+            --reuse-values \
+            --debug \
             --set "${overrides:0:${#overrides}-1}"
-            ./helm
       - name: Rollout Status
         run: kubectl rollout status "deployment/blog-$BRANCH_NAME-app"
