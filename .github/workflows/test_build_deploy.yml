@@ -62,9 +62,7 @@ jobs:
           IMAGE_TAG_NAME="cflynnus/blog:${BRANCH_NAME}-${GITHUB_SHA}"; \
 
           HELM_3_FILE="helm-v3.0.0-linux-amd64.tar.gz"; \
-          HELM_URL="https://get.helm.sh/$HELM_3_FIILE"; \
-          echo "HELM_URL $HELM_URL"; \
-
+          HELM_URL="https://get.helm.sh/$HELM_3_FILE"; \
           curl -Ls "$HELM_URL" | tar xvz; \
           mkdir -p "$GITHUB_WORKSPACE/bin"; \
           mv linux-amd64/helm "$GITHUB_WORKSPACE/bin/helm3"; \
