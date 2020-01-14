@@ -27,6 +27,12 @@ spec:
             - name: GOOGLE_ANALYTICS
               value: {{ $.Values.google_analytics | quote }}
             {{- end }}
+            - name: DEPLOYMENT_TIME
+              value: {{ $.Values.deployment_time }}
+            - name: DEPLOYMENT_SHA
+              value: {{ $.Values.deployment_sha }}
+            - name: ACTION_ID
+              value: {{ $.Values.action_id }}
           ports:
             - name: {{ include "blog.name" . }}-port
               containerPort: 80

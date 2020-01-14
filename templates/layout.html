@@ -55,6 +55,12 @@
                 <script src="//cdn.jsdelivr.net/github-cards/latest/widget.js"></script>
                 <a href="https://stackoverflow.com/users/480807/casey-flynn" class="d-block mb-2"><img src="https://stackoverflow.com/users/flair/480807.png?theme=clean" width="208" height="58" alt="profile for Casey Flynn at Stack Overflow, Q&amp;A for professional and enthusiast programmers" title="profile for Casey Flynn at Stack Overflow, Q&amp;A for professional and enthusiast programmers" class="rounded"></a>
               </div>
+              <div class="col-xl12 px-4 mx-auto my-3 alert alert-success">
+                <span class="font-weight-bold d-block d-lg-inline">Deployed At:</span> 
+                <a href="https://github.com/cflynn07/myblog/runs/{{ .ActionID }}">{{ .DeploymentTime }}</a> 
+                <span class="font-weight-bold d-block d-lg-inline">SHA:</span> 
+                <a href="https://github.com/cflynn07/myblog/tree/{{ .DeploymentSHA }}">{{ .DeploymentSHA }}</a>
+              </div>
             </div>
           </div>
         </main>
