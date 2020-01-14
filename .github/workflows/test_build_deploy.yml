@@ -97,7 +97,7 @@ jobs:
             --install \
             --debug \
             --reuse-values \
-            --set-string $overrides
+            --set-string "$overrides"
       - name: Deploy to Production
         if: github.ref == 'refs/heads/master'
         run: |
