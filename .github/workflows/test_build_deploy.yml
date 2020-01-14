@@ -84,22 +84,28 @@ jobs:
       - name: Deploy to Staging
         if: github.ref == 'refs/heads/develop'
         run: |
+          overrides=(
+            develop_image="$IMAGE_TAG_NAME"
+            deployment_time=`date`
+            deployment_sha="$GITHUB_SHA"
+            action_id="$GITHUB_ACTION"
+          )
+          overrides=`for i in overrides; do echo -n "$i,"; done`
           helm3 upgrade blog --install --reuse-values --debug \
-            --set develop_image="$IMAGE_TAG_NAME" \
-            --set deployment_time=`date` \
-            --set deployment_sha="$GITHUB_SHA" \
-            --set action_id="$GITHUB_ACTION" \
+            --set "${overrides:0:${#overrides}-1}"
             ./helm
-
       - name: Deploy to Production
         if: github.ref == 'refs/heads/master'
         run: |
+          overrides=(
+            master_image="$IMAGE_TAG_NAME"
+            deployment_time=`date`
+            deployment_sha="$GITHUB_SHA"
+            action_id="$GITHUB_ACTION"
+          )
+          overrides=`for i in overrides; do echo -n "$i,"; done`
           helm3 upgrade blog --install --reuse-values --debug \
-            --set master_image="$IMAGE_TAG_NAME" \
-            --set deployment_time=`date` \
-            --set deployment_sha="$GITHUB_SHA" \
-            --set action_id="$GITHUB_ACTION" \
+            --set "${overrides:0:${#overrides}-1}"
             ./helm
-
       - name: Rollout Status
         run: kubectl rollout status "deployment/blog-$BRANCH_NAME-app"
