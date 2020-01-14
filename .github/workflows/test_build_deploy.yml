@@ -92,7 +92,7 @@ jobs:
           overrides=$(for i in "${overrides[@]}"; do echo -n "$i,"; done)
           overrides=${overrides:0:${#overrides}-1}
           echo $overrides
-          helm3 upgrade blog \
+          helm3 upgrade blog ./helm \
             --install \
             --debug \
             --reuse-values \
