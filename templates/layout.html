@@ -57,7 +57,7 @@
               </div>
               <div class="col-xl12 px-4 mx-auto my-3 alert alert-success">
                 <span class="font-weight-bold d-block d-lg-inline">Deployed At:</span> 
-                <a href="https://github.com/cflynn07/myblog/runs/{{ .ActionID }}">{{ .DeploymentTime }}</a> 
+                <a href="https://github.com/cflynn07/myblog/commit/{{ .DeploymentSHA }}/checks">{{ .DeploymentTime }}</a> 
                 <span class="font-weight-bold d-block d-lg-inline">SHA:</span> 
                 <a href="https://github.com/cflynn07/myblog/tree/{{ .DeploymentSHA }}">{{ .DeploymentSHA }}</a>
               </div>
