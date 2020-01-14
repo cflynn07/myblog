@@ -7,6 +7,3 @@ master_deployment_time: "master-time"
 
 develop_deployment_sha: "develop-123456789"
 master_deployment_sha: "master-123456789"
-
-develop_action_id: "develop-id"
-master_action_id: "master-id"

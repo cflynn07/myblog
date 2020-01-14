@@ -27,8 +27,6 @@ spec:
               value: {{ $.Values.develop_deployment_time }}
             - name: DEPLOYMENT_SHA
               value: {{ $.Values.develop_deployment_sha }}
-            - name: ACTION_ID
-              value: {{ $.Values.develop_action_id }}
           ports:
             - name: {{ include "blog.name" . }}-port
               containerPort: 80

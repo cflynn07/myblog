@@ -14,7 +14,6 @@ type globalPageVars struct {
 	GoogleAnalytics string
 	DeploymentTime  string
 	DeploymentSHA   string
-	ActionID        string
 }
 
 var gpv = globalPageVars{
@@ -25,5 +24,4 @@ var gpv = globalPageVars{
 	GoogleAnalytics: os.Getenv("GOOGLE_ANALYTICS"),
 	DeploymentTime:  os.Getenv("DEPLOYMENT_TIME"),
 	DeploymentSHA:   os.Getenv("DEPLOYMENT_SHA"),
-	ActionID:        os.Getenv("ACTION_ID"),
 }
