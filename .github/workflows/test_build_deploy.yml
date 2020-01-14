@@ -90,17 +90,12 @@ jobs:
             deployment_sha="$GITHUB_SHA"
             action_id="$GITHUB_ACTION"
           )
-          overrides=`for i in overrides; do echo -n "$i,"; done`
-          echo "1: $overrides"
-          echo "2: ${#overrides}"
-          echo "3: ${overrides:0:${#overrides}-1}"
-
-          echo "overrides: ${overrides:0:${#overrides}-1}"
-
+          overrides=`for i in $overrides; do echo -n "$i,"; done`
+          overrides=${overrides:0:${#overrides}-1}
           helm3 upgrade blog ./helm --install \
             --reuse-values \
             --debug \
-            --set "${overrides:0:${#overrides}-1}"
+            --set "$overrides"
       - name: Deploy to Production
         if: github.ref == 'refs/heads/master'
         run: |
