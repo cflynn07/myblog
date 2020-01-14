@@ -90,6 +90,7 @@ jobs:
             "deployment_sha=$GITHUB_SHA"
             "action_id=$GITHUB_ACTION"
           )
+          echo "overrides0: $overrides"
           overrides=`for i in $overrides; do echo -n "$i,"; done`
           echo "overrides: $overrides"
           overrides=${overrides:0:${#overrides}-1}
