@@ -66,6 +66,7 @@ jobs:
           mv linux-amd64/helm "$GITHUB_WORKSPACE/bin/helm3"; \
           echo "::add-path::$GITHUB_WORKSPACE/bin"; \
 
+          echo "::set-env name=BRANCH_NAME::$BRANCH_NAME"; \
           echo "::set-env name=IMAGE_TAG_NAME::$IMAGE_TAG_NAME"; \
       - name: Install gcloud cli
         uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
