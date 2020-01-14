@@ -2,7 +2,6 @@ name: Test, Build and Deploy
 on: [push]
 jobs:
   test:
-    if: false
     name: Test
     runs-on: ubuntu-latest
     steps:
@@ -20,7 +19,6 @@ jobs:
       - name: Upload Coverage to CodeCov
         run: curl -s https://codecov.io/bash | bash -s -- -t ${{secrets.CODECOV_TOKEN}} -f ./coverage.txt
   build_and_push_image:
-    if: false
     name: Build and Push Image
     runs-on: ubuntu-latest
     needs: test
@@ -47,7 +45,7 @@ jobs:
   deploy:
     name: Deploy to Staging
     runs-on: ubuntu-latest
-    # needs: build_and_push_image
+    needs: build_and_push_image
     if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master'
     steps:
       - name: Checkout
