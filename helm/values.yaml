@@ -1,6 +1,12 @@
 develop_image: "cflynnus/blog:latest"
 master_image: "cflynnus/blog:latest"
 google_analytics: "UA-135553742-1"
-deployment_time: ""
-deployment_sha: ""
-action_id: ""
+
+develop_deployment_time: "develop-time"
+master_deployment_time: "master-time"
+
+develop_deployment_sha: "develop-123456789"
+master_deployment_sha: "master-123456789"
+
+develop_action_id: "develop-id"
+master_action_id: "master-id"

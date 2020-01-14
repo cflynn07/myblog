@@ -91,13 +91,12 @@ jobs:
           )
           overrides=$(for i in "${overrides[@]}"; do echo -n "$i,"; done)
           overrides=${overrides:0:${#overrides}-1}
-
           echo $overrides
-
-          helm3 upgrade blog ./helm --install \
-            --reuse-values \
+          helm3 upgrade blog \
+            --install \
             --debug \
-            --set $overrides
+            --reuse-values \
+            --set-string $overrides
       - name: Deploy to Production
         if: github.ref == 'refs/heads/master'
         run: |
