@@ -85,10 +85,10 @@ jobs:
         if: github.ref == 'refs/heads/develop'
         run: |
           overrides=(
-            develop_image="$IMAGE_TAG_NAME"
-            deployment_time=`date`
-            deployment_sha="$GITHUB_SHA"
-            action_id="$GITHUB_ACTION"
+            "develop_image=$IMAGE_TAG_NAME"
+            "deployment_time=`date`"
+            "deployment_sha=$GITHUB_SHA"
+            "action_id=$GITHUB_ACTION"
           )
           overrides=`for i in $overrides; do echo -n "$i,"; done`
           echo "overrides: $overrides"
