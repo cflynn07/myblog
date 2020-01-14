@@ -2,7 +2,6 @@
 
 overrides=(
   "develop_image=$HOME"
-  "deployment_time=\\\"$(date)\\\""
   "deployment_sha=bang"
   "action_id=fly"
 )
