@@ -45,6 +45,7 @@ jobs:
   deploy:
     name: Deploy to Staging
     runs-on: ubuntu-latest
+    needs: build_and_push_image
     if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master'
     steps:
       - name: Checkout
