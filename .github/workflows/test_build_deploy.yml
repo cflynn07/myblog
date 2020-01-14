@@ -82,30 +82,17 @@ jobs:
           gcloud config set compute/zone ${{secrets.GCLOUD_COMPUTE_ZONE}}; \
           gcloud container clusters get-credentials ${{secrets.GCLOUD_CLUSTER_NAME}}; \
 
-      - name: Deploy to Staging
-        if: github.ref == 'refs/heads/develop'
+      - name: Deploy
         run: |
           overrides=(
             "develop_deployment_sha=$GITHUB_SHA"
             "develop_deployment_time=`TZ=Asia/Taipei date`"
-            "develop_image=$IMAGE_TAG_NAME"
           )
-          overrides=$(for i in "${overrides[@]}"; do echo -n "$i,"; done)
-          overrides=${overrides:0:${#overrides}-1}
-          helm3 upgrade blog ./helm \
-            --install \
-            --debug \
-            --reuse-values \
-            --set-string "$overrides"
-
-      - name: Deploy to Production
-        if: github.ref == 'refs/heads/master'
-        run: |
-          overrides=(
-            "master_deployment_sha=$GITHUB_SHA"
-            "master_deployment_time=`TZ=Asia/Taipei date`"
-            "master_image=$IMAGE_TAG_NAME"
-          )
+          if [[ $BRANCH_NAME == "develop" ]]; then
+            overrides+=("develop_image=$IMAGE_TAG_NAME")
+          elif [[ $BRANCH_NAME == "master" ]]; then
+            overrides+=("master_image=$IMAGE_TAG_NAME")
+          fi
           overrides=$(for i in "${overrides[@]}"; do echo -n "$i,"; done)
           overrides=${overrides:0:${#overrides}-1}
           helm3 upgrade blog ./helm \
