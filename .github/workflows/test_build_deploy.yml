@@ -94,9 +94,10 @@ jobs:
 
           echo "overrides: ${overrides:0:${#overrides}-1}"
 
-          helm3 upgrade blog --install --reuse-values --debug \
+          helm3 upgrade blog ./helm --install \
+            --reuse-values \
+            --debug \
             --set "${overrides:0:${#overrides}-1}"
-            ./helm
       - name: Deploy to Production
         if: github.ref == 'refs/heads/master'
         run: |
