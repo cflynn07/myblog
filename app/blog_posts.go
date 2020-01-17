@@ -29,7 +29,7 @@ func init() {
 
 	// Order determines post listing order. Newest entry at lowest index.
 	bpKeys = []string{
-		// string(post2019_12_23),
+		string(post2019_12_23),
 		string(post2019_09_10),
 		string(post2019_08_30),
 		string(post2019_03_04),
@@ -44,7 +44,7 @@ func init() {
 	}
 	bp[post2019_03_04] = &postData{
 		Title:       "Deploying to Kubernetes from CI with helm",
-		Description: template.HTML("Adding new values to your values.yaml file and deploying from CI with --reuse-values can get you into trouble since tiller won't reference changes to values.yaml when creating kubernetes resources yaml."),
+		Description: template.HTML("Adding new values to your values.yaml file and deploying from CI with --reuse-values can get you into trouble since tiller won't reference changes to values.yaml when creating kubernetes resources yaml"),
 		Keywords:    []string{"kubernetes", "helm", "helm update", "CI deployment"},
 		Date:        time.Date(2019, time.March, 5, 0, 0, 0, 0, time.UTC),
 	}
@@ -61,9 +61,9 @@ func init() {
 		Date:        time.Date(2019, time.September, 10, 0, 0, 0, 0, time.UTC),
 	}
 	bp[post2019_12_23] = &postData{
-		Title:       "",
+		Title:       "Book Review: Linux Command Line and Shell Scripting Bible (3rd edition)",
 		Description: template.HTML(""),
 		Keywords:    []string{""},
-		Date:        time.Date(2019, time.September, 10, 0, 0, 0, 0, time.UTC),
+		Date:        time.Date(2020, time.January, 17, 0, 0, 0, 0, time.UTC),
 	}
 }
