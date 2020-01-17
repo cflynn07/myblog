@@ -187,16 +187,19 @@ jobs:
       - name: Deploy
         run: |
           overrides=(
-            "develop_deployment_sha=$GITHUB_SHA"
-            "develop_deployment_time=`TZ=Asia/Taipei date`"
+            "image=$IMAGE_TAG_NAME"
+            "deployment_sha=$GITHUB_SHA"
+            "deployment_time=`TZ=Asia/Taipei date`"
           )
-          if [[ $BRANCH_NAME == "develop" ]]; then
-            overrides+=("develop_image=$IMAGE_TAG_NAME")
-          elif [[ $BRANCH_NAME == "master" ]]; then
-            overrides+=("master_image=$IMAGE_TAG_NAME")
-          fi
-          overrides=$(for i in "${overrides[@]}"; do echo -n "$i,"; done)
+          overrides=$(for i in "${overrides[@]}"; do
+            if [[ $BRANCH_NAME == "master" ]]; then
+              echo -n "master_$i,";
+            elif [[ $BRANCH_NAME == "develop" ]]; then
+              echo -n "develop_$i,";
+            fi
+          done)
           overrides=${overrides:0:${#overrides}-1}
+          echo "$overrides"
           helm3 upgrade blog ./helm \
             --install \
             --debug \
@@ -282,19 +285,22 @@ image to deploy, and check the status of the rollout.
     gcloud config set compute/zone ${{secrets.GCLOUD_COMPUTE_ZONE}};
     gcloud container clusters get-credentials ${{secrets.GCLOUD_CLUSTER_NAME}};
 
-- name: Deploy
+- name: deploy
   run: |
     overrides=(
-      "develop_deployment_sha=$GITHUB_SHA"
-      "develop_deployment_time=`TZ=Asia/Taipei date`"
+      "image=$image_tag_name"
+      "deployment_sha=$github_sha"
+      "deployment_time=`tz=asia/taipei date`"
     )
-    if [[ $BRANCH_NAME == "develop" ]]; then
-      overrides+=("develop_image=$IMAGE_TAG_NAME")
-    elif [[ $BRANCH_NAME == "master" ]]; then
-      overrides+=("master_image=$IMAGE_TAG_NAME")
-    fi
-    overrides=$(for i in "${overrides[@]}"; do echo -n "$i,"; done)
+    overrides=$(for i in "${overrides[@]}"; do
+      if [[ $branch_name == "master" ]]; then
+        echo -n "master_$i,";
+      elif [[ $branch_name == "develop" ]]; then
+        echo -n "develop_$i,";
+      fi
+    done)
     overrides=${overrides:0:${#overrides}-1}
+    echo "$overrides"
     helm3 upgrade blog ./helm \
       --install \
       --debug \
