@@ -1,22 +1,25 @@
 I decided to switch the CI/CD pipeline of this blog from CircleCI to Github
-Actions just to check it out. It's overkill to have a CI/CD setup for a blog
-(and to use Kubernetes), but I did it out of curiosity. One of the most obvious
-advantages of Github Actions is tight integration with Github. If nothing else,
-it's nice just to have your repository and CI/CD together on one platform.
+Actions just for fun. It's overkill to have a CI/CD setup for a blog (and to
+use Kubernetes). I tried it just to play around a bit with GH Actions and
+Kubernetes. One of the most obvious advantages of Github Actions is tight
+integration with Github. If nothing else, it's nice just to have your
+repository and CI/CD together on one platform.
 
-For pushes to all branches my Github Actions workflow:
+#### My Github Actions Workflow:
+##### For pushes to all branches
 <ol>
 <li>Run tests & upload coverage reports to CodeCov</li>
-<li>Build & push a docker image</li>
+<li>Build & push a docker image (tagged with reference to branch name for use in local development)</li>
 </ol>
 
-For pushes to the `master` and `develop` branches:
+##### For pushes to the `master` and `develop` branches:
 <ol>
 <li>Deploy to kubernetes cluster, either staging or production, using helm</li>
 </ol>
 
-Previously, with CircleCI my configuration file looked like this.
-##### .circleci/config.yml
+This is the CircleCI configuration file that defines the CI/CD pipeline I
+ported to Github Actions
+###### .circleci/config.yml
 <pre class="prettyprint linenums">
 version: 2
 jobs:
@@ -90,123 +93,214 @@ workflows:
 
 Pretty simple. It has two jobs, `test` and `build_and_deploy`.
 `build_and_deploy` runs conditionally on the `test` job completing
-successfully.  `$GCLOUD_SERVICE_KEY` and `$DOCKER_HUB_PASSWORD` are "secrets"
+successfully. `$GCLOUD_SERVICE_KEY` and `$DOCKER_HUB_PASSWORD` are "secrets"
 that are stored and encrypted with CircleCI.
 
 And after some hacking around, here's the solution I came up with for Github
 Actions.
-##### .github/workflows/test_build_deploy.yml
+###### .github/workflows/test_build_deploy.yml
 <pre class="prettyprint linenums">
 name: Test, Build and Deploy
 on: [push]
 jobs:
   test:
-    name: Go Test
+    name: Test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-      - name: Go Test
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Test
         uses: cedrickring/golang-action/go1.12@1.3.0
         with:
           args: go test ./... -coverprofile=coverage.txt -covermode=atomic -coverpkg=myblog/app
         env:
           GO111MODULE: on
           GOFLAGS: -mod=vendor
-      - name: Upload Coverage
+
+      - name: Upload Coverage to CodeCov
         run: curl -s https://codecov.io/bash | bash -s -- -t ${{secrets.CODECOV_TOKEN}} -f ./coverage.txt
-  build_and_push:
-    name: Build and Push
+  build_and_push_image:
+    name: Build and Push Image
     runs-on: ubuntu-latest
     needs: test
     steps:
-      - uses: actions/checkout@master
-      - name: Docker Login
-        run: echo "${{secrets.DOCKER_PASSWORD}}" | docker login -u ${{secrets.DOCKER_USERNAME}} --password-stdin
-      - name: Docker Build
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Set Envs
+        # | ::set-env explanation
+        # Bit of non-dry code here, also copied to the "Deploy" job to calculate ENVs
+        # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/development-tools-for-github-actions#set-an-environment-variable-set-env
         run: |
-          echo "GITHUB_REF: $GITHUB_REF"; \
-          BRANCH_NAME="`echo $GITHUB_REF | awk -F'/' '{print $3}'`"; \
-          echo "BRANCH_NAME: $BRANCH_NAME"; \
-          IMAGE_TAG_NAME="cflynnus/blog:${BRANCH_NAME}-${GITHUB_SHA}"; \
-          echo "IMAGE_TAG_NAME: $IMAGE_TAG_NAME"; \
-          echo "::set-env name=IMAGE_TAG_NAME::$IMAGE_TAG_NAME"; \
-          docker build . --file Dockerfile -t $IMAGE_TAG_NAME;
-      - name: Docker Tag Latest
-        run: docker tag "$IMAGE_TAG_NAME" cflynnus/blog:latest
-      - name: Docker Push Tags
+          BRANCH_NAME="`echo $GITHUB_REF | awk -F'/' '{print $3}'`";
+          IMAGE_TAG_NAME="cflynnus/blog:$BRANCH_NAME-$GITHUB_SHA";
+          echo "::set-env name=IMAGE_TAG_NAME::$IMAGE_TAG_NAME";
+
+      - name: Docker Login, Build, Tag and Push
         run: |
-          echo "IMAGE_TAG_NAME: $IMAGE_TAG_NAME"; \
-          docker push "$IMAGE_TAG_NAME"; \
+          echo "${{secrets.DOCKER_PASSWORD}}" | docker login -u ${{secrets.DOCKER_USERNAME}} --password-stdin;
+          docker build . --file Dockerfile -t "$IMAGE_TAG_NAME";
+          docker tag "$IMAGE_TAG_NAME" cflynnus/blog:latest;
+          docker push "$IMAGE_TAG_NAME";
           docker push cflynnus/blog:latest;
   deploy:
-    name: Deploy to Staging
+    name: Deploy
     runs-on: ubuntu-latest
-    needs: build_and_push
+    needs: build_and_push_image
     if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master'
     steps:
-      - uses: actions/checkout@master
-      - name: Set Envs
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Set Envs & Install helm3 Client
+        # | ::set-env explanation
+        # Bit of non-dry code here, also copied to the "Deploy to Staging" job to calculate ENVs
+        # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/development-tools-for-github-actions#set-an-environment-variable-set-env
         run: |
-          echo "GITHUB_REF: $GITHUB_REF"; \
-          BRANCH_NAME="`echo $GITHUB_REF | awk -F'/' '{print $3}'`"; \
-          echo "BRANCH_NAME: $BRANCH_NAME"; \
-          IMAGE_TAG_NAME="cflynnus/blog:${BRANCH_NAME}-${GITHUB_SHA}"; \
-          echo "IMAGE_TAG_NAME: $IMAGE_TAG_NAME"; \
-          echo "::set-env name=IMAGE_TAG_NAME::$IMAGE_TAG_NAME"; \
-      - name: Google Cloud Authenticate
-        uses: actions/gcloud/auth@master
-        env:
-          GCLOUD_AUTH: ${{secrets.GCLOUD_AUTH}}
-      - name: GC Set Project ID
-        uses: actions/gcloud/cli@master
-        env:
-          GCLOUD_PROJECT_ID: ${{secrets.GCLOUD_PROJECT_ID}}
+          BRANCH_NAME="`echo $GITHUB_REF | awk -F'/' '{print $3}'`";
+          IMAGE_TAG_NAME="cflynnus/blog:$BRANCH_NAME-$GITHUB_SHA";
+
+          HELM_3_FILE="helm-v3.0.0-linux-amd64.tar.gz";
+          HELM_URL="https://get.helm.sh/$HELM_3_FILE";
+          curl -Ls "$HELM_URL" | tar xvz;
+          mkdir -p "$GITHUB_WORKSPACE/bin";
+          mv linux-amd64/helm "$GITHUB_WORKSPACE/bin/helm3";
+          echo "::add-path::$GITHUB_WORKSPACE/bin";
+
+          echo "::set-env name=BRANCH_NAME::$BRANCH_NAME";
+          echo "::set-env name=IMAGE_TAG_NAME::$IMAGE_TAG_NAME";
+
+      - name: Install gcloud cli
+        uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
-          args: config set project ${GCLOUD_PROJECT_ID}
-      - name: GC set compute/zone
-        uses: actions/gcloud/cli@master
-        env:
-          GCLOUD_COMPUTE_ZONE: ${{secrets.GCLOUD_COMPUTE_ZONE}}
-        with:
-          args: config set compute/zone ${GCLOUD_COMPUTE_ZONE}
-      - name: GC get-credentials
-        uses: actions/gcloud/cli@master
-        env:
-          GCLOUD_CLUSTER_NAME: ${{secrets.GCLOUD_CLUSTER_NAME}}
-        with:
-          args: container clusters get-credentials ${GCLOUD_CLUSTER_NAME}
-      - name: GCP List Containers
-        uses: actions/gcloud/cli@master
-        with:
-          args: container clusters list
-      - name: Helm Deploy Develop
-        uses: stefanprodan/gh-actions/helm@master
-        if: github.ref == 'refs/heads/develop'
-        with:
-          args: |
-            upgrade --install blog --reuse-values --debug \
-            --set develop_image="$IMAGE_TAG_NAME" \
-            ./helm
-      - name: Helm Deploy Master
-        uses: stefanprodan/gh-actions/helm@master
-        if: github.ref == 'refs/heads/master'
-        with:
-          args: |
-            upgrade --install blog --reuse-values --debug \
-            --set master_image="$IMAGE_TAG_NAME" \
-            ./helm
+          version: '270.0.0'
+          service_account_email: ${{ secrets.GCLOUD_SA_EMAIL }}
+          service_account_key: ${{ secrets.GCLOUD_SA_KEY }}
+
+      - name: gcloud configure
+        run: |
+          gcloud config set project ${{secrets.GCLOUD_PROJECT_ID}};
+          gcloud config set compute/zone ${{secrets.GCLOUD_COMPUTE_ZONE}};
+          gcloud container clusters get-credentials ${{secrets.GCLOUD_CLUSTER_NAME}};
+
+      - name: Deploy
+        run: |
+          overrides=(
+            "develop_deployment_sha=$GITHUB_SHA"
+            "develop_deployment_time=`TZ=Asia/Taipei date`"
+          )
+          if [[ $BRANCH_NAME == "develop" ]]; then
+            overrides+=("develop_image=$IMAGE_TAG_NAME")
+          elif [[ $BRANCH_NAME == "master" ]]; then
+            overrides+=("master_image=$IMAGE_TAG_NAME")
+          fi
+          overrides=$(for i in "${overrides[@]}"; do echo -n "$i,"; done)
+          overrides=${overrides:0:${#overrides}-1}
+          helm3 upgrade blog ./helm \
+            --install \
+            --debug \
+            --reuse-values \
+            --set-string "$overrides"
+
+      - name: Rollout Status
+        run: kubectl rollout status "deployment/blog-$BRANCH_NAME-app"
 </pre>
 
-Pretty similar. My Github Action has 3 jobs and runs on a push event (to any
-branch). Actions can run on events, on a cron schedule, or manually. For the
-purposes of this blog purposes, running on push events works. My first two
-jobs, testing and image building, run any push to any branch. The third job,
-which deploys this blog to a kubernetes cluster running on google cloud, only
-runs on the develop and master branches. Pushes to develop are deployed to a
-staging environemnt and pushes to master are deployed to my main environment.
-Both are simply different services running in the same cluster.
+My Github Action has 1 workflow that contains 3 jobs.
 
-Github Actions provides easy-to-use, sharable `actions` - units of code that
-perform common tasks in CI/CD systems such as building & push docker images,
-running tests or deploying code. Actions definitely made setting up my CI/CD
-pipeline easier.
+The first job `test` runs on a push event to any branch. It runs the tests,
+generates coverage reports, and uploads those reports to the CodeCov service.
+
+The second job `build_and_push_image` runs on a push event to any branch but
+only if the `test` job completes successfully. The job builds a docker image
+and tags it with a few custom tags based on the branch name and commit SHA. These
+tags are pushed to the remote docker registry.
+
+The last job `deploy` runs a push event to either the `master` or `develop`
+branches and only if the `build_and_push_image` completes successfully
+(implicitly requiring the `test` job to complete successfully). This job is the
+most complex. Github's hosted runners have many tools and packages
+pre-installed. I use helm3 to deploy this blog and as of Jan 2020 the hosted
+runners only have the helm2 client pre-installed. I looked around for a custom
+action I could use to easily get helm3 installed in the PATH of my runner but I
+couldn't find one. I took a stab at creating my own action
+[cflynn07/gha-helm3](https://github.com/cflynn07/gha-helm3) but decided it more
+simple to just install helm3 as a step. I also wanted to compute some values
+and use those in later steps so I used the `::set-env` development tool to set
+environment variables for subsequent jobs.
+
+<pre class="prettyprint linenums">
+- name: Set Envs & Install Helm3 Client
+  # | ::set-env explanation
+  # Bit of non-dry code here, also copied to the "Deploy to Staging" job to calculate ENVs
+  # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/development-tools-for-github-actions#set-an-environment-variable-set-env
+  run: |
+    BRANCH_NAME="`echo $GITHUB_REF | awk -F'/' '{print $3}'`";
+    IMAGE_TAG_NAME="cflynnus/blog:$BRANCH_NAME-$GITHUB_SHA";
+
+    HELM_3_FILE="helm-v3.0.0-linux-amd64.tar.gz";
+    HELM_URL="https://get.helm.sh/$HELM_3_FILE";
+    curl -Ls "$HELM_URL" | tar xvz;
+    mkdir -p "$GITHUB_WORKSPACE/bin";
+    mv linux-amd64/helm "$GITHUB_WORKSPACE/bin/helm3";
+    echo "::add-path::$GITHUB_WORKSPACE/bin";
+
+    echo "::set-env name=BRANCH_NAME::$BRANCH_NAME";
+    echo "::set-env name=IMAGE_TAG_NAME::$IMAGE_TAG_NAME";
+</pre>
+
+[Software Installed on Github Hosted Runners](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/software-installed-on-github-hosted-runners)
+
+[Issue to add helm3 to Github Hosted Runners](https://github.com/actions/virtual-environments/issues/108)
+
+[Actions developer tools](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/development-tools-for-github-actions)
+
+I also needed the [Google Cloud CLI](https://cloud.google.com/sdk/gcloud/),
+which does not come pre-installed on the runner. Google provides an official
+action
+[GoogleCloudPlatform/github-actions](https://github.com/GoogleCloudPlatform/github-actions/blob/master/setup-gcloud/README.md)
+that can be used to install and provision the gcloud cli in the runner.
+
+<pre class="prettyprint linenums">
+- name: Install gcloud cli
+  uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+  with:
+    version: '270.0.0'
+    service_account_email: ${{ secrets.GCLOUD_SA_EMAIL }}
+    service_account_key: ${{ secrets.GCLOUD_SA_KEY }}
+</pre>
+
+The last three steps in the job configure kubectl (pre-installed on runner),
+update the deployment object's container image in my k8s cluster with the new
+image to deploy, and check the status of the rollout. 
+
+<pre class="prettyprint linenums">
+- name: gcloud configure
+  run: |
+    gcloud config set project ${{secrets.GCLOUD_PROJECT_ID}};
+    gcloud config set compute/zone ${{secrets.GCLOUD_COMPUTE_ZONE}};
+    gcloud container clusters get-credentials ${{secrets.GCLOUD_CLUSTER_NAME}};
+
+- name: Deploy
+  run: |
+    overrides=(
+      "develop_deployment_sha=$GITHUB_SHA"
+      "develop_deployment_time=`TZ=Asia/Taipei date`"
+    )
+    if [[ $BRANCH_NAME == "develop" ]]; then
+      overrides+=("develop_image=$IMAGE_TAG_NAME")
+    elif [[ $BRANCH_NAME == "master" ]]; then
+      overrides+=("master_image=$IMAGE_TAG_NAME")
+    fi
+    overrides=$(for i in "${overrides[@]}"; do echo -n "$i,"; done)
+    overrides=${overrides:0:${#overrides}-1}
+    helm3 upgrade blog ./helm \
+      --install \
+      --debug \
+      --reuse-values \
+      --set-string "$overrides"
+
+- name: Rollout Status
+  run: kubectl rollout status "deployment/blog-$BRANCH_NAME-app"
+</pre>

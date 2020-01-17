@@ -33,6 +33,7 @@ jobs:
         run: |
           BRANCH_NAME="`echo $GITHUB_REF | awk -F'/' '{print $3}'`";
           IMAGE_TAG_NAME="cflynnus/blog:$BRANCH_NAME-$GITHUB_SHA";
+          echo "::set-env name=BRANCH_NAME::$BRANCH_NAME";
           echo "::set-env name=IMAGE_TAG_NAME::$IMAGE_TAG_NAME";
 
       - name: Docker Login, Build, Tag and Push
@@ -40,8 +41,10 @@ jobs:
           echo "${{secrets.DOCKER_PASSWORD}}" | docker login -u ${{secrets.DOCKER_USERNAME}} --password-stdin;
           docker build . --file Dockerfile -t "$IMAGE_TAG_NAME";
           docker tag "$IMAGE_TAG_NAME" cflynnus/blog:latest;
+          docker tag "$IMAGE_TAG_NAME" "cflynnus/blog:$BRANCH_NAME-latest";
           docker push "$IMAGE_TAG_NAME";
           docker push cflynnus/blog:latest;
+          docker push "cflynnus/blog:$BANCH_NAME$BANCH_NAME--latest";
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
@@ -51,7 +54,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@master
 
-      - name: Set Envs & Install Helm4 Client
+      - name: Set Envs & Install Helm3 Client
         # | ::set-env explanation
         # Bit of non-dry code here, also copied to the "Deploy to Staging" job to calculate ENVs
         # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/development-tools-for-github-actions#set-an-environment-variable-set-env

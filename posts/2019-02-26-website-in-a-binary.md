@@ -1,10 +1,10 @@
 Most websites typically consist of server code and static files like css, js
-and images. With golang, testing http route handlers that look for specific
+and images. With golang, testing HTTP route handlers that look for specific
 files on disk, such as templates, can be a bit tricky. `go test` compiles your
 go code and runs the binary from a temporary directory. It does not copy your
-static files to the temporary directory, so route handlers won't be able to find
-files on disk with relative include paths and your tests will fail. The same
-problem exists with `go install`.
+static files to that temporary directory, so route handlers won't be able to
+find files on disk with relative include paths and your tests may fail. The
+same problem exists with `go install`.
 
 [gobuffalo/packr](https://github.com/gobuffalo/packr/) is a library that can
 bundle static files inside binaries for production builds, but still load files
@@ -12,10 +12,12 @@ from disk during development, from any context, by automatically converting
 relative include paths to absolute paths.
 
 It's a great tool for building super lightweight images for deployments. With
-multi-stage docker builds you can build your binary in a container that
-contains the packr binary and the golang compiler, then copy the built binary
-to an alpine linux image. The end product is an alpine linux container plus
-just one additional file.
+[multi-stage docker
+builds](https://docs.docker.com/develop/develop-images/multistage-build/) you
+can build your binary in a container that contains the packr binary and the
+golang compiler, then copy the built binary to an alpine linux image. The end
+product is an alpine linux container plus just one additional file - your
+binary.
 
 To illustrate some of the frustrations that can occur without packr, the code
 in this project

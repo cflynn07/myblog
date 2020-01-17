@@ -2,12 +2,14 @@ Today I was hacking together a kitchen sink project to play with development
 using kubernetes, skaffold and helm. I spent a bit of time thinking about how
 to set up MySQL. At my previous company we used docker-compose and created a
 `MySQL` container along with a container called `migrations` that initialized
-our database with schema and sample data. The migrations container would exit
-upon completion.
+our database with schema and sample data. The migrations container would run
+once when the development environment started and exit when complete.
 
 For this latest project, I decided to go the route of creating a custom docker
 image based on the `mysql:5.6` image (https://hub.docker.com/_/mysql). This
-custom image simply copies a schema dump file to `/docker-entrypoint-initdb.d/`
+custom image simply copies a schema dump file to `/docker-entrypoint-initdb.d/`.
+My goal is to create a single source of truth for the latest database schema in
+a project as well as use version control to document the history of changes.
 
 #### Dockerfile
 https://github.com/cflynn07/rgbm-mysql
@@ -105,7 +107,8 @@ spec:
 </pre>
 
 When I modify the database I perform a MySQL dump and overwrite the .sql file
-in my cflynn07/rgbm-mysql repository. 
+in my cflynn07/rgbm-mysql repository. Then I commit and push my changes to the
+remote repository.
 <pre class="prettyprint">
 $ docker ps | grep mysql | awk '{print $1}'
 bb4f90b37b92
