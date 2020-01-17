@@ -1,9 +1,11 @@
-I use helm and circleci to update the production and staging deployments of
+##### [Update 09/2019: I switched from CircleCI to Github Actions](/posts/2019-09-10-circleci-to-github-actions)
+
+I use helm and CircleCI to update the production and staging deployments of
 this blog (yes I actually have a staging deployment for a blog) in my
-kubernetes cluster running on google cloud. The helm chart for this project has
-two deployments, two services, and one ingress resource that routes requests to
-either production or staging service based on the http host header of the
-request.
+kubernetes cluster running on Google Cloud (GKE). The helm chart for this
+project has two deployments, two services, and one ingress resource that
+routes requests to either the production or staging service based on the HTTP
+HOST header of the request.
 
 #### Two deployments, two services, one ingress
 <pre class="prettyprint">
@@ -21,7 +23,7 @@ $ tree ./helm
 └── values.yaml
 </pre>
 
-#### CI script that conditionally updates helm deployment
+#### Deployment in CI
 <pre class="prettyprint linenums">
 // .circleci/config.yml
 - run:
@@ -49,15 +51,15 @@ google_analytics: "UA-000000000-1" # New variable
 </pre>
 
 My CI uses `helm upgrade` with the `--reuse-values` flag to update either my
-production or my staging environment depending on whether I've just pushed to
+production or my staging environment, depending on whether I've just pushed to
 my master or develop branches. This flag instructs tiller to generate the yaml
 kubernetes resources using the computed values from my last deployment and
 accepting values passed to `helm upgrade` via the `--set` flag. This works most
-of the time but becomes an issue when you want to add a value to your
+of the time but becomes an issue when you want to add a new value to your
 values.yaml file in your helm chart. When running `helm upgrade --reuse-values
 --set ...` tiller **will not** use new values in values.yaml. This leads to
 template errors, where the template expects certain values to be present but
-are not.
+they are not.
 
 The way I get around this, is to do idempotent deploy from my local machine
 with the new variable, then push code to my remote git/github repo and have my
