@@ -62,8 +62,8 @@ func init() {
 	}
 	bp[post2019_12_23] = &postData{
 		Title:       "Book Review: Linux Command Line and Shell Scripting Bible (3rd edition)",
-		Description: template.HTML(""),
-		Keywords:    []string{""},
+		Description: template.HTML("My thoughts and insights from a technical book"),
+		Keywords:    []string{"book review", "shell scripting", "linux command line and shell scripting", "bash", "technical book review"},
 		Date:        time.Date(2020, time.January, 17, 0, 0, 0, 0, time.UTC),
 	}
 }
