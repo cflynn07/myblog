@@ -98,7 +98,7 @@ jobs:
             fi
           done)
           overrides=${overrides:0:${#overrides}-1}
-          echo "$overrides"
+          echo "$overrides" | tr ',' '\n'
           helm3 upgrade blog ./helm \
             --install \
             --debug \
