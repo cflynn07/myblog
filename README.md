@@ -33,11 +33,9 @@ CI/CD Pipeline
 
 Authors
 -------
-
 * [Casey Flynn](http://github.com/cflynn07) - <https://cflynn.us/>
 
 License
 -------
-
 myblog free and unencumbered public domain software. For more information, see
 <http://unlicense.org/> or the accompanying UNLICENSE file.
