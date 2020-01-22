@@ -26,14 +26,18 @@ func init() {
 	post2019_08_30 := "2019-08-30-automatically-initialized-and-version-controlled-database-in-kubernetes-and-helm-development-environments"
 	post2019_09_10 := "2019-09-10-circleci-to-github-actions"
 	post2019_12_23 := "2019-12-23-book-review-linux-command-line-shell-scripting-bible"
+	post2020_xx_xx := "2020-01-18-new-tricks"
+	post2020_xx_xx2 := "2020-xx-xx-book-review-mysql-crash-course"
 
 	// Order determines post listing order. Newest entry at lowest index.
 	bpKeys = []string{
-		string(post2019_12_23),
-		string(post2019_09_10),
-		string(post2019_08_30),
-		string(post2019_03_04),
-		string(post2019_02_26),
+		post2020_xx_xx,
+		// post_2020_xx_xx,
+		post2019_12_23,
+		post2019_09_10,
+		post2019_08_30,
+		post2019_03_04,
+		post2019_02_26,
 	}
 
 	bp[post2019_02_26] = &postData{
@@ -64,6 +68,18 @@ func init() {
 		Title:       "Book Review: Linux Command Line and Shell Scripting Bible (3rd edition)",
 		Description: template.HTML("My thoughts and insights from a technical book"),
 		Keywords:    []string{"book review", "shell scripting", "linux command line and shell scripting", "bash", "technical book review"},
-		Date:        time.Date(2020, time.January, 17, 0, 0, 0, 0, time.UTC),
+		Date:        time.Date(2019, time.December, 23, 0, 0, 0, 0, time.UTC),
+	}
+	bp[post2020_xx_xx] = &postData{
+		Title:       "New Tricks",
+		Description: template.HTML(""),
+		Keywords:    []string{},
+		Date:        time.Date(2020, time.January, 18, 0, 0, 0, 0, time.UTC),
+	}
+	bp[post2020_xx_xx2] = &postData{
+		Title:       "Book Review: MySQL Crash Course",
+		Description: template.HTML(""),
+		Keywords:    []string{},
+		Date:        time.Date(2020, time.January, 18, 0, 0, 0, 0, time.UTC),
 	}
 }

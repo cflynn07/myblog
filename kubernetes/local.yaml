@@ -41,6 +41,7 @@ spec:
       labels:
         app: blog-app
     spec:
+      terminationGracePeriodSeconds: 1 # ok for local dev
       containers:
         - name: blog
           image: cflynnus/blog:latest
