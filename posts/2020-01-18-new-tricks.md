@@ -34,7 +34,7 @@ $ docker inspect "$CID" | vim -
 </pre>
 
 ###### See it in action
-<script id="asciicast-I07WYu2kipYbEucbCrDT5jkKI" src="https://asciinema.org/a/I07WYu2kipYbEucbCrDT5jkKI.js" async></script>
+<script id="asciicast-I07WYu2kipYbEucbCrDT5jkKI" src="https://asciinema.org/a/I07WYu2kipYbEucbCrDT5jkKI.js" data-autoplay="true" async></script>
 
 ### tmux
 For a long time I used iterm2 panes and tabs to organize my terminals. My
