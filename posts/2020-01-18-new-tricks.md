@@ -46,8 +46,19 @@ interest of having a more cross-platform compatible development flow, I decided
 to just switch to primarily tmux.
 [.tmux.conf](https://github.com/cflynn07/dotfiles/blob/master/dots/.tmux.conf)
 
-<img src="/static/images/Screen_Shot_2020-01-03_at_1.57.51_PM.png" alt="" style="width:100%"/>
+<img src="/static/images/Screen_Shot_2020-01-03_at_1.57.51_PM.png" alt=""/>
 
-### hexyl
+### hexyl / bat
+The other day I was working on a project where I'm using the
+[cedict](https://www.mdbg.net/chinese/dictionary?page=cedict) (chinese-english
+dictionary). To make the file easier to work with I converted it to an Sqlite3
+database file
+([cedict-sqlite3](https://github.com/cflynn07/cedict-sqlite3/blob/master/db_init.sh)).
+When I was in the process of writing a shell script to iterate through the
+lines of the file I kept getting a weird error where there seemed to be a weird
+control character terminating each line. So I used a hex viewer to find out
+*exactly* what was going on with the file.
+
+<img src="/static/images/Screen_Shot_2020-01-29_at_9.14.56_PM.png" alt=""/> 
 
 ### bropages

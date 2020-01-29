@@ -66,13 +66,13 @@ func init() {
 	}
 	bp[post2019_12_23] = &postData{
 		Title:       "Book Review: Linux Command Line and Shell Scripting Bible (3rd edition)",
-		Description: template.HTML("My thoughts and insights from a technical book"),
+		Description: template.HTML("My thoughts and insights from the technical book, \"Linux Command Line and Shell Scripting Bible (3rd edition)\""),
 		Keywords:    []string{"book review", "shell scripting", "linux command line and shell scripting", "bash", "technical book review"},
 		Date:        time.Date(2019, time.December, 23, 0, 0, 0, 0, time.UTC),
 	}
 	bp[post2020_xx_xx] = &postData{
 		Title:       "New Tricks",
-		Description: template.HTML(""),
+		Description: template.HTML("A few new tricks and techniques I've recently incorporated into my workflow"),
 		Keywords:    []string{},
 		Date:        time.Date(2020, time.January, 18, 0, 0, 0, 0, time.UTC),
 	}
