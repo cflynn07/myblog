@@ -1,7 +1,7 @@
 MyBlog
 ======
 
-[![CircleCI](https://circleci.com/gh/cflynn07/myblog/tree/master.svg?style=svg)](https://circleci.com/gh/cflynn07/myblog/tree/master)
+[![Test, Build and Deploy](https://github.com/cflynn07/myblog/workflows/Test,%20Build%20and%20Deploy/badge.svg?branch=master)](https://github.com/cflynn07/myblog/actions)
 [![codecov](https://codecov.io/gh/cflynn07/myblog/branch/master/graph/badge.svg)](https://codecov.io/gh/cflynn07/myblog)
 ![](https://img.shields.io/github/last-commit/cflynn07/myblog.svg)
 [![Maintainability](https://api.codeclimate.com/v1/badges/ddb5503e282c7693f9f5/maintainability)](https://codeclimate.com/github/cflynn07/myblog/maintainability)
