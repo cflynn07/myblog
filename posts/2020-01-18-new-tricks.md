@@ -7,6 +7,7 @@ recently begun using that I enjoy.
 - `vim -` neovim/vim read from stdin
 - `"*yy vim register`
 - [hexyl](https://github.com/sharkdp/hexyl) A command-line hex viewer
+- [bat](https://github.com/sharkdp/bat) A cat(1) clone with wings
 - [bropages](http://bropages.org/) examples for command line programs
 
 These CLI tools help further my OCD-driven quest to avoid using the mouse as
@@ -59,6 +60,6 @@ lines of the file I kept getting a weird error where there seemed to be a weird
 control character terminating each line. So I used a hex viewer to find out
 *exactly* what was going on with the file.
 
-<img src="/static/images/Screen_Shot_2020-01-29_at_9.14.56_PM.png" alt=""/> 
+<img src="/static/images/Screen_Shot_2020-01-29_at_9.14.56_PM.png" alt=""/>
 
 ### bropages
