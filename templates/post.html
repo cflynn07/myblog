@@ -1,7 +1,7 @@
 {{ define "content" }}
 <div class="card">
   <h5 class="card-header">{{ .BlogPostMeta.Title }}</h5>
-    <div class="card-body">
+    <div class="card-body blog-post">
       <h5 class="card-text">{{ .BlogPostMeta.Date.Format "2006-01-02" }}</h5>
       {{ .BlogPost }}
     </div>

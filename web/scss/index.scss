@@ -8,6 +8,10 @@ body {
   background: linear-gradient(to right, #F27121, #E94057, #8A2387); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
+.blog-post img {
+  width: 100%;
+}
+
 // Little custom formatting for code blocks
 pre.prettyprint {
   @extend .px-2;
