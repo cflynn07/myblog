@@ -26,7 +26,8 @@ click+dragging to select it and then copying.
 
 `docker`, `kubectl`, and other cli tools can often produce lengthy output in
 your terminal. I've found that piping the outputs of these commands into VIM
-where I'm comfortable searching and navigating is much better.
+where I'm comfortable searching and navigating is much better. Also useful is
+the "*" vim register which copies values to your system clipboard.
 
 ###### Two commands with long output. Piping the output into vim makes working with it easier
 <pre class="prettyprint">
@@ -44,22 +45,33 @@ terminal. I prefer to use a mouse as infrequently as possible so I bound ⌥
 +hjkl to switch split panes. The biggest limitation I encountered on a daily
 basis was I couldn't easily resize split panes without using my mouse. In the
 interest of having a more cross-platform compatible development flow, I decided
-to just switch to primarily tmux.
+to just switch to primarily tmux. (I've also switched from iterm to kitty since
+kitty is much faster)
 [.tmux.conf](https://github.com/cflynn07/dotfiles/blob/master/dots/.tmux.conf)
 
 <img src="/static/images/Screen_Shot_2020-01-03_at_1.57.51_PM.png" alt=""/>
 
 ### hexyl / bat
 The other day I was working on a project where I'm using the
-[cedict](https://www.mdbg.net/chinese/dictionary?page=cedict) (chinese-english
-dictionary). To make the file easier to work with I converted it to an Sqlite3
+[cedict](https://www.mdbg.net/chinese/dictionary?page=cedict) Chinese-English
+dictionary. To make the file easier to work with I converted it to an Sqlite3
 database file
 ([cedict-sqlite3](https://github.com/cflynn07/cedict-sqlite3/blob/master/db_init.sh)).
 When I was in the process of writing a shell script to iterate through the
-lines of the file I kept getting a weird error where there seemed to be a weird
+lines of the file I kept getting an error where there seemed to be a weird
 control character terminating each line. So I used a hex viewer to find out
 *exactly* what was going on with the file.
 
 <img src="/static/images/Screen_Shot_2020-01-29_at_9.14.56_PM.png" alt=""/>
 
+hexyl is a utility similar to `xxd`, except it nicely color codes bytes
+depending on their type (ascii, non-printable, etc).
+[sharkdp](https://github.com/sharkdp) has quite a few really great utilities,
+check him out. Shortly after I found hexyl I also started using `bat` - an
+improved version of cat.
+
 ### bropages
+Bropages is great. Often I just want a quick reminder example of the syntax or
+cli flags for common unix utilities. Say I want to know how to use `curl` to
+follow redirects? Or maybe I forgot the exact syntax of `find`. One quick call
+to `bro curl` or `bro find` and 9/10 times I've got the answer I'm looking for.
