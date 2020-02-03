@@ -72,7 +72,7 @@ func init() {
 	}
 	bp[post2020_xx_xx] = &postData{
 		Title:       "New Tricks",
-		Description: template.HTML("A few new tricks and techniques I've recently incorporated into my workflow"),
+		Description: template.HTML("A few new tricks and techniques I've recently incorporated into my workflow: (peco, yank, vim -, \"*yy register usage, hexyl, bat, bropages)"),
 		Keywords:    []string{},
 		Date:        time.Date(2020, time.January, 18, 0, 0, 0, 0, time.UTC),
 	}
