@@ -165,3 +165,30 @@ functions such as RANK(), LAG(), and NTILE(). In addition, several existing
 aggregate functions now can be used as window functions (for example, SUM() and
 AVG()). For more information, see Section 12.21, “Window Functions”."
 
+
+p181 INSERT LOW_PRIORITY INTO <-- low priority interesting
+
+p184 INSERT SELECT is interesting, how can I grab just 1 value from a table and insert it with
+other app provided values
+
+p191 could use mention of logical deletes
+
+p200 book says default value can't be an expression/function -- this is no longer the case in MySQL 8
+# https://dev.mysql.com/doc/refman/8.0/en/data-type-defaults.html
+
+p201 book says default engine is MyISAM -- after 5.5 it's InnoDB
+* important to note that foreign keys can't span engines
+
+p210 views seem interesting, obvious use case is to limit access to certain database columns
+does the book ever mention: "SHOW CREATE VIEW ___ "
+
+P216 lists all the things that will make a view non-updatable
+
+p226 seems strange to introduce DECIMAL(8,2) without explaining precision and scale
+
+
+
+
+
+
+
