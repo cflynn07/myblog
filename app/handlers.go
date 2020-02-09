@@ -42,7 +42,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	for key, value := range bp {
 		data, err := postsBox.Find(key + ".md")
 		if err != nil {
-			log.Fatal("error opening post ", err)
+			log.Fatal("error opening post", err)
 		}
 		value.Content = string(blackfriday.Run(data))
 		value.ContentPreview = truncHelper(string(data))

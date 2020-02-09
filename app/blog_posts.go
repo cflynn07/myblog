@@ -21,18 +21,18 @@ var bpKeys = make([]string, 5)
 var bp = make(blogPosts, 5)
 
 func init() {
-	post2020_02_09 := "2020-02-09-book-review-mysql-crash-course"
-	post2020_01_18 := "2020-01-18-new-tricks"
-	post2019_12_23 := "2019-12-23-book-review-linux-command-line-shell-scripting-bible"
-	post2019_09_10 := "2019-09-10-circleci-to-github-actions"
-	post2019_08_30 := "2019-08-30-automatically-initialized-and-version-controlled-database-in-kubernetes-and-helm-development-environments"
-	post2019_03_04 := "2019-03-04-helm-update-with-new-values"
 	post2019_02_26 := "2019-02-26-website-in-a-binary"
+	post2019_03_04 := "2019-03-04-helm-update-with-new-values"
+	post2019_08_30 := "2019-08-30-automatically-initialized-and-version-controlled-database-in-kubernetes-and-helm-development-environments"
+	post2019_09_10 := "2019-09-10-circleci-to-github-actions"
+	post2019_12_23 := "2019-12-23-book-review-linux-command-line-shell-scripting-bible"
+	post2020_xx_xx := "2020-01-18-new-tricks"
+	post2020_xx_xx2 := "2020-xx-xx-book-review-mysql-crash-course"
 
 	// Order determines post listing order. Newest entry at lowest index.
 	bpKeys = []string{
-		post2020_02_09,
-		post2020_01_18,
+		post2020_xx_xx,
+		// post_2020_xx_xx,
 		post2019_12_23,
 		post2019_09_10,
 		post2019_08_30,
@@ -70,16 +70,16 @@ func init() {
 		Keywords:    []string{"book review", "shell scripting", "linux command line and shell scripting", "bash", "technical book review"},
 		Date:        time.Date(2019, time.December, 23, 0, 0, 0, 0, time.UTC),
 	}
-	bp[post2020_01_18] = &postData{
+	bp[post2020_xx_xx] = &postData{
 		Title:       "New Tricks",
 		Description: template.HTML("A few new tricks and techniques I've recently incorporated into my workflow: (peco, yank, vim -, \"*yy register usage, hexyl, bat, bropages)"),
 		Keywords:    []string{},
 		Date:        time.Date(2020, time.January, 18, 0, 0, 0, 0, time.UTC),
 	}
-	bp[post2020_02_09] = &postData{
+	bp[post2020_xx_xx2] = &postData{
 		Title:       "Book Review: MySQL Crash Course",
-		Description: template.HTML("My thoughts after reading MySQL Crash Course by Ben Forta"),
+		Description: template.HTML(""),
 		Keywords:    []string{},
-		Date:        time.Date(2020, time.February, 9, 0, 0, 0, 0, time.UTC),
+		Date:        time.Date(2020, time.January, 18, 0, 0, 0, 0, time.UTC),
 	}
 }
