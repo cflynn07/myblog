@@ -1,3 +1,20 @@
+<img src="/static/images/mysql-crash-course">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Notes
 - deprecation of mysql query browser for mysql workbench
 - use of mycli
@@ -186,9 +203,32 @@ P216 lists all the things that will make a view non-updatable
 
 p226 seems strange to introduce DECIMAL(8,2) without explaining precision and scale
 
+p299 SHOW PROCEDURE STATUS
 
+p236, cursors seem interesting. No company I've ever worked at has bothered to use
+stored procedures or cursors. (I've seen views in the wild)
+`DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET DONE=1;` oof that's stupidly complex
+  - On my sidequest, I found: https://www.mysqltutorial.org/mysql-cursor/
+  - "asensitive" vs "insensitive" -- mysql is asensitive
+  - web uses `NOT FOUND` instead of `SQLSTATE '02000'`
+  - website example creates a single semicolon separated string of emails from a table of emails
 
+p242 https://www.mysqltutorial.org/mysql-triggers.aspx
+statement level vs row level triggers, mysql only row level
+BEFORE INSERT triggers can modify data about the be inserted
 
+p244 example trigger doesn't work, error 1415
+Can kinda get around it using a variable
+```
+   CREATE TRIGGER neworder AFTER INSERT ON orders
+   FOR EACH ROW SELECT NEW.order_num INTO @somevar;
 
+   later...
+   SELECT @somevar;
+```
 
+\G; at end of queries to see things vertically is great
 
+p255 SET autocommit=0; - book does not make it clear if this is required to use transactions in general...
+# https://www.wired.com/2010/02/manage_transactions_in_mysql_-_lesson_2/
+Blog post makes it clear it is required

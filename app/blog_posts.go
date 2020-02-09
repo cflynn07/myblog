@@ -78,7 +78,7 @@ func init() {
 	}
 	bp[post2020_xx_xx2] = &postData{
 		Title:       "Book Review: MySQL Crash Course",
-		Description: template.HTML(""),
+		Description: template.HTML("My thoughts after reading MySQL Crash Course by Ben Forta"),
 		Keywords:    []string{},
 		Date:        time.Date(2020, time.January, 18, 0, 0, 0, 0, time.UTC),
 	}

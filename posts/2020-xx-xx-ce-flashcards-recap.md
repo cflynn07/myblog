@@ -1,0 +1,6 @@
+- electron
+- sqlite
+- yarn vs npm
+- webpack
+- react,redux
+  - https://github.com/subeesh/electron-react-todo/blob/master/yarn.lock
