@@ -53,3 +53,81 @@ with engines that don't support transactions
     refers to how the hidden system columns are treated re indexes
 - system version number = a number that increments each time a transaction begins
 
+###### p13
+- .frm files for each table in database. According to side quest, frm files removed in mysql8
+  - https://dev.mysql.com/doc/refman/8.0/en/data-dictionary-file-removal.html
+  - data now stored in "data dictionary tables" https://dev.mysql.com/doc/refman/8.0/en/data-dictionary-schema.html
+
+###### p16
+- innodb created by Oracle before Oracle owned Sun/MySQL - later bundled into MySQL after Oracle bought mysql
+- innodb stores data in series of files known as "tablespace"
+  - https://mariadb.com/kb/en/innodb-file-per-table-tablespaces/ ".ibd" file extension
+
+**I wanted to see .ibd files on disk for myself (running mysql in docker container)**
+<pre class="prettyprint">
+$ docker exec -it `cids mysql` ls -l /var/lib/mysql/crashcourse | sort
+total 692
+-rw-r----- 1 mysql mysql 131072 Jan 22 10:57 products.ibd
+-rw-r----- 1 mysql mysql 131072 Jan 22 10:57 orderitems.ibd
+-rw-r----- 1 mysql mysql 131072 Feb  9 10:02 orders.ibd
+-rw-r----- 1 mysql mysql 114688 Jan 22 10:57 vendors.ibd
+-rw-r----- 1 mysql mysql 114688 Feb  9 12:09 ordertotals.ibd
+-rw-r----- 1 mysql mysql 114688 Feb  8 15:52 archive_orders.ibd
+-rw-r----- 1 mysql mysql 114688 Feb  3 10:36 customers.ibd
+-rw-r----- 1 mysql mysql   6144 Feb  9 10:02 productnotes.MYI
+-rw-r----- 1 mysql mysql   4397 Jan 21 14:33 productnotes_350.sdi
+-rw-r----- 1 mysql mysql   4020 Feb  9 10:02 productnotes.MYD
+</pre>
+
+###### p17
+- Book recommends reading innodb transaction model/locking: https://dev.mysql.com/doc/refman/8.0/en/innodb-transaction-model.html
+- innodb can support "hot" backups, other storage engines require halting all writes to table
+- MyISAM used to be default (before 5.1)
+- MyISAM no transactions or row level locks, not crash safe
+
+###### p18
+- productnotes.MYI and productnotes.MYD are the index and data files (see above ls -l)
+- MyISAM can only be single file, therefore limited by disk space and largest allowed file on OS
+- DELAY_KEY_WRITE
+  - https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_delay_key_write
+  - https://www.petefreitag.com/item/441.cfm info on when mysql closes tables (resulting in updating index on disk)
+- Can compress MyISAM tables if table is never written to to reduce disk space and IO for fetching
+
+###### p20
+- CSV engine, I wanted to see it so:
+<pre class="prettyprint">
+cat <<- EOF | mysql -u root -ppassword -h 127.0.0.1 -v --table crashcourse &>/dev/null
+DROP TABLE IF EXISTS testcsv;
+CREATE TABLE testcsv(id INT NOT NULL, c VARCHAR(20) NOT NULL) ENGINE=CSV;
+INSERT INTO testcsv(id, c) VALUES(1, "first");
+INSERT INTO testcsv(id, c) VALUES(2, "second");
+INSERT INTO testcsv(id, c) VALUES(3, "third");
+EOF
+docker exec -it `cids mysql` cat /var/lib/mysql/crashcourse/testcsv.CSV
+1,"first"
+2,"second"
+3,"third"
+</pre>
+
+###### p22
+- XtraDB drop in replacement for InnoDB, some enhancements
+- PBXT - storage engine w/ MariaDB
+- TokuDB - Fractal Trees data structures for indexes. "Big Data" storage engine.
+
+###### p24
+- if need full-text search, rec to use innodb w/ sphinx instead of MyISAM
+- Recommended not to mix storage engines, will lead to bugs
+
+###### p27
+- authors seen InnoDB do fine 3-5 TB, single server not sharded. Beyond 10's of
+  TB, data warehouse. Infobright or TokuDB
+
+###### p31
+- benchmarks across MySQL versions. Used `Cisco UCS 250` server
+
+###### p32
+- buffer pool, https://mariadb.com/kb/en/innodb-buffer-pool/
+  - The most important server system variable is innodb_buffer_pool_size, which
+  you can set from 70-80% of the total available memory on a dedicated database
+  server with only or primarily XtraDB/InnoDB tables.
+
