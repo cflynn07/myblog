@@ -131,3 +131,41 @@ docker exec -it `cids mysql` cat /var/lib/mysql/crashcourse/testcsv.CSV
   you can set from 70-80% of the total available memory on a dedicated database
   server with only or primarily XtraDB/InnoDB tables.
 
+###### p36
+- limitations of benchmarks, many artificial dimensions - differ from real world data
+
+###### p37
+- distinction between benchmarks and load testing
+- two benchmarking strategies: the full stack or just MySQL(single component)A
+
+###### p38
+- TPC-C standardized benchmark, widely quoted. http://www.tpc.org/tpcc/default5.asp
+
+###### p39
+- concurrency, should only care about benchmarking/testing "working concurrency"
+- scalability: ideal system should get twice as much work done (twice as much
+  throughput) when you double the number of workers
+
+###### p40
+- common benchmarking mistakes, design of benchmark differs from real world
+  leading to unusable/inaccurate results
+
+###### p41
+- knowing when to push for realism or when to accept differences. Example
+  application & database normally on different hosts but just running benchmark
+  on same host because that's "good enough"
+
+###### p42
+- good source of realistic benchmark queries is from logging prod during a
+  representative time period
+- gotta run the benchmark for a while to observe system "steady state" perf
+
+###### p45
+- good idea sync to evenly divisable timestamps for data collection for easier
+  correlation
+
+###### p46
+- MySQL default config settings tuned for tiny apps
+
+###### p47
+- null hypothesis https://en.wikipedia.org/wiki/Null_hypothesis
