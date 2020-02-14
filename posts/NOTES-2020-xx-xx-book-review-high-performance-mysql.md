@@ -136,7 +136,7 @@ docker exec -it `cids mysql` cat /var/lib/mysql/crashcourse/testcsv.CSV
 
 ###### p37
 - distinction between benchmarks and load testing
-- two benchmarking strategies: the full stack or just MySQL(single component)A
+- two benchmarking strategies: the full stack or just MySQL(single component)
 
 ###### p38
 - TPC-C standardized benchmark, widely quoted. http://www.tpc.org/tpcc/default5.asp
@@ -169,3 +169,60 @@ docker exec -it `cids mysql` cat /var/lib/mysql/crashcourse/testcsv.CSV
 
 ###### p47
 - null hypothesis https://en.wikipedia.org/wiki/Null_hypothesis
+
+###### p49
+- introduces `gnuplot`
+- interesting how book does a HOW-TO for pulling metrics but hasn't covered
+  using the tools to run a benchmark
+- "furious flushing", averages don't show this but a graph will
+
+###### p51
+- lists popular benchmarking tools, jmeter most sophisticated
+- mysqlslap
+
+###### p53
+- sysbench, all around favorite tool. Scripting in Lua. https://github.com/akopytov/sysbench
+
+###### p57
+Is my Mac much faster than the servers in this book?
+<pre class="prettyprint">
+$ sysbench --test=cpu --cpu-max-prime=20000 run
+sysbench 1.0.19 (using bundled LuaJIT 2.1.0-beta2)
+
+Running the test with following options:
+Number of threads: 1
+Initializing random number generator from current time
+
+
+Prime numbers limit: 20000
+
+Initializing worker threads...
+
+Threads started!
+
+CPU speed:
+    events per second:   470.71
+
+General statistics:
+    total time:                          10.0006s
+    total number of events:              4708
+
+Latency (ms):
+         min:                                    2.02
+         avg:                                    2.12
+         max:                                    3.36
+         95th percentile:                        2.35
+         sum:                                 9997.73
+
+Threads fairness:
+    events (avg/stddev):           4708.0000/0.00
+    execution time (avg/stddev):   9.9977/0.00
+</pre>
+
+<pre class="prettyprint">
+$ sysbench --test=fileio --file-total-size=150G prepare
+</pre>
+
+###### p60
+- I'm wondering how useful running these benchmarks on a laptop are. I think we
+  need to watch some live demos on youtube.
