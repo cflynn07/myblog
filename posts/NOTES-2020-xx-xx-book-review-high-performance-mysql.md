@@ -226,3 +226,80 @@ $ sysbench --test=fileio --file-total-size=150G prepare
 ###### p60
 - I'm wondering how useful running these benchmarks on a laptop are. I think we
   need to watch some live demos on youtube.
+
+###### p69
+- `profiling` introduced. This ch defines performance in a context to mean
+  response time of an operation. Performance optimization = reducing response time for a given workload
+- performance optimization contrasted to throughput optimization (queries per second)
+  - increased throughput a side effect of performance optimization
+- principle: cannot reliably optimize what you cannot measure
+
+###### p72
+- profiling tools all measure start/end time to deduce length. Construct "call graphs"
+- pt-query-digest. https://www.percona.com/doc/percona-toolkit/LATEST/pt-query-digest.html
+- execution-time profiling & wait analysis
+- instrumentation
+- plug for percona, touts time based measurement and instrumentation as being superior to MySQL
+
+###### p74
+- percona 5.0 slow query log. important causes poor performance: ex waiting for disk IO or row-level locks
+- Amdahl's law?
+
+###### p76
+- Tom Kyte, guy who worked at Oracle for a long time and knows a lot about OracleDB
+
+###### p77
+- New Relic plugged
+- PHP specific tools explained in great detail, which I mean... who TF wants to use PHP anymore
+
+###### p80
+- slow query log vs general query log
+  - `long_query_time` can be set to 0
+  - percona logs more to slow query log than MySQL
+
+###### p81
+- 2 alternative log gathering strategies:
+  1. repeatedly poll SHOW FULL PROCESSLIST to see all queries (pt-query-digest --processlist)
+  2. capture & inspect TCP network traffic (tcpdump && pt-query-digest --type=tpcdump)
+
+
+###### p82
+- pt-query-digest Query ID -> fingerprint -> hash of canonical (whitespace removed, lowercase)
+- https://severalnines.com/database-blog/analyzing-your-sql-workload-using-pt-query-digest (other blog posts look interesting)
+
+###### p85
+- SHOW PROFILE
+- SET profiling=1;
+- https://dev.mysql.com/doc/sakila/en/
+- SHOW PROFILES; SHOW PROFILE FOR QUERY n;
+
+###### p88
+- SHOW STATUS / SHOW GLOBAL STATUS, return counters. Session or global scoped
+- Most important (expensive) counters:
+  - handler counters + temporary file and table counters (Appendix B)
+
+###### p89
+- SHOW STATUS, counters of what server did. EXPLAIN is estimate of what server thinks it will do.
+
+###### p91
+- Authors pretty adamant performance_schema was only basic in MySQL 5.[5/6]. Investigate changes since then.
+
+###### p95
+- innotop https://www.percona.com/blog/2013/10/14/innotop-real-time-advanced-investigation-tool-mysql/
+
+###### p96
+- advice: get used to gnuplot or R for graphing quickly
+
+###### p98
+- pt-stalk, good threshhold monitoring tool
+  - https://www.percona.com/doc/percona-toolkit/LATEST/pt-stalk.html
+  - pt-sift useful for analyzing results
+
+###### p99
+- oprofile - https://en.wikipedia.org/wiki/OProfile
+- strace https://en.wikipedia.org/wiki/Strace
+- GDP stack traces
+  - pt-pmp tool
+- pt-collect, tool intended to be used from pt-stalk
+
+
