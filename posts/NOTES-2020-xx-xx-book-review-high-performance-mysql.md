@@ -301,5 +301,47 @@ $ sysbench --test=fileio --file-total-size=150G prepare
 - GDP stack traces
   - pt-pmp tool
 - pt-collect, tool intended to be used from pt-stalk
+- nm tool
+- debug symbols https://stackoverflow.com/questions/3694900/can-you-explain-whats-symbols-and-debug-symbols-in-c-world
 
+###### p100
+- most useful things to look at: query/transaction behavior and server internals behavior
+- pt-mysql-summary and pt-summary, 2 other useful tools
 
+###### p101
+- http://poormansprofiler.org/ & pt-pmp
+- video on oprofile https://www.youtube.com/watch?v=-fjujEUJZuE
+
+###### p104
+- SHOW INNODB STATUS is now `SHOW ENGINE INNODB STATUS`
+
+###### p104
+- iostat, vmstat tools mentioned
+
+###### p106
+- furious flushing/checkpoint stall.
+- InnoDB performs certain tasks in the background, including flushing of dirty pages from the buffer pool. Dirty pages are those that have been modified but are not yet written to the data files on disk.
+  - https://dev.mysql.com/doc/refman/8.0/en/innodb-buffer-pool-flushing.html
+
+###### p108
+- use df-h and lsof to monitor disk space and file descriptors to see how much data MySQL is writing to disk
+- MySQL writing 1.5GB to temporary tables
+
+###### p109
+- could be a "cache stampede"
+
+###### p110
+- INFORMATION_SCHEMA.USER_STATISTICS (%_STATISTICS) additional table included w/ Percona & MariaDB
+
+###### p111
+- using `_statistics` tables, can find unused indexes which are candidates for removal
+- strace, profiles/intercepts system calls. Can filter by process id
+  - similar but different to oprofile
+  - strace will bring mysqld to a crawl when attached
+
+###### p118
+- floating-point vs exact math operations
+- DECIMAL has higher space and computational costs. Use only when need exact results for fractional numbers.
+
+###### p119
+- varchar(255), any length greater than 255 will use 2 bits to store length
