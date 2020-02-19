@@ -345,3 +345,102 @@ $ sysbench --test=fileio --file-total-size=150G prepare
 
 ###### p119
 - varchar(255), any length greater than 255 will use 2 bits to store length
+
+###### p121
+- padding and trimming behavior consistent across all storage engines since
+  it's handled above the storage engine by mysql
+
+###### p122
+- max_sort_length for BLOG/TEXT
+
+###### p125
+- primary key size affects other indexes (explained more next ch)
+
+###### p127
+- mysql 8 does support subsecond times https://dev.mysql.com/doc/refman/8.0/en/fractional-seconds.html
+- inoodb no space saved using BIT data type, engine uses smallest INT type that works
+
+###### p130
+- UUID values good idea convert to 16 byte numbers with UNHEX() and store them in BINARY(16)
+- UUID/SHA/MD5 slow INSERTs, value goes to random location in index
+
+###### p132
+- performance consequences many columns, storage engine and mysql server pass
+  rows in "row buffer format" and some conversion occurs
+- EAV design pattern bad choice w/ MySQL, limit 61 tables per join and it requires a lot of self joins
+
+###### p135
+- normalization, denormalization, 2NF, 3NF. Example of partial denormalization to avoid expensive joins
+
+###### p136
+- common denormalization - duplicate (cache) columns. Use triggers to keep in sync
+- caching 'derived' values, ex: num_messages
+
+###### p138
+- technique: using different engines for cache tables. innodb -> myisam
+- shadow tables for background rebuilding of cached tables, atomic rename to swap them
+- materialized views, flexviews https://docs.huihoo.com/mysql/percona/live/mysql-conference-2015/Materialized-Views-for-MySQL-using-Flexviews.pdf
+  - type of cache table, can calculate changes incrementally from source data (using deltas to compute)
+
+###### p140
+- query w/ USING() - alternative join method (opposed to "ON")
+- trick to get higher concurrency with counter tables: use multiple rows
+  instead of 1 to achieve higher update/write concurrency. A single row will
+  have all writes serialized
+
+###### p141
+- alter table techniques.
+  1. switch around servers (build new table in offline server then swap)
+  2. "shadow copy" - build new table next to existing one, then rename and drop. Book lists tools useful for this.
+
+###### p142
+- ALTER TABLE -> ALTER column vs MODIFY column, ALTER can be much faster (no table rebuild) (see also CHANGE COLUMN)
+- random aside reading on replacement for FRM files in MySQL8 https://www.percona.com/blog/2016/10/03/mysql-8-0-general-tablespaces-file-per-database-no-frm-files/
+  - schema per customer ability sounds interesting
+
+###### p143
+- MyISAM trick: disable keys, load data, reenable keys (will load faster) (goal: build indexes by sorting)
+  - myisam builds indexes in memory, very slow if no available memory. Unique indexes always built in memory
+
+###### p148
+- B-Tree indexes, usually the "default"
+- InnoDB uses B+Tree indexes (each leaf has pointer to next leaf)
+
+###### p149
+- MyISAM indexes refers to rows by physical storage location, InnoDB refers to primary key
+
+###### p151
+- list of query types that use b-tree indexes (match full value, left prefix, range, one part exactly partial second part)
+- column ordering in indexes important
+
+###### p152
+- only Memory tables support HASH indexes
+- hash indexes are very compact (indexes only short hash values)
+
+###### p153
+- HASH indexes can't be used for sorting
+- innodb creates "adaptive hash indexes" above b-tree indexes, frequently accessed values go in adaptive hash index (in memory)
+    - https://www.percona.com/blog/2016/04/12/is-adaptive-hash-index-in-innodb-right-for-my-workload/
+
+###### p154
+- using a column that's value is a hash, you can create shorter b-tree indexes (example urls)
+  - using triggers on insert/update you can automatically assign
+- https://en.wikipedia.org/wiki/Cyclic_redundancy_check
+
+###### p158
+- Book recommendation: Relational Database Index Design and the Optimizers
+- 3 star ranking system for database indexes
+
+###### p159
+- terabyte scale indexes break down, per block metadata better (Infobright)
+- columns must be "isolated" in queries to use indexes (not in a function or expression)
+
+###### p160
+- prefix indexes, saves space but less selective
+- index selectivity: distinct indexed values (cardinality) / total rows (max = 1)
+
+###### p162
+- shows how to calculate average selectivity for prefix indexes of different lengths
+
+###### p163
+- prefix indexes can't be used for order by or group by or covering indexes (composite indexes)
