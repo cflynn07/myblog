@@ -262,7 +262,6 @@ $ sysbench --test=fileio --file-total-size=150G prepare
   1. repeatedly poll SHOW FULL PROCESSLIST to see all queries (pt-query-digest --processlist)
   2. capture & inspect TCP network traffic (tcpdump && pt-query-digest --type=tpcdump)
 
-
 ###### p82
 - pt-query-digest Query ID -> fingerprint -> hash of canonical (whitespace removed, lowercase)
 - https://severalnines.com/database-blog/analyzing-your-sql-workload-using-pt-query-digest (other blog posts look interesting)
@@ -430,6 +429,9 @@ $ sysbench --test=fileio --file-total-size=150G prepare
 ###### p158
 - Book recommendation: Relational Database Index Design and the Optimizers
 - 3 star ranking system for database indexes
+  - 1 star: places relevant rows adjacent to each other
+  - 2 star: rows are sorted in the order the query needs
+  - 3 star: contains all columns needed
 
 ###### p159
 - terabyte scale indexes break down, per block metadata better (Infobright)
@@ -444,3 +446,128 @@ $ sysbench --test=fileio --file-total-size=150G prepare
 
 ###### p163
 - prefix indexes can't be used for order by or group by or covering indexes (composite indexes)
+- individual indexes on columns wont help most queries ("index merge" helps a bit)
+  - https://www.percona.com/blog/2009/09/19/multi-column-indexes-vs-index-merge/
+  - As a summary: Use multi column indexes is typically best idea if you use
+    AND between such columns in where clause. Index merge does helps
+    performance but it is far from performance of combined index in this case.
+    In case you’re using OR between columns – single column indexes are
+    required for index merge to work and combined indexes can’t be used for
+    such queries.
+
+###### p164
+- using index merge, for AND conditions, when server intersects indexes a single covering index with relevant columns prob better
+- union indexes for OR conditions can be CPU/memory intensive (buffering, sorting, merging), esp if indexes not very selective.
+- optimizer only accounts for number of random page reads
+
+###### p165
+- EXPLAIN -> index merge, examine query and table structure
+- column order very important multicolumn indexes
+- Column order important. When no sorting/ordering, most selective column first good. When ordering, first column should aid ordering
+
+###### p166
+- orders table example with staff_id, customer_id. logically, staff_id appears
+  a lot more often. for queries that select for staff_id and customer_id,
+  create index with customer_id first (higher cardinality/selectivity)
+- example situation with specific values higher than normal cardinality: guest
+  users all sharing a single user id in a sessions table
+
+###### p168
+- clustered indexes. Really b-tree indexes that also contain row data. Oracle calls them index-organized tables.
+  - normally primary key in innodb
+  - works best I/O bound workloads, if data small enough to fit in memory it doesn't matter
+  - insert speeds depend on insertion order.
+  - secondary indexes require two lookups. Secondary indexes contain primary key values, not pointers too rows. Must do 2 b-tree lookups.
+
+###### p178
+- "covering index": index that contains all data requested by query
+- EXPLAIN on query that is covered by covering index will have "Using Index" in Extra column
+
+###### p180
+- Deferred join optimization
+```
+EXPLAIN SELECT * FROM products WHERE actor='SEAN CARREY' AND title LIKE '%APOLLO%'
+```
+```
+EXPLAIN SELECT *
+FROM products
+    JOIN (
+      SELECT prod_id
+      FROM products
+      WHERE actor='SEAN CARREY' AND title LIKE '%APOLLO%'
+    ) AS t1 ON (t1.prod_id=products.prod_id)
+```
+^ uses covering index in subquery, more efficient when reducing number of full rows that must be read, but not so few rows that
+the subquery becomes a performance detriment
+
+###### p181
+- innodb secondary indexes leaf node values contain primary keys, so secondary indexes can also "cover" selections for primary key
+```
+# EXAMPLE: secondary index on "last name"
+SELECT actor_id, last_name FROM sakila.actor WHERE last_name = 'HOPPER' # This is "covered" by index
+```
+
+###### p182
+- MySQL 5.6 "index condition pushdown" https://dev.mysql.com/doc/refman/5.6/en/index-condition-pushdown-optimization.html
+- two ways to produce ordered results, sort operation or scan an index in order
+  - EXPLAIN -> type: "index" (not confused with "using index" in extra column)
+- can use index to sort on non-leftmost column of an index if the leading columns are constants
+
+###### p184
+- MyISAM packed indexes, reduce index size
+  ex: 1. perform
+      2. 7,ance (performance)
+  - downside, can't do binary searches. Must scan block from start
+
+* random side blog post thought. 10 pages, 1 disk page my brain
+* aware enough to point where I THINK I can have my brain ping me to come back to some of this stuff in the future when I need it
+* sometimes read a whole page, touch every word, then stop and say "wait what did I just read"
+* could devote entire life to thoroughly understanding this, I want to be a generalist tho
+
+###### p185
+- mysql will let you shoot yourself in the foot and create duplicate/redundant indexes
+- redundant & duplicate bit different
+  - index on (a, b) and index on (a) - redundant. leftmost prefix
+
+###### p186
+- example beneficial redundant index. One is covering one is not. Helps 2 queries. Cost is insertion speed
+
+###### p187
+- identify redundant/duplicate indexes:
+  - common_schema by Shlomi Noach
+  - pt-duplicate-key-checker tool https://www.percona.com/doc/percona-toolkit/LATEST/pt-duplicate-key-checker.html
+  - pt-upgrade tool
+  - find unused indexes tool: pt-index-usage
+
+###### p188
+- example how innodb can lock more rows than it needs by not being aware of filters from WHERE part of query
+
+###### p189
+- shared read locks on secondary indexes, but exclusive write locks only with primary key
+
+###### p190
+- index based sorting vs post-retrieval sorting
+- thinking about queries on hypothetical dating site: idea create indexes prefixed with most common filter columns (sex,country,etc)
+  - index can still by usable to query that doesn't use sex by adding `AND sex in('m', 'f')`
+
+###### p191
+- (sex, country, age) + (sex, country, region, age) + (sex, country, region, city, age) can reuse with IN() trick and scrap first 2
+- general principle, keep range criterion (age) at end of index, optimizer use index as much as possible
+
+###### p192
+- range vs multiple equality conditions. Both appear in EXPLAIN:type as "range" - multiple equality doesn't ignore any further columns
+- cron job compute "active" column to replace last_online range in query for better indexing
+
+###### p193
+- example query difficult for index to optimize
+  `SELECT <cols> FROM profiles WHERE sex='M' ORDER BY LIMIT 100000000, 10;`
+  high offset requires scanning a lot of data, index can't really help.
+  deferred join potentially helpful. Use covering index to retrieve just primary key columns then join
+
+###### p195
+- innodb corruption should be rare. Usual culprit is someone messing with files outside mysql (rsync)
+- ANALYZE TABLE regenerates index stats
+
+###### p197
+- innodb recalcs indexes ANALYZE TABLE || size change (1/16 or 2 billion rows whichever first)
+- percona allows users to pause stats resampling `innodb_stats_auto_update`
