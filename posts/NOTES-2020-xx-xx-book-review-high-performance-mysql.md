@@ -571,3 +571,31 @@ SELECT actor_id, last_name FROM sakila.actor WHERE last_name = 'HOPPER' # This i
 ###### p197
 - innodb recalcs indexes ANALYZE TABLE || size change (1/16 or 2 billion rows whichever first)
 - percona allows users to pause stats resampling `innodb_stats_auto_update`
+- `innodb_analyze_is_persistent` option speed up system start by persisting statistics to disk
+- 3 types of data fragmentation: row fragmentation, intra-row, free space
+
+###### p198
+- OPTIMIZE TABLE can defragment
+- MySQL/Percona differ in index defragmentation, OPTIMIZE TABLE only defrags clustered index not secondary. `expand_fast_index_creation`
+
+* Query/index/schema optimization confluence
+
+###### p203
+- fetching all columns precludes using covering indexes
+
+###### p204
+- simplest query cost metrics: response time, num rows examined, num rows returned
+- response time = service time + queue time
+- QUBE (quick upper bound estimate) - RDID and the O (wiley)
+
+###### p205
+- rows examined / rows returned. Joins require at least 2 rows examined for every row returned.
+- row access methods are "type" column in EXPLAIN
+  - full table scan > index scan > range scan > unique index lookups > constants
+
+###### p208
+- "chopping up" queries. Deleting in a loop (batch 10000) while affected rows > 0 minimize impact on server
+- pt-archiver
+
+###### p209
+- merits of breaking up multi-table JOINS into discrete queries
