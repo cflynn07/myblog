@@ -599,3 +599,122 @@ SELECT actor_id, last_name FROM sakila.actor WHERE last_name = 'HOPPER' # This i
 
 ###### p209
 - merits of breaking up multi-table JOINS into discrete queries
+
+* Learning how MySQL optimizes and executes queries lets you reason from principles
+
+###### p210
+- mysql protocol half-duplex (any given time sending or receiving)
+- client sends query as single packet. `max_allowed_packet`
+
+###### p215
+- how expensive optimizer estimated query
+```
+SELECT SQL_NO_CACHE COUNT(*) FROM sakila.film_actor;
+SHOW STATUS LIKE 'Last_query_cost';
+```
+^ estimate of disk page reads required to execute query
+
+###### p216
+- static & dynamic optimizations
+
+###### p219
+- IN() usually much faster than series of OR. IN() fast binary search. `O(log n)` vs `O(n)`
+
+###### p220
+- MySQL every query considered a "join"
+- execution strategy involves nested loop for every join
+
+###### p221
+- good pseudocode logic INNER and LEFT OUTER joins
+
+###### p222
+- swim-lane diagram for visualizing an INNER JOIN
+- subqueries create temporary tables for which there are no indexes (performance consideration)
+- RIGHT OUTER JOIN queries are rewritten to equivalent LEFT OUTER JOINS
+- FULL OUTER JOIN not supported by MySQL due to incompatibility of nested loop join logic
+- `EXPLAIN EXTENDED` and `SHOW WARNINGS` https://dev.mysql.com/doc/refman/8.0/en/explain-extended.html
+
+###### p223
+- multitable join can be represented as a tree (ex on page)
+- "join optimizer" most important part of query optimizer. Estimates cost diff plans, chooses the least expensive one.
+
+###### p224
+- Oracle lingo "driver into table"
+- First row in EXPLAIN output is start point of query plan
+- `STRAIGHT_JOIN` forces join to proceed in order specified in query
+
+###### p226
+- join over n tables will have n! combinations of join orders -> "search space" possible query plans. ex 10! = 3,628,800
+- `optimizer_search_depth`, "greedy" searches shortcut
+- when no index for sorting, "filesort" (can be in memory or on disk)
+  - if on disk, sorts values in chunks. If in memory (sort buffer fit) quicksort
+- filesort algos: two passes (old), single pass (4.1+ avoids reading rows twice and less random IO more sequential IO, uses more sort buffer mem)
+
+###### p227
+  - `max_length_for_sort_data` & size of query columns & order by columns determines which algo is used
+- when sorting, mysql allocates fixed-size record for each sorted row that is the max possible size (think what happens if column type huge varchar)
+
+* advantage of reading book over sequential days, brain state becomes "in the zone" or flow
+
+###### p228
+- execution plan not bytecode in mysql, data structure
+- typically, optimization stage more complex than execution stage
+- there's a "handler API" class for storage engine + table. For each table in query MySQL creates an instance of this class.
+  - instance has API methods (ex read first row in index, next row)
+
+###### p229
+- `SQL_BUFFER_RESULT` config what interval computed results are sent at while computing
+- each result row = different packet (mysql client/server protocol)
+- correlated subqueries (pushes condition into subquery to help optimize)
+
+###### p230
+- to prevent rewrite to correlated subquery, can rewrite query as a JOIN
+
+###### p232
+- Extra: Not exists, optimization - stops processing current row when it finds a match
+- subquery optimal situation DISTINCT INNER JOIN -> EXISTS() subquery (avoids temporary tables)
+
+###### p233
+- "push down" conditions like LIMIT or ORDER BY into UNION (mysql can't automatically)
+- https://www.iheavy.com/2013/06/13/how-to-optimize-mysql-union-for-high-speed/
+
+###### p234
+- MySQL no parallel execution
+- MySQL8 has limited parallel query execution now: https://www.percona.com/blog/2019/01/23/mysql-8-0-14-a-road-to-parallel-query-execution-is-wide-open/
+- No hash joins, MySQL8 has hash joins
+  - https://dev.mysql.com/doc/refman/8.0/en/hash-joins.html
+  - https://mysqlserverteam.com/hash-join-in-mysql-8/
+
+###### p237
+- SELECT & UPDATE on same table not allowed, can get around using derived/temporary table
+
+###### p241
+- pt-upgrade tool, validate queries run well on new MySQL versions
+
+###### p242
+- always use `COUNT(*)` and don't name columns when you just want to know the number of rows in a result
+
+###### p243
+- `SELECT SUM (IF(color = 'blue', 1, 0)) AS blue ...`
+
+###### p244
+- COUNT() queries hard to optimize in general. Maybe use summary tables, memcached, etc
+
+###### p245
+- When grouping on lookup table, GROUP BY on primary key more efficient
+
+###### p246
+- Suggest `ONLY_FULL_GROUP_BY` prevent different GROUP BY columns from SELECT
+- https://www.mysqltutorial.org/mysql-rollup/
+
+###### p248
+- LIMIT OFFSET query trick, instead of SQL_CALC_FOUND_ROWS (expensive) fetch 21 rows, if 21st row returned render "next" link
+
+###### p249
+- pt-query-advisor, sort of "lint checker" - parses log of queries
+
+###### p251
+- quadratic algorithms https://medium.com/@verdi/the-quadratic-sorting-algorithms-an-overview-of-bubble-selection-and-insertion-sort-266de2b26004
+
+###### p253
+- variable issues arise frequently when assigning and reading at different stages of a query. Rec is to assign and read in same stage.
