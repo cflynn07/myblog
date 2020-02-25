@@ -718,3 +718,110 @@ SHOW STATUS LIKE 'Last_query_cost';
 
 ###### p253
 - variable issues arise frequently when assigning and reading at different stages of a query. Rec is to assign and read in same stage.
+- Book Rec: SQL and Relational Theory: How to Write Accurate SQL Code - CJ Date
+
+###### p256
+- SELECT .. FOR [SHARE/UPDATE] https://dev.mysql.com/doc/refman/8.0/en/innodb-locking-reads.html
+
+###### p257
+- CONNECTION_ID() function
+
+###### p260
+- the merits of "fudging" location proximity calculations
+
+###### p261
+- Index that isn't the whole truth but gets you close to the truth cheaply
+
+###### p266
+- Partitioned tables = multiple discrete tables (each handled by storage engine) logically connected by MySQL
+
+###### p267
+- MySQL syntax partition on column preferable to function over column
+
+###### p273
+- Can partition by expressions but must query/search by column
+
+###### p274
+- Merge storage engine https://dev.mysql.com/doc/refman/8.0/en/merge-storage-engine.html
+
+###### p277
+- querying VIEWS, 2 algos: MERGE and TEMPTABLE
+  - TEMPTABLE used with VIEW def uses constructs that don't preserve 1-to-1
+    relationship between the view rows and underlying table rows
+
+###### p288
+- View that doesn't preserve 1-to-1 not updateable (TEMPTABLE algo)
+- CHECK OPTION: any rows changed must continue to match WHERE clause
+
+###### p289
+- Views useful refactoring schema in stages, code can continue accessing old schema
+
+###### p282
+- ISO/IEC 9075-4:2016 https://www.iso.org/standard/63557.html
+
+###### p283
+- common stored procedure example, transfer funds at bank. All done in transaction. No access to underlying tables.
+
+###### p286
+* Always checking limitation claims
+- Only 1 trigger per event per table NO LONGER TRUE (5.7+) https://www.mysqltutorial.org/mysql-triggers/create-multiple-triggers-for-the-same-trigger-event-and-action-time/
+
+###### p287
+- Triggers occur within same transaction as op that triggered them
+
+###### p288
+- GET_LOCK() & RELEASE_LOCK()
+
+###### p289
+- Using version number comments to preserver stored procedure comments hack
+
+###### p290
+- important to note MySQL cursors execute entire query on open
+- in memory tables do not support BLOB/TEXT, if cursor on table with these types temp table will go to disk
+
+###### p291
+- prepared statements: client sends "prototype" which is stored on server and server returns "handle"
+  - only parameters sent for each execution
+  - helps with security, don't need to escape values in client app
+
+###### p295
+- UDF (since "ancient" times)
+- http://www.mysqludf.org/
+- book doesn't show complete example of how to use or load a UDF
+
+###### p299
+- Character sets & encodings, reviewed this old blog post https://www.joelonsoftware.com/2003/10/08/the-absolute-minimum-every-software-developer-absolutely-positively-must-know-about-unicode-and-character-sets-no-excuses/
+- "hello" -> U+0048 U+0065 U+006C U+006C U+006F (unicode code points) -> UTF8 (system for storing code points in memory)
+-                                                 |--> encodings (characters to display per code point)
+
+###### p303
+- CHAR(10) encoded with UTF-8 uses 30 bytes (MySQL supports UTF8 subset using 3 bytes... at least it did when this book was written)
+
+###### p304
+- LENGTH() and CHAR_LENGTH() - return bytes and character lengths
+- MySQL will automatically use prefix index if user specified index is too long
+- Can see how multibyte character sets can use more space when sorting in memory and such
+
+###### p306
+- full text index -> full-text collection
+- special B-tree index w/ 2 levels. L1 keywords. L2 associated "document pointers"
+- prunes "stopwords" and short/long words
+
+###### p308
+- boolean full-text searches, specify increased/decreased relative importance of words
+
+###### p310
+- full-text indexes are expensive maintain for INSERT/UPDATE/DELETE ops
+- full-text prone fragmentation
+
+###### p311
+- Techniques hacking full text indexes to more efficiently search by author and coordinates
+
+###### p314
+- distributed transactions
+- aside on XA https://www.percona.com/blog/2018/05/16/mysql-xa-transactions/
+- Internal vs External XA. Another way to sync data multiple servers besides replication
+- query cache stores complete results of SELECT queries
+- query cache is GONE in MySQL8 https://www.digitalocean.com/community/tutorials/how-to-optimize-mysql-with-query-cache-on-ubuntu-18-04
+- https://mysqlserverteam.com/mysql-8-0-retiring-support-for-the-query-cache/
+
