@@ -869,3 +869,53 @@ SET @crash_me_2 := REPEAT('a', @@max_allowed_packet);
 
 ###### p345
 - not crucial to get right immediately, can start with something larger than default but still safe and test
+
+###### p347
+- managing memory important. Memory 2 categories: can control and can't control
+
+###### p350
+- innotop for monitoring innodb buffer pool https://www.percona.com/blog/2013/10/14/innotop-real-time-advanced-investigation-tool-mysql/
+- `SHOW INNODB STATUS`
+- `innodb_max_dirty_pages_pct`
+
+###### p351
+- feature to reload pages after restart helps server "warm up" faster. Especially useful on replicas.
+- init_file setting, SQL to run when server starts up. Some people run full table scans to load indexes into buffer pool.
+
+###### p352
+- `CACHE INDEX` command
+
+###### p353
+- "read-around writes." Good idea make MyISAM block size same as OS
+
+###### p354
+- good setting for `thread_cache_size` is fluctuation in connections (`Threads_connected`) variable
+
+###### p355
+- table cache not used for much with innodb tables
+- https://www.got-it.ai/solutions/sqlquerychat/sql-help/data-definition/how-to-optimize-mysql-table-cache/
+- https://www.percona.com/blog/2012/03/23/how-flush-tables-with-read-lock-works-with-innodb-tables/A
+- https://jameshfisher.com/2016/12/24/perror/
+
+###### p356
+- innodb per table cache: "table definition cache" || "data dictionary"
+
+###### p357
+- tradeoff data security / performance
+- most important things: InnoDB log file size, how InnoDB flushes log buffer, how InnoDB performs I/O
+
+###### p359
+- `innodb_recovery_stats` opt w/ percona
+- moonitor innodb log & log buffer I/O `SHOW INNODB STATUS` -> LOG section. `Innodb_os_log_writte`
+
+###### p360
+- `innodb_flush_log_at_trx_commit` 0, 1, 2
+- important to know difference writing to log buffer vs flushing to durable storage
+
+###### p361
+- srsly need RAID volume with battery backed write cache
+- percona, as usual, better because can offer `innodb_flush_log_at_trx_commit` at session level
+- https://linux.die.net/man/2/fdatasync
+
+###### p363
+- importance of having write cache if using O_DIRECT
