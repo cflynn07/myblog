@@ -825,3 +825,47 @@ SHOW STATUS LIKE 'Last_query_cost';
 - query cache is GONE in MySQL8 https://www.digitalocean.com/community/tutorials/how-to-optimize-mysql-with-query-cache-on-ubuntu-18-04
 - https://mysqlserverteam.com/mysql-8-0-retiring-support-for-the-query-cache/
 
+* Kinda glossed over query cache section after learning it's no longer in MySQL
+* sounds weird to say, but reading through an 800 page book is kinda the lazy way to learn a subject. Someone else has gathered everything and laid it all out in a nice order.
+
+###### p323
+- good ratio of cache hits/inserts 10:1
+
+###### p324
+- `query_cache_min_res_unit` tradeoff wasting memory/cpu cycles
+
+###### p329
+- stored procedures vs stored functions https://www.a2hosting.com/kb/developer-corner/mysql/mysql-stored-functions-and-procedures
+  - stored function can be used to compute a value in a query
+  - stored procedure is CALL'd to do something
+
+###### p330
+- Ideal mysql configuration function of server hardward, workload, data, app requirements (not just hardware)
+- using defaults = safety of numbers
+- /etc/my.cnf || /etc/mysql/my.cnf
+
+###### p334
+- can set variable values with suffix for units in cli args or config file but not with SET command (ex 1M - 1 megabyte)
+- SET DEFAULT can restore session scoped variables back to what they were when server started
+
+* Attempting to focus like a machine in a book makes me aware of my impulses to do things like check instagram. Normally I'd just do the impulse not catch it. uncaughtException()
+* When brain feels tired possible to literally force its circuits to "warm up" and absorb faster
+
+###### p337
+- Example of dynamically adjusting a variable `sort_buffer_size` for a specific query
+- https://bugs.mysql.com/bug.php?id=37359
+
+###### p340
+- pt-log-player - replay query log against server for benchmarking
+- tuning by ratio bad. tuning scripts also bad. "tuning" phrase also bad. Internet has tons of bad advice.
+```
+SET @crash_me_1 := REPEAT('a', @@max_allowed_packet);
+SET @crash_me_2 := REPEAT('a', @@max_allowed_packet);
+```
+- what the hell is the joke in the footer
+
+###### p342
+- for even more than "few megabytes of data" need to configure mysql. It assumes it's not the only thing running on a system. (LAMP days)
+
+###### p345
+- not crucial to get right immediately, can start with something larger than default but still safe and test
