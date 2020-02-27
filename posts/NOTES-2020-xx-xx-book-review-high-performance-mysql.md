@@ -919,3 +919,26 @@ SET @crash_me_2 := REPEAT('a', @@max_allowed_packet);
 
 ###### p363
 - importance of having write cache if using O_DIRECT
+
+* visual representation of understanding of a topic before/after book. Block with missing bits vs solid.
+
+###### p364
+- innodb tablespace, virtual filesystem spanning one or more files on disk
+```
+innodb_data_home_dir = /var/lib/mysql/
+innodb_data_file_path = ibdata1:1G;ibdata1:2G;ibdata3:1G;
+```
+- recommendation to disable autoextend feature
+
+###### p366
+- possibility of storing files on raw partition for minor performance gain, very annoying tho
+
+###### p367
+- `SHOW INNODB STATUS` command see number of unpurged transactions (sub trx id counter from purge done)
+- sometimes necessary to throttle writes to let purge process keep up (avoid tablespace growing indefinitely)
+
+###### p368
+- doublewrite buffer. uses checksum to check for corruption
+
+###### p369
+- might want to disable doublewrite on replicas
