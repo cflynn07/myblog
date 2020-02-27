@@ -942,3 +942,81 @@ innodb_data_file_path = ibdata1:1G;ibdata1:2G;ibdata3:1G;
 
 ###### p369
 - might want to disable doublewrite on replicas
+
+###### p372
+- innodb has "thread scheduler" controls how threads enter it's kernel. `innodb_thread_concurency`
+  - theoretical good concurrency value: concurrency = Num CPUs * Num disks * 2 (in practice better lower)
+
+###### p373
+- innodb 2 phase process for thread entrance. helps avoids context switch overhead
+- `innodb_concurrency_tickets`
+
+###### p375
+- particularity of BLOB workloads: server cannot use in-memory temporary tables
+  - can convert temp to varchar w/ SUBSTRING() to get in-memory tables
+
+###### p376
+- memory-based filesystem https://www.jamescoyle.net/knowledge/951-the-difference-between-a-tmpfs-and-ramfs-ram-disk
+- tmpdir - server setting controls where temporary tables are placed
+- 768 byte prefix for variable length columns, for index. if too large innodb may use external storage (outside cluster index)
+
+###### p377
+- External storage use disables use of adaptive hash index
+
+* Thinking back to that one project I did in college where I stored images in MySQL for no good reason
+
+###### p378
+- `tmp_table_size` & `max_heap_table_size` + counters: `Created_tmp_disk_tables` & `Created_tmp_tables`
+
+###### p381
+- Not documented, `max_allowed_packet` controls size of user defined variable
+- max_connect_errors and host blacklisting
+
+###### p389
+- hyperthreading used to suck but it's ok now
+- Fast CPU -> low latency
+- Many CPI -> High throughput
+
+###### p390
+- innodb/myisam global locks may limit effectiveness of multiple CPUs
+- stack traces help diagnose. `pt-pmp` tool
+- x86 arch dominant, 64 bit cool
+
+###### p391
+- two types of concurrency problems:
+  - logical concurrency issues
+  - internal concurrency issues
+
+###### p393
+- spatial and temporal locality of reference
+
+###### p394
+- Random and sequential IO. Random I/O benefits most from caching
+
+* training most efficient, quick reading of text as possible while achieving a high level of understanding
+* forcing brain not to go off intended path into every little thought and
+  impulse (instagram, thing I want to google) - sometimes brain does this
+  without me even knowing it happened
+* maximize "endurance" - how much info I can parse every day. I notice iterative improvement
+
+- sequential IO can be 5000x faster (example in book)
+
+###### p395
+- The speedy nature of sequential writes is the impetus for "write-ahead logging" strategies
+  - converts random IO to sequential
+
+###### p396
+- concept of "working set", can be defined as time-based percentage. cache units (16kb in innodb)
+
+###### p397
+- memory/disk ratio. cache miss rate. Can infer from % time CPU used.
+- nonlinear relationship memory to cache miss rate (due to things like page size etc)
+
+###### p398
+- latecy/throughput of disks relates to access time and transfer speed
+- non-linear relationship of system resources to performance
+- good cache miss rate is a "fuzzy" concept
+
+###### p400
+- solid state drives faster at random and sequential IO. This is important to normalized databases
+  - slight improvement in sequential IO, huge improvement in random IO (since spin disks suck at random IO)
