@@ -1020,3 +1020,93 @@ innodb_data_file_path = ibdata1:1G;ibdata1:2G;ibdata3:1G;
 ###### p400
 - solid state drives faster at random and sequential IO. This is important to normalized databases
   - slight improvement in sequential IO, huge improvement in random IO (since spin disks suck at random IO)
+
+###### p401
+- SSDs have interesting characteristics due to physics. Write amplification, wear leveling. garbage collection. Can slow down when full.
+  - writes in big blocks (512kb). writes take hundreds of microseconds, erases take milliseconds (slower)
+
+###### p402
+- single-level-cell vs multi-level-cell. how many bits of storage per cell. Trade off density&speed vs reliability/durability
+
+###### p408
+- flashcache
+
+###### p411
+- innodb logs better suited for RAID w/ battery backed write cache and spinning disks... it's sequential write only and occasionally sequential read (recoveries)
+
+###### p412
+- suggestion to disable doublewrite buffer on flash storage because it's not necessary... interesting
+
+###### p414
+- hardware considerations for replica depend on whether it's being used for failover or additional read capacity
+
+###### p417
+- RAID doesn't eliminate need for backups.
+- 2 disks can actually fail simultaneously
+
+* Actually reading out loud seems to be helpful
+
+###### p418
+- background patrol read with RAID, avoid latent data loss
+- hot spare hard drive for when failures occur
+- raid cache batteries sometimes schedule discharge/recharge learn cycles and disable the cache, can affect perf
+
+###### p419
+- hardware limitations, bugs or misconfiguration can cause serialization of IO instead of parallel, leading to shitty performance
+- use sysbench to benchmark hardware to validate expected performance
+
+###### p420
+- good value in aligning all components of filesystem, innodb page size, filesystem blocks, LVM, partition offset, etc...
+
+###### p421
+- RAID controllers have a cache. It's pretty scarce. Using it for reads is
+  usually pointless since caching at higher levels accomplishes the same thing
+  but better. Most useful for caching writes.
+
+###### p423
+- SAN's have interesting perf characteristics. Good at sequential reads/writes, bad at random. High latency due to distance.
+
+###### p424
+- SAN's can be a good match for MySQL provided storage/retrieval carefully planned (lots of memory, avoid random IO)
+
+###### p430
+- https://en.wikipedia.org/wiki/Sysctl
+- https://en.wikipedia.org/wiki/Multi_Router_Traffic_Grapher
+- network trunking (connect multiple NICs)
+
+###### p435
+- MySQL needs kernel threads > userland threads (access multiple CPUs)
+
+###### p436
+- For obvious reasons, swapping is bad for MySQL
+
+###### p438
+- MySQL memlock option can prevent paging but will crash if memory runs out
+- vmstat useful tool. Most output in blocks/sec
+
+###### p441
+- "Little's law" https://en.wikipedia.org/wiki/Little%27s_law
+- using `iostat` to detect serialization
+
+###### p442
+- other good tools: dstat, collectl, mpstat, blktrace, pt-diskstats
+
+###### p443
+- write requests can be buffered, read requests are synchronous
+
+###### p447
+- replicas key for H/A and performance
+- statement-based replication and row-based replication
+- all replication is asynchronous, can't guarantee up-to-date
+
+###### p448
+- replciation backward compatible, newer versions can be replicas of older versions
+
+###### p449
+- replication: master binary log -> replica copies to relay log -> replica replays relay log to its own data
+
+###### p450
+- replica initiates binlog dump process on master, non-polling
+
+###### p451
+- replication is serialized on replica (single thread)
