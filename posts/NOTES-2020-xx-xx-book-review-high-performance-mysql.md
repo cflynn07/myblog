@@ -1100,7 +1100,7 @@ innodb_data_file_path = ibdata1:1G;ibdata1:2G;ibdata3:1G;
 - all replication is asynchronous, can't guarantee up-to-date
 
 ###### p448
-- replciation backward compatible, newer versions can be replicas of older versions
+- replication backward compatible, newer versions can be replicas of older versions
 
 ###### p449
 - replication: master binary log -> replica copies to relay log -> replica replays relay log to its own data
@@ -1110,3 +1110,22 @@ innodb_data_file_path = ibdata1:1G;ibdata1:2G;ibdata3:1G;
 
 ###### p451
 - replication is serialized on replica (single thread)
+
+###### p460
+- statement-based replication simple, low bandwidth, doesn't work well with triggers
+
+###### p461
+- mysql can switch row-based and statement based replication dynamically depending on situation
+
+###### p462
+- statement based replication can be better if working with different schemas
+
+###### p465
+- `log_slave_updates` use replica as master to other replica
+- globally unique server ID's important preventing infinite loop
+
+###### p466
+- replication filters, binary log on master, relay log on replica
+
+###### p470
+- master-master fraught with merge conflicts, super annoying
