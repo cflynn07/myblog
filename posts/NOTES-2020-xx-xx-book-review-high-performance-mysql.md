@@ -1129,3 +1129,42 @@ innodb_data_file_path = ibdata1:1G;ibdata1:2G;ibdata3:1G;
 
 ###### p470
 - master-master fraught with merge conflicts, super annoying
+
+###### p471
+- master-master active-passive mode 比較好用, a
+
+###### p473
+- master-master w/ replicas
+- master-master is special case of *ring replication*
+- ring replication depends on every node in ring working, otherwise failure (infinite loop possible if server removed)
+
+###### p475
+- each replica creates new thread on master that runs `binlog dump`
+- distribution master, offload serving binary logs
+  - distribution master can use blackhold storage engine (doesn't perform queries on disk)
+  - `slave_compressed_protocol`
+
+###### p476
+- distribution replicas wil make promoting replica to master more tricky, binlog coordinates will be different
+  - `pt-heartbeat` can help (measure mysql replication delay)
+  - https://www.percona.com/doc/percona-toolkit/LATEST/pt-heartbeat.html
+- pyramid design useful
+
+###### p477
+- selective replication, horizontal partitioning but for replicas only (master has all data)
+
+###### p478
+- selective replication, easiest way: separate databases on master
+- OLTP vs OLAP (large, low, don't require 100% up-to-date data)
+
+* Break from reading to learn about MySQL at Facebook & MyRocks
+* https://engineering.fb.com/core-data/myrocks-a-space-and-write-optimized-mysql-database/
+
+###### p482
+- replication capacity scaling diminishing returns. Hard to scale writes. Reads easier.
+
+###### p487
+- measure replication lag with heartbeat record. `pt-heartbeat` useful
+
+###### p489
+- `pt-table-sync` - fix replication servers when out of sync
