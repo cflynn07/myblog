@@ -1205,3 +1205,39 @@ innodb_data_file_path = ibdata1:1G;ibdata1:2G;ibdata3:1G;
 ###### p517
 - tungsten replicator https://docs.continuent.com/
 - tungsten allows mutli-master clusters, certain nodes tagged as system of record for certain data
+
+###### p525
+- linear scaling diagram, most systems slightly less than linear scaling
+- Dr. Neil J. Gunther's Universal Scalability Law
+- Guerrila Capacity Planning
+- Forecasting MySQL Scalability with the Universal Scalability Law
+- https://www.percona.com/resources/white-papers/forecasting-mysql-scalability-universal-scalability-law
+- Amdahl's Law https://en.wikipedia.org/wiki/Amdahl%27s_law
+  - predict the theoretical speedup when using multiple processors.
+
+###### p526
+- Eliyahu M. Goldratt "The Goal"
+
+###### p531
+- scale-out tactics: replication, partitioning, sharding
+- simplest & most common: replication (use replicas for read queries)
+- nodes can be: master-master replication pair, master & many replicas, active server distributed replicated block device, SAN
+
+###### p532
+- functional partitioning, separate areas of functionality to different MySQL servers (ex forums, news, support, users)
+  - obvious issue here is each "functional area" must scale vertically if trying to use only single MySQL node
+
+###### p534
+- to scale write capacity must partition data
+
+###### p535
+- primary sharding challenge is choosing a partitioning key
+
+###### p536
+- good sharind partitioning key candidates avoid chunks with disproportionately large data (think sharding by states, california is big)
+
+###### p541
+- fixed and dynamic shard allocation strategies
+- fixed: modulus and CRC32 are examples
+- fixed requires reallocation to expand number of "buckets"
+- dynamic allocation, example -> mapping table (user id to shard id)
