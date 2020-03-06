@@ -1168,3 +1168,40 @@ innodb_data_file_path = ibdata1:1G;ibdata1:2G;ibdata3:1G;
 
 ###### p489
 - `pt-table-sync` - fix replication servers when out of sync
+
+###### p493
+- recommendation, if master crashes:
+  1. promote replica to new master, 2. grab binlog off disk of old master to catch up new master, 3. allow client connections to new master
+- also consider using SANs or DRBD (distributed replicated block device) to preserve data
+
+###### p497
+- examining bytes of binlogs to solve corruption issues (check out more info on this)
+
+###### p499
+- issue arise replication mixing transactional/non-transactional tables
+- nondeterministic statements can lead to out of sync data on replicas
+
+###### p502
+- temporary tables don't work well with replication
+- workaround for temporary tables, use separate database w/ connection namespaced tables (`pt-find` helps remove)
+
+###### p503
+- `INSERT ... SELECT` locking can be contentious, alternative `SELECT INTO OUTFILE` and `LOAD DATA INFILE`
+
+###### p505
+- close quote: "writing to both masters in master-master replication is a terrible idea"
+- possible to "interleave" auto increments on 2 servers
+
+###### p507
+- good idea design apps tolerate replication lag
+- https://www.slideshare.net/JeanFranoisGagn/how-bookingcom-avoids-and-deals-with-replication-lag
+
+###### p508
+- avoiding large group-by queries on all replicas by moving off master to single replica and then pushing results back to master
+
+###### p515
+- semisynchronous replication (transaction commit doesn't complete on master until at least one replica has the data)
+
+###### p517
+- tungsten replicator https://docs.continuent.com/
+- tungsten allows mutli-master clusters, certain nodes tagged as system of record for certain data
