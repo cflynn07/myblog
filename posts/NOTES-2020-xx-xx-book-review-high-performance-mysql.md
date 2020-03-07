@@ -1241,3 +1241,32 @@ innodb_data_file_path = ibdata1:1G;ibdata1:2G;ibdata3:1G;
 - fixed: modulus and CRC32 are examples
 - fixed requires reallocation to expand number of "buckets"
 - dynamic allocation, example -> mapping table (user id to shard id)
+
+###### p543
+- can combine fixed & dynamic sharding, example take data and hash into fixed number of buckets, then dynamically assign those buckets to nodes
+- explicit allocation, advantage is objectid contains shard id
+
+###### p545
+- dynamically toggle "full" property on shards in application
+- also can use many replicas of a shard for improved reads
+- `auto_increment_increment` and `auto_increment_offset` help generate globally unique IDs multiple servers
+
+###### p546
+- repeat that GUIDs aren't good primary keys since non-sequential (slower inserts) (also large)
+
+###### p547
+- advocate running multiple mysql instances per server to better use available resources
+
+###### p550
+- MySQL cluster: NDB database (network database) and MySQL
+
+* cli "title bar" tool for tmux replication demo blog post
+
+###### p552
+- "akiban" - can replicate mysql and serve read queries, interleaves rows from different tables for more performant joins
+
+###### p556
+- https://www.proxysql.com/ interesting
+* use mysql proxying in blog post?
+
+
