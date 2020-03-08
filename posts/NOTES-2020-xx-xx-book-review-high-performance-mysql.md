@@ -1269,4 +1269,101 @@ innodb_data_file_path = ibdata1:1G;ibdata1:2G;ibdata3:1G;
 - https://www.proxysql.com/ interesting
 * use mysql proxying in blog post?
 
+###### p557
+- load balancing in application potentially very efficient
 
+###### p560
+- DNS not controllable, therefore not great for load balancing 
+- ARP Address Resolution Protocol for virtual IPs
+
+###### p563
+- When adding new MySQL server to load balanced setup, can mirror SELECT queries to warm cache before adding to rotation
+
+###### p567
+- 99.999% uptime = 5 mins downtime a year
+
+###### p569
+- top downtime source; operating environment -> disk space
+- high availability achievement: proactively prevent downtime, prepare to recover quickly from downtime
+- MTBF mean time between failures
+- MTTR mean time to recovery
+
+###### p570
+- large dummy file you can delete if filesystem becomes full... lol
+
+###### p571
+- Malcolm Gladwell essay on Challenger in What the Dog Saw
+- https://web.mit.edu/2.75/resources/random/How%20Complex%20Systems%20Fail.pdf
+
+###### p572
+- All downtime incidents are caused by multiple failures in combination
+  - example, data loss: loss of data and not having backups
+
+###### p574
+- DRBD - duplicates disk on another machine over network, linux kernel feature
+
+###### p576
+- *favorite* way to use DRBD replicate device with binary logs
+
+###### p576
+- NDB Cluster / MySQL cluster offers a form of synchronous MySQL replication
+
+###### p577
+- NDBC can do eventual-consistency (per transaction conflict detection and resolution)
+
+###### p578
+- https://en.wikipedia.org/wiki/Optimistic_concurrency_control
+- probably sexiest thing about Percona XtraDB: synchronous replication. All nodes can handle reads
+
+###### p584
+- need to read up on virtual IP addresses, Address Resolution Protocol
+- STONITH - shoot the other node in the head
+
+###### p590
+- George Reese "Cloud Application Architecture" (I skimmed the TOC, looks too simple and kinda old)
+- Accessing additional resources from min guaranteed capacity can make capacity planning more complex
+
+###### p600
+- AWS RDS basically MySQL, EC2, EBS (at least it was at time of writing, looks like its SSD based now)
+
+###### p607
+- persistent connections "generally bad idea" except if slow network, making so many connections running out of ports
+- connection pooling and persistent connections a little confusing
+- connection pools can queue requests when pool is busy (makes req wait on app server)
+
+###### p611
+- `pt-tcp-model` https://www.percona.com/doc/percona-toolkit/2.1/pt-tcp-model.html
+
+* I should explore the whole percona toolkit suite in detail
+
+###### p617
+- reminder that cache importance can creep up as time goes on, making it a critical point of the infrastructure
+
+* Mind wants to turn the channel a lot, is this ADD or just normal?
+
+###### p618
+- HandlerSocket, bypass upper layer of MySQL server and access innodb handler directly
+
+###### p619
+- Brian Aker has articles about storage engines
+- appears to be this: https://krow.livejournal.com/513146.html
+
+###### p621
+- Curtis Preston "Backup & Recovery"
+- hot, cold, warm backups - overloaded terms
+- restore: fetching files and placing them in right spots, recover: entire process of rescuing a system
+
+###### p623
+- RPO recovery point objective
+- RTO recovery time objective
+
+###### p624
+- replicas and RAIDs are not backups
+- logical backups too slow large databases, need raw backups (good idea to periodically extract logical from raw)
+- binary logs essential for PIT recovery
+
+###### p625
+- hard vs soft point-in-time recovery
+
+###### p629
+- innodb raw files bigger than logical backups because unused space
