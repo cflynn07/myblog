@@ -1367,3 +1367,19 @@ innodb_data_file_path = ibdata1:1G;ibdata1:2G;ibdata3:1G;
 
 ###### p629
 - innodb raw files bigger than logical backups because unused space
+
+###### p630
+- differential and incremental backups
+
+###### p634
+- replicas very useful for backups
+- `pt-slave-delay` intentional replica delay for backups
+
+###### p636
+- good idea to have mysql itself handle purging binary logs from disk instead of using `rm`
+
+###### p637
+- logical backups: sql dumps & delimited fies
+
+###### p640
+- filesystem snapshots/backups are great
