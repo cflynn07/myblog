@@ -1389,3 +1389,12 @@ innodb_data_file_path = ibdata1:1G;ibdata1:2G;ibdata3:1G;
 
 ###### p657
 - `innodb_force_recovery` https://dev.mysql.com/doc/refman/8.0/en/forcing-innodb-recovery.html
+
+###### p661
+- mysqldump can only lock and dump 1 database at a time
+
+###### p673
+- innotop cli monitoring tool
+
+###### p680
+- percona server easy to use, just stop mysql process and start percona (uses same files)
