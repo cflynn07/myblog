@@ -1383,3 +1383,9 @@ innodb_data_file_path = ibdata1:1G;ibdata1:2G;ibdata3:1G;
 
 ###### p640
 - filesystem snapshots/backups are great
+
+###### p656
+- hardware most common inndodb corruption source, lying fsync
+
+###### p657
+- `innodb_force_recovery` https://dev.mysql.com/doc/refman/8.0/en/forcing-innodb-recovery.html
