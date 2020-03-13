@@ -1398,3 +1398,6 @@ innodb_data_file_path = ibdata1:1G;ibdata1:2G;ibdata3:1G;
 
 ###### p680
 - percona server easy to use, just stop mysql process and start percona (uses same files)
+
+###### p682
+- drizzle is abandoned
