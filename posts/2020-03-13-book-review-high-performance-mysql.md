@@ -61,8 +61,8 @@ indexes, hash indexes, clustering indexes, composite indexes, query parsing,
 index selectivity, selective denormalization strategies, MySQL statistics and
 logging, etc.
 
-The book even recommends other books for guidance on how to go deeper. One book
-the book recommends that I plan to read is "Relational Database Index Design
+The book even recommends other books for guidance on how to go deeper. One
+recommended book I plan to read is "Relational Database Index Design
 and the Optimizers" by Mike Leach and Tapio Lahdenmaki. I particularly thought
 the "3 star" ranking system for quantifying the utility of indexes was
 interesting.
@@ -77,5 +77,19 @@ The book covers scaling in great detail. Both scaling up and scaling out
 With intelligent adaptation of these tools, the authors explain how MySQL can
 scale to match the read/write capacity needs of even Facebook.
 
+Also covered, backups and high availability. Naturally the database and the
+data within is an incredibly critical part of a system. Having backups and
+restoring from those backups is obviously important. High Performance MySQl
+covers this.
 
-# the covering of how to scale up & out (partitioning and sharding
+Lastly the authors are closely tied with Percona, a drop in replacement for
+MySQL. Throughout the book they highlight the utility of their company's tools
+(such as
+[percona-toolkit](https://www.percona.com/software/database-tools/percona-toolkit))
+and the advantages/differences of their "flavor" of MySQL.
+
+High Performance MySQL was a great read and I'd recommend it to anyone looking
+to enhance their "tree trunk of understanding" on MySQL/RDBMSs. It's old and
+partially dated but still worthwhile to purchase. Through reading this book I
+feel my focusing abilities have been enhanced and I'm looking foward to
+tackling the next book in my queue.
