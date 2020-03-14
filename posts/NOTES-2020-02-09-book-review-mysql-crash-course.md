@@ -1,5 +1,3 @@
-
-Notes
 - deprecation of mysql query browser for mysql workbench
 - use of mycli
 - p65 tips for using wildcards, avoid wildcard at start of string - performance

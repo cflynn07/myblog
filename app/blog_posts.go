@@ -21,6 +21,7 @@ var bpKeys = make([]string, 5)
 var bp = make(blogPosts, 5)
 
 func init() {
+	post2020_03_14 := "2020-03-14-advanced-mysql-docker-tmux-demo"
 	post2020_03_13 := "2020-03-13-book-review-high-performance-mysql"
 	post2020_02_09 := "2020-02-09-book-review-mysql-crash-course"
 	post2020_01_18 := "2020-01-18-new-tricks"
@@ -32,6 +33,7 @@ func init() {
 
 	// Order determines post listing order. Newest entry at lowest index.
 	bpKeys = []string{
+		post2020_03_14,
 		post2020_03_13,
 		post2020_02_09,
 		post2020_01_18,
@@ -42,6 +44,12 @@ func init() {
 		post2019_02_26,
 	}
 
+	bp[post2020_03_14] = &postData{
+		Title:       "Advanced MySQL demo using docker, tmux, tmuxinator",
+		Description: template.HTML(""),
+		Keywords:    []string{},
+		Date:        time.Date(2020, time.March, 14, 0, 0, 0, 0, time.UTC),
+	}
 	bp[post2020_03_13] = &postData{
 		Title:       "Book Review: High Performance MySQL and thoughts on digesting dense technical books",
 		Description: template.HTML("High Performance MySQL by Baron Schwartz, Peter Zaitsev and Vadim Tkachenko. A deep dive into MySQL/RDBMSs and dense technical books"),

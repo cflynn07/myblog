@@ -1,3 +1,5 @@
+[My notes from reading MySQL Crash Course](https://gist.github.com/cflynn07/41b79ad0c2fbc5d2ec4475f6aeefefba)
+
 <img src="/static/images/mysql-crash-course.png" style="width:50%;">
 
 "MySQL Crash Course" by Ben Forta is a somewhat outdated, yet still useful
