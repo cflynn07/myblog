@@ -46,7 +46,7 @@ func init() {
 
 	bp[post2020_03_14] = &postData{
 		Title:       "Advanced MySQL demo using docker, tmux, tmuxinator",
-		Description: template.HTML(""),
+		Description: template.HTML("Using containers with tmux and tmuxinator to visualize demos"),
 		Keywords:    []string{},
 		Date:        time.Date(2020, time.March, 14, 0, 0, 0, 0, time.UTC),
 	}
