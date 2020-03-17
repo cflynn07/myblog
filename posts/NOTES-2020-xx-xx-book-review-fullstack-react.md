@@ -118,3 +118,22 @@ side read: https://itnext.io/property-initializers-what-why-and-how-to-use-it-56
 
 # p77
 - react property defaultValue
+
+# p81
+- bottom level components known as leaf components
+
+# p82
+- https://reactjs.org/docs/thinking-in-react.html
+  - also references single responsibility principle
+  - build top down or bottom up
+  - if passed in from parent via props not state?
+
+# p83
+- forms specia state managers (stateful situation even when properties are passed down from parent)
+- sometimes make parent components just for holding state
+
+# p84
+- TimersDashboard logical home of state not EditableTimerList because of need to create
+
+# p91
+- avoid initializing state of input field to `undefined`
