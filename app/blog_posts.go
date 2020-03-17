@@ -21,6 +21,7 @@ var bpKeys = make([]string, 5)
 var bp = make(blogPosts, 5)
 
 func init() {
+	post2020_xx_xx := "NOTES-2020-xx-xx-book-review-fullstack-react"
 	post2020_03_14 := "2020-03-14-advanced-mysql-docker-tmux-demo"
 	post2020_03_13 := "2020-03-13-book-review-high-performance-mysql"
 	post2020_02_09 := "2020-02-09-book-review-mysql-crash-course"
@@ -33,6 +34,7 @@ func init() {
 
 	// Order determines post listing order. Newest entry at lowest index.
 	bpKeys = []string{
+		post2020_xx_xx,
 		post2020_03_14,
 		post2020_03_13,
 		post2020_02_09,
@@ -44,6 +46,12 @@ func init() {
 		post2019_02_26,
 	}
 
+	bp[post2020_03_14] = &postData{
+		Title:       "Book Review: Fullstack React, The Complete Guide to ReactJS and Friends",
+		Description: template.HTML(""),
+		Keywords:    []string{},
+		Date:        time.Date(2020, time.March, 14, 0, 0, 0, 0, time.UTC),
+	}
 	bp[post2020_03_14] = &postData{
 		Title:       "Advanced MySQL demo using docker, tmux, tmuxinator",
 		Description: template.HTML("Using containers with tmux and tmuxinator to visualize demos"),
