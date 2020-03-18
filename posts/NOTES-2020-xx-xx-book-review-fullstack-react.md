@@ -189,3 +189,76 @@ curl -X POST \
 # p146
 - JSX attributes need values, ex:
 `<input name='foo' disabled={true} />` {true} required
+
+# p147
+- spread syntax 好用 <Component {...props} />
+
+# p148
+- recommendation npm package `classnames`
+- for/htmlFor gotcha
+- html entitites/emoji "gotcha"
+
+# p150
+- html element attributes must be prefixed with `data-`
+
+# p151
+- aria accessability attributes
+- TODO: read links on p151
+
+# p153
+- contrast of ReactComponent vs ReactElement, ReactComponent.render() returns ReactElement
+
+# p157
+- `context` introduced "implicit props"
+
+# p158
+- `propTypes` introduced
+
+# p159
+- proptypes can validate simple scalar types or do more complex validations
+- `defaultProps`
+
+# p160
+- pass context to all kids: `childContextTypes` and `getChildContext`
+
+# p162
+- example of `childContextTypes` and `getChildContext()` in a component
+
+# p163
+- `contextTypes` in child element tells react what context properties the child wants
+so in short:
+PARENT: [childContextTypes{} + getChildContext()] --> CHILD: [contextTypes{}]
+
+# p164
+- first example of require() on css file
+
+# p165
+- functional stateless components
+- context global potential good use case: logged in user
+
+# p169
+- render function onClick value calls a func that returns a func
+
+# p171
+- webpack CSS encapsulation
+
+# p172
+- stateful components required class property `state`
+
+# p173
+- remember constructor run once and before component mounted
+
+# p174
+- *pass function to setState(), when state update depends on current state, preferable to pass function
+- setState asynchronous
+- example of user spamming the decrement button faster that state asynch updates
+```
+this.setState((prevState) => {
+  return {
+    value: prevState.value - 1
+  }
+})
+```
+
+# p176
+- mitigate/minimize complex states build apps single stateful component composed of stateless components
