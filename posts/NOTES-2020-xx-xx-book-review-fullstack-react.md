@@ -137,3 +137,22 @@ side read: https://itnext.io/property-initializers-what-why-and-how-to-use-it-56
 
 # p91
 - avoid initializing state of input field to `undefined`
+- introduction of input fields initialized by state becoming out of sync
+
+# p92
+- React onChange attribute
+- combination of `value` and `onChange` attributes is how form elements are handled in react
+
+# p96
+- noticing naming strategy
+  - name of method passed down to child: `onSomethingSomething` (comes in on props)
+  - name of custom component method that "calls up" `handleSomethingSomethin`
+  - EX: <foo onSomethingSomething={this.handleSomethingSomething}></foo>
+
+# p108
+- `forceUpdate` introduced
+- `componentDidMount` `componentWillUnmount`
+
+# p112
+- another example of 'wiring up' event handling propagation from child to parent components
+
