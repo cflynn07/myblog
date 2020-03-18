@@ -156,3 +156,36 @@ side read: https://itnext.io/property-initializers-what-why-and-how-to-use-it-56
 # p112
 - another example of 'wiring up' event handling propagation from child to parent components
 
+# p122
+```
+NOW="$(date +%s)000"
+# UUID=$(uuidgen | tr '[:upper:]' '[:lower:]')
+UUID="a73c1d19-f32d-4aff-b470-cea4e792406a"
+DATA=$(printf '{"start":%s,"id":"%s"}' $NOW $UUID)
+curl -X POST \
+  -H 'Content-Type: application/json' \
+  -d "$DATA" \
+  http://localhost:3000/api/timers/start
+```
+
+# p126
+- since I was last paying attention, AJAX handled by "fetch" object/api in browsers
+
+# p130
+- JS Date object doesn't stringify as presented in book?
+
+# p135
+- The virtual DOM introduced, tree of React elements
+- virtual dom vs shadow dom
+- https://www.webcomponents.org/community/articles/introduction-to-shadow-dom
+- https://developers.google.com/web/fundamentals/web-components/shadowdom?hl=en
+
+# p141
+- introduction of ReactText object
+
+# p143
+- Explanation of react parser and jsx (javascript syntax extension)
+
+# p146
+- JSX attributes need values, ex:
+`<input name='foo' disabled={true} />` {true} required
