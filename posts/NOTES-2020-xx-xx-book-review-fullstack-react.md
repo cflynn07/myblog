@@ -262,3 +262,41 @@ this.setState((prevState) => {
 
 # p176
 - mitigate/minimize complex states build apps single stateful component composed of stateless components
+
+# p177
+- extracting some functionality of Switch to stateless component Choice
+
+# p179
+- props.children, sort of 'transposing' elements
+EX:
+<Container>STUFF</Container
+class Container extends React.Component {
+  render () {
+    return (
+      <div className='container'>{this.props.children}</div>
+    )
+  }
+}
+^ "STUFF" will be wrapped in div.container
+
+# p180
+- propTyes.oneOf()
+static propTypes = {
+  children: PropTypes.oneOf([...])
+}
+
+# p181
+- React.Children.map()
+- React.Children.forEach()
+- React.cloneElement()
+- React.createElement()
+
+# p182
+- example of "wrapping" each element in a list of child elements with a wrapper component
+  - makes use of React.Children.map()
+
+# p183
+- React.Children.toArray()
+
+# p184
+- coming in next ch, lifecycle methods like `componentWillUpdate()` - useful for stuff like form validation
