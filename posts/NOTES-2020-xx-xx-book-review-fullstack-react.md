@@ -321,3 +321,15 @@ static propTypes = {
 
 # p197
 - converting form elements to controlled has advantages, validation, localstorage for persisting 1/2 completed
+
+# p199
+- Create ReactComponent for individual form elements to do realtime validation
+
+# p210
+- introduce componentWillReceiveProps() lifecycle method
+
+# p212
+- exploration of validation at field and form level
+
+# p218
+- CouseSelect component, heirarichal w/ server-side data
