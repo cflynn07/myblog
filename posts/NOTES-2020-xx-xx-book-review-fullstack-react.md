@@ -333,3 +333,41 @@ static propTypes = {
 
 # p218
 - CouseSelect component, heirarichal w/ server-side data
+- `_loading` naming convention used to indicate presentational state
+
+# p219
+- another example of `componentWillReceiveProps()` - when parent component will pass in list of "courses" per department
+
+# p221
+- splitting render() function into parts
+
+# p222
+- `...this.state.courses.map((course, i) =>` example of spread operator to populate a list
+
+# p227
+- example of lazily enforced ENUM variable
+
+# p229
+- localStorage
+
+# p231
+- example of inline object literal selection for reactElement: {{SAVING: <>, ERROR: <>}[STATE]}
+
+# p233
+- dun dun dun... REDUX
+- redux reducers and actions
+- moving component state to redux store (now read-only props)
+
+# p234
+- REDUX action types, corresponding action creator functions
+
+# p235
+- asynchronous action creators -> return functions that dispatch actions
+- asynchronous action creators not supported by default, `redux-thunk` middleware
+
+* It's weird that the book just dives into talking about reduct action creators and reducers without explaining them
+
+asynch action creators return functions -> these functions call action creators -> these AC's call 'dispatch()' when then calls the reducer
+
+# p238
+- moving to using redux, components wont interact with API client at all and shift dependence from component-level state to props
