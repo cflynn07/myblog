@@ -300,3 +300,24 @@ static propTypes = {
 
 # p184
 - coming in next ch, lifecycle methods like `componentWillUpdate()` - useful for stuff like form validation
+
+# p188
+- SyntheticMouseEvent && .nativeEvent (cross browser standardization wrapper)
+
+# p189
+- onMouseMove, (other event handler props listed) - also other groups of events (ex keyboard, focus, animation, transition, etc)
+
+# p191
+- shared event handler func for button (using event object to determine which button clicked)
+
+# p192
+- using 'refs' property to access DOM elements in a component (useful in forms for getting values)
+
+# p195
+- must use `key` property when children in iterator (read Dynamic Children docs)
+
+# p196
+- controlled v/ uncontrolled components (text field accessed via event object) (react is not controlling the input field, therefore uncontrolled)
+
+# p197
+- converting form elements to controlled has advantages, validation, localstorage for persisting 1/2 completed
