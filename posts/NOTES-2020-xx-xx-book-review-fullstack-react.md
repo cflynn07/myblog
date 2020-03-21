@@ -371,3 +371,36 @@ asynch action creators return functions -> these functions call action creators 
 
 # p238
 - moving to using redux, components wont interact with API client at all and shift dependence from component-level state to props
+
+# p242
+- `const store = createStore(reducer, applyMiddleware(thunkMiddleware))`
+- react-redux -> connect()
+  - mapStateToProps: definies mapping store -> props
+  - mapDispatchToProps: connection between props.onSubmit() and dispatch action creator
+
+# p244
+- redux-store -> Provider: component that makes store available to children
+- various form module projects
+
+# p247
+- webpack modules
+
+# p249
+- everyone loves webpack
+- Create React App project
+
+# p251
+- Create React App 'eject' feature
+
+# p256
+- example of webpack requiring non js files
+- book indicates ReactComponent is module (App)
+
+# p257
+- heart-webpack project index.js why `React` imported not used? answer: JSX resulting transformation uses it
+
+# p262
+- breakdown of how webpack bundles various files. bundle is served from server on the fly.
+
+# p270
+- source maps, uglification, minification
