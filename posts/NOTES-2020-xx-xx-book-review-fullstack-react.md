@@ -435,3 +435,26 @@ const wrapper = Enzyme.shallow(
 # p333
 - input.simulate() will re-render so any cached find() returned Enzyme Wrapper elements will be stale
 
+# p354
+- jest has a mocking library. Convenience method will mock all function properties:
+`jest.mock('../src/Client')`
+* zone out sometimes because too complicated (requiring a lot of side googling) and sometimes because way too simple
+
+# p357
+- "antipode"... had to google that. Just say "opposite"...
+
+# p362
+- shallow rendered components do not automaticall rerender when state changes like normally rendered components
+- must call ShallowComponent.update() after simulate()
+
+# p375
+- nightwatch.js looks interesting
+
+# p378
+- basic SPA stuff
+
+# p390
+- History.js cross browser compatible history API library
+
+# p398
+- second object passed to stateless functional component is `context`
