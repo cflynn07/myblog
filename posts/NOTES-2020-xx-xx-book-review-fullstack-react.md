@@ -404,3 +404,34 @@ asynch action creators return functions -> these functions call action creators 
 
 # p270
 - source maps, uglification, minification
+
+# p284
+- webpack development proxy convenient way to avoid dealing with CORS
+
+# p306
+- book focuses primarily on unit tests instead of integration tests (tests components)
+- shallow rendering, not actually using the DOM just using the virtual DOM for testing
+  - doesn't instantiate children
+  - `react-test-renderer` and `Enzyme`
+```
+const wrapper = Enzyme.shallow(
+  <App />
+)
+```
+
+# p316
+- Enzyme contains() method explained with test 
+- containsMatchingElement()
+
+# p318
+- wrapper.find() method demo'd
+
+# p322
+- behavior-driven style
+
+# p323
+- demonstration of Enzyme API simulate browser UI interaction (populate text in input) simulate()
+
+# p333
+- input.simulate() will re-render so any cached find() returned Enzyme Wrapper elements will be stale
+
