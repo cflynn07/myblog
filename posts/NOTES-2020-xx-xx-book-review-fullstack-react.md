@@ -458,3 +458,15 @@ const wrapper = Enzyme.shallow(
 
 # p398
 - second object passed to stateless functional component is `context`
+
+# p400
+- I'm initially slightly confused about the "redirect" component
+
+# p409
+- `exact` attribute for route components
+
+# p410
+- Route components wrapped in Switch component: only first matching Route will be displayed
+
+# p432
+- DRY component strategy (close button album component)
