@@ -470,3 +470,49 @@ const wrapper = Enzyme.shallow(
 
 # p432
 - DRY component strategy (close button album component)
+
+# p437
+- NavLink component introduced, automatically adds style attributes (activeClassName)
+
+# p440
+- had to replace the book provided spotify app id and secret with one of my own prob bc rate limiting
+
+# p447
+- PrivateRoute component concept introduced
+
+# p448
+- Higher order component, component that wraps another component
+
+# p451
+- redirect state, redirect app back to component that redirected to a login component
+
+# p457
+- component-state paradigm
+- "Flux is a design pattern" predecessor: MVC
+
+# p458
+- FLUX: action -> dispatcher -> store -> view \/
+          ^------------------------------------|
+
+# p459
+- Redux is the community favorite implementation of flux
+- Redux is like 100 lines of code
+- All application data called state which lives in store
+
+# p460
+- views emit actions
+- new state is created (merging old state with action) by reducer
+
+# p467
+- In react, only store has access to reducer
+- redux.createStore()
+
+# p482
+- introduction of "observer" pattern
+* running my finger across pages is helpful for focusing
+
+# p490
+- moving from passing functions down to child components for state modification to allowing
+  child components to directly touch the store
+
+# 
