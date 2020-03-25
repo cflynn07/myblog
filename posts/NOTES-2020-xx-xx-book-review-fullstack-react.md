@@ -530,4 +530,13 @@ const wrapper = Enzyme.shallow(
   - state.activeThreadId -- activeThreadIdReducer()
   - state.threads -- threadsReducer()
 
+# p541
+- moving initialState into reducers
 
+# p547
+- presentational vs container components
+  - presentational just render HTML, don't know about store
+  - presentational accepts props from container component
+
+# p548
+- container: <ThreadTabs>, presentational: <Tabs>
