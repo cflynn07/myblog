@@ -523,3 +523,11 @@ const wrapper = Enzyme.shallow(
 
 # p528
 - reducer composition
+
+# p529
+- top level reducer "reducer", sub-reducers namespaced by state property
+- EX:
+  - state.activeThreadId -- activeThreadIdReducer()
+  - state.threads -- threadsReducer()
+
+
