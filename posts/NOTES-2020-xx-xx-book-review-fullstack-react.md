@@ -515,4 +515,11 @@ const wrapper = Enzyme.shallow(
 - moving from passing functions down to child components for state modification to allowing
   child components to directly touch the store
 
-# 
+# p516
+- Example of keeping reducer a pure function and not mutating objects when dealing with updating properties on nested state objects
+
+# p517
+- Discussion of spread operator for objects
+
+# p528
+- reducer composition
