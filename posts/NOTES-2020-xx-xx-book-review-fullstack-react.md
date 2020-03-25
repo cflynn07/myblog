@@ -540,3 +540,10 @@ const wrapper = Enzyme.shallow(
 
 # p548
 - container: <ThreadTabs>, presentational: <Tabs>
+
+# p554
+- approach isolates all knowledge of redux to container components
+
+# p555
+- exampe of presentational component composed of 2 child presentational components
+- TextFieldSubmit is a class component that's also a presentational component*
