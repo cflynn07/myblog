@@ -547,3 +547,6 @@ const wrapper = Enzyme.shallow(
 # p555
 - exampe of presentational component composed of 2 child presentational components
 - TextFieldSubmit is a class component that's also a presentational component*
+
+# p561
+- react-redux glue container-presentational components
