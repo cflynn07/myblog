@@ -550,3 +550,29 @@ const wrapper = Enzyme.shallow(
 
 # p561
 - react-redux glue container-presentational components
+- react-redux.connect generates container components
+
+# p562
+- Provider component, wrap top level component in this. Made available to all child components
+  via context
+
+# p571
+- Covering final callback function to connect, merging stateProps and dispatchProps
+
+# p573
+- introduction of the action creators pattern
+
+# p575
+- benefit action creators, list all possible actions in one place
+
+# p581
+- graphql type system: living form of documentation
+
+# p591
+- graphql queries must be specified in way that is entirely scalar types
+
+# p592
+- graphql field arguments can be complex objects not just scalar types
+
+# p599
+- in graphql, all nodes should have globally unique ID's. This allows top level field to query nodes arbitrarily by id
