@@ -13,6 +13,7 @@ type postData struct {
 	Date           time.Time
 	Content        string
 	ContentPreview string
+	Image          string
 }
 
 type blogPosts map[string]*postData
@@ -21,6 +22,7 @@ var bpKeys = make([]string, 5)
 var bp = make(blogPosts, 5)
 
 func init() {
+	post2020_03_27 := "2020-03-27-quantifying-and-time-tracking-reading"
 	post2020_03_14 := "2020-03-14-advanced-mysql-docker-tmux-demo"
 	post2020_03_13 := "2020-03-13-book-review-high-performance-mysql"
 	post2020_02_09 := "2020-02-09-book-review-mysql-crash-course"
@@ -33,6 +35,7 @@ func init() {
 
 	// Order determines post listing order. Newest entry at lowest index.
 	bpKeys = []string{
+		post2020_03_27,
 		post2020_03_14,
 		post2020_03_13,
 		post2020_02_09,
@@ -44,28 +47,35 @@ func init() {
 		post2019_02_26,
 	}
 
+	bp[post2020_03_27] = &postData{
+		Title:       "Quantifying and Time Tracking My Reading",
+		Description: template.HTML("Using quantification and measuring techniques with Google Sheets to track my technical reading progress."),
+		Keywords:    []string{},
+		Date:        time.Date(2020, time.March, 27, 0, 0, 0, 0, time.UTC),
+		Image:       "/static/images/fullstack-react-time-tracking.png",
+	}
 	bp[post2020_03_14] = &postData{
 		Title:       "Advanced MySQL demo using docker, tmux, tmuxinator",
-		Description: template.HTML(""),
+		Description: template.HTML("Using containers with tmux and tmuxinator to visualize demos"),
 		Keywords:    []string{},
 		Date:        time.Date(2020, time.March, 14, 0, 0, 0, 0, time.UTC),
 	}
 	bp[post2020_03_13] = &postData{
 		Title:       "Book Review: High Performance MySQL and thoughts on digesting dense technical books",
 		Description: template.HTML("High Performance MySQL by Baron Schwartz, Peter Zaitsev and Vadim Tkachenko. A deep dive into MySQL/RDBMSs and dense technical books"),
-		Keywords:    []string{},
+		Keywords:    []string{"book review"},
 		Date:        time.Date(2020, time.March, 13, 0, 0, 0, 0, time.UTC),
 	}
 	bp[post2020_02_09] = &postData{
 		Title:       "Book Review: MySQL Crash Course",
 		Description: template.HTML("My thoughts after reading MySQL Crash Course by Ben Forta"),
-		Keywords:    []string{},
+		Keywords:    []string{"book review"},
 		Date:        time.Date(2020, time.February, 9, 0, 0, 0, 0, time.UTC),
 	}
 	bp[post2020_01_18] = &postData{
 		Title:       "New Tricks",
 		Description: template.HTML("A few new tricks and techniques I've recently incorporated into my workflow: (peco, yank, vim -, \"*yy register usage, hexyl, bat, bropages)"),
-		Keywords:    []string{},
+		Keywords:    []string{"shell scripting", "bash", "programming"},
 		Date:        time.Date(2020, time.January, 18, 0, 0, 0, 0, time.UTC),
 	}
 	bp[post2019_12_23] = &postData{
