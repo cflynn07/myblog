@@ -576,3 +576,6 @@ const wrapper = Enzyme.shallow(
 
 # p599
 - in graphql, all nodes should have globally unique ID's. This allows top level field to query nodes arbitrarily by id
+
+# 600
+- top level "viewer" field, current user and connections to user
