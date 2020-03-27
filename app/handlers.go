@@ -30,6 +30,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 		BlogPosts     blogPosts
 		BlogPostsKeys []string
 		Path          string
+		PageHasPost   bool
 	}
 
 	hpv := homePageVars{
@@ -37,6 +38,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 		BlogPosts:      bp,
 		BlogPostsKeys:  bpKeys,
 		Path:           "/",
+		PageHasPost:    false,
 	}
 
 	for key, value := range bp {
@@ -75,11 +77,13 @@ func PostHandler(w http.ResponseWriter, r *http.Request) {
 		BlogPost     template.HTML
 		BlogPostMeta *postData
 		Path         string
+		PageHasPost  bool
 	}
 
 	ppv := postPageVars{
 		globalPageVars: gpv,
 		Path:           "/posts/" + vars["slug"],
+		PageHasPost:    true,
 	}
 
 	templateLayout, err := templateBox.FindString("layout.html")
@@ -142,12 +146,14 @@ func PostHandler(w http.ResponseWriter, r *http.Request) {
 func AboutHandler(w http.ResponseWriter, r *http.Request) {
 	type aboutPageVars struct {
 		globalPageVars
-		Path string
+		Path        string
+		PageHasPost bool
 	}
 
 	apv := aboutPageVars{
 		globalPageVars: gpv,
 		Path:           "/about",
+		PageHasPost:    false,
 	}
 
 	templateLayout, err := templateBox.FindString("layout.html")
@@ -171,12 +177,14 @@ func CatchAllHandler(w http.ResponseWriter, r *http.Request) {
 
 	type notFoundPageVars struct {
 		globalPageVars
-		Path string
+		Path        string
+		PageHasPost bool
 	}
 
 	nfpv := notFoundPageVars{
 		globalPageVars: gpv,
 		Path:           "",
+		PageHasPost:    false,
 	}
 
 	templateLayout, err := templateBox.FindString("layout.html")
