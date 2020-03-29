@@ -579,3 +579,19 @@ const wrapper = Enzyme.shallow(
 
 # 600
 - top level "viewer" field, current user and connections to user
+
+# 619
+- `__schema` & `__type` introspection meta field
+
+# p621
+- GraphQL type system tracks whether types can be null or not
+- logical code errors in book examples [key/id]
+
+# p631
+- GraphQL node interfacet `resolveType` function - informs graphql engine what node type to return
+
+# p637
+- graphql can "look ahead" to do JOINS
+
+# p539
+- argument `info` to resolve() no longer has `.fieldASTs` property -- renamed .fieldNodes
