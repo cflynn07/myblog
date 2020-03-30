@@ -595,3 +595,9 @@ const wrapper = Enzyme.shallow(
 
 # p539
 - argument `info` to resolve() no longer has `.fieldASTs` property -- renamed .fieldNodes
+
+# p653
+- "GraphQL schemas should not handle authorization logic directly...that responsibility should fall into the underlying data loading libraries or services."
+
+# p659
+- graphql-relay-js package introduced (npm install graphql-relay)
