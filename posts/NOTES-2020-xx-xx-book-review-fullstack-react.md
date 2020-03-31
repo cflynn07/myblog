@@ -601,3 +601,37 @@ const wrapper = Enzyme.shallow(
 
 # p659
 - graphql-relay-js package introduced (npm install graphql-relay)
+
+# p661
+- N+1 query problem: example, N database queries for finding ID's and then 1 query each for the related object
+
+# p662
+- DataLoader library introduced https://github.com/graphql/dataloader
+  - intelligently batches together multiple database requests
+
+# p667
+- Relay, the glue between graphql and react
+
+# p673
+- react-relay has a lot of major releases... we're on 8.0? Book might be fairly out of date
+
+# p674
+- relay/redux essentially incompatible, both want to be central store of state
+- Relay additional GraphQL requirements
+  - 1. fetch any object by id
+  - 2. traverse relationships between objects with pagination
+  - 3. structure around changing data with mutations
+
+# p680+
+* concerned by how out of date the section on relay appears to be. Will read but then do more follow up.
+
+# p690
+- `babel-relay-plugin` will verify query fragments in container components at compile time
+  - does this with a local (client-side) copy of the schema (exported from the server)
+
+# p692
+- schema.json - for client
+- schema.graphql - human readable
+
+# p695
+- book is going to use `react-router` and `react-router-relay`
