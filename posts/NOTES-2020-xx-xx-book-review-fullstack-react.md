@@ -635,3 +635,10 @@ const wrapper = Enzyme.shallow(
 
 # p695
 - book is going to use `react-router` and `react-router-relay`
+
+[skipping 700-733 section on relay, it's out of date. I'm going to learn it with online resources]
+
+# p736
+- routing in react native is conceptulized around "layers" instead of URLs
+
+
