@@ -14,7 +14,9 @@
         gtag('config', '{{ .GoogleAnalytics }}');
       </script>
     {{- end }}
-    <title>{{ .Title }}</title>
+    {{- if .PageHasPost }}
+    <title>{{ .BlogPostMeta.Title }} - {{ .Title }}</title>
+    {{- end }}
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,800">
@@ -29,6 +31,15 @@
 
     {{- if ne .Path "" }}
     <link rel="canonical" href="{{ .Host }}{{ .Path }}" />
+    {{- end }}
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@cflynn07" />
+
+    {{- if .PageHasPost }}
+    <meta name="twitter:title" content="{{ .BlogPostMeta.Title }} - {{ .Title }}" />
+    <meta name="twitter:description" content="{{ .Description }}" />
+    <meta name="twitter:image" content="{{ .Host }}{{ .BlogPostMeta.Image }}" /> 
     {{- end }}
 </head>
 

@@ -52,21 +52,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@master
 
-      - name: Set Envs & Install Helm3 Client
+      - name: Set Envs
         # | ::set-env explanation
         # Bit of non-dry code here, also copied to the "Deploy to Staging" job to calculate ENVs
         # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/development-tools-for-github-actions#set-an-environment-variable-set-env
         run: |
           BRANCH_NAME="`echo $GITHUB_REF | awk -F'/' '{print $3}'`";
           IMAGE_TAG_NAME="cflynnus/blog:$BRANCH_NAME-$GITHUB_SHA";
-
-          HELM_3_FILE="helm-v3.0.0-linux-amd64.tar.gz";
-          HELM_URL="https://get.helm.sh/$HELM_3_FILE";
-          curl -Ls "$HELM_URL" | tar xvz;
-          mkdir -p "$GITHUB_WORKSPACE/bin";
-          mv linux-amd64/helm "$GITHUB_WORKSPACE/bin/helm3";
-          echo "::add-path::$GITHUB_WORKSPACE/bin";
-
           echo "::set-env name=BRANCH_NAME::$BRANCH_NAME";
           echo "::set-env name=IMAGE_TAG_NAME::$IMAGE_TAG_NAME";
 
@@ -99,7 +91,7 @@ jobs:
           done)
           overrides=${overrides:0:${#overrides}-1}
           echo "$overrides" | tr ',' '\n'
-          helm3 upgrade blog ./helm \
+          helm upgrade blog ./helm \
             --install \
             --debug \
             --reuse-values \
