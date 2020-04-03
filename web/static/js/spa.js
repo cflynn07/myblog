@@ -18,6 +18,10 @@
 
   function bindEventLinks () {
     document.querySelectorAll('nav.navbar a, #maincontent a').forEach((link) => {
+      if (link.href.indexOf(window.location.origin) === -1) {
+        // don't bind event to links to other domains
+        return
+      }
       link.addEventListener('click', (e) => {
         e.preventDefault()
         const path = e.currentTarget.attributes.href.value
