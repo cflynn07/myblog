@@ -58,7 +58,7 @@
         <main class="mt-3">
           <div class="container">
             <div class="row">
-              <div class="col-xl-9 px-0 pr-xl-2 col-lg-12">
+              <div id="maincontent" class="col-xl-9 px-0 pr-xl-2 col-lg-12">
                 <div class="text-center alert alert-success">
                   <span class="font-weight-bold d-block d-lg-inline">Deployed At:</span> 
                   <a href="https://github.com/cflynn07/myblog/commit/{{ .DeploymentSHA }}/checks">{{ .DeploymentTime }}</a> 
@@ -78,6 +78,7 @@
         </main>
     </div>
     <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+    <script src="/static/js/spa.js"></script>
 </body>
 
 </html>
