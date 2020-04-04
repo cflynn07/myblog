@@ -54,14 +54,14 @@ func init() {
 		Description: template.HTML("A guided tour of ReactJS philosophy and the modern web app frontend ecosystem"),
 		Keywords:    []string{},
 		Date:        time.Date(2020, time.April, 4, 0, 0, 0, 0, time.UTC),
-		Image:       "/static/images/fullstack-react.png",
+		Image:       "/static/images/fullstack-react_p.png",
 	}
 	bp[post2020_03_27] = &postData{
 		Title:       "Quantifying and Time Tracking My Reading",
 		Description: template.HTML("Using quantification and measuring techniques with Google Sheets to track my technical reading progress."),
 		Keywords:    []string{},
 		Date:        time.Date(2020, time.March, 27, 0, 0, 0, 0, time.UTC),
-		Image:       "/static/images/fullstack-react-time-tracking.png",
+		Image:       "/static/images/fullstack-react-time-tracking_p.png",
 	}
 	bp[post2020_03_14] = &postData{
 		Title:       "Advanced MySQL demo using docker, tmux, tmuxinator",
