@@ -51,7 +51,7 @@ func init() {
 
 	bp[post2020_04_03] = &postData{
 		Title:       "Book Review: Fullstack React, The Complete Guide to ReactJS and Friends",
-		Description: template.HTML(""),
+		Description: template.HTML("A guided tour of ReactJS philosophy and the modern web app frontend ecosystem"),
 		Keywords:    []string{},
 		Date:        time.Date(2020, time.April, 4, 0, 0, 0, 0, time.UTC),
 		Image:       "/static/images/fullstack-react.png",
