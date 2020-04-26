@@ -52,7 +52,7 @@ func init() {
 	}
 
 	bp[post2020_04_26] = &postData{
-		Title:       "Creating a Reusable Github Action to Autoformat a README for a TIL Repository",
+		Title:       "Creating a Reusable GitHub Action to Automatically Format a README for a TIL Repository",
 		Description: template.HTML("GitHub Actions' ability to use docker containers can be exploited for many useful CI/CD tasks. This is an example of building an action that generates a formatted README for a repo of TILs"),
 		Keywords:    []string{"GitHub", "GitHub Actions", "TIL", "Today I Learned"},
 		Date:        time.Date(2020, time.April, 26, 0, 0, 0, 0, time.UTC),
@@ -105,9 +105,9 @@ func init() {
 		Image:       "/static/images/linux-command-line-shell-scripting-bible.png",
 	}
 	bp[post2019_09_10] = &postData{
-		Title:       "CircleCI to Github Actions",
-		Description: template.HTML("Migrating a test, build and deploy pipeline from CircleCI to Github Actions"),
-		Keywords:    []string{"Github Actions", "CircleCI", "CI", "CD"},
+		Title:       "CircleCI to GitHub Actions",
+		Description: template.HTML("Migrating a test, build and deploy pipeline from CircleCI to GitHub Actions"),
+		Keywords:    []string{"GitHub Actions", "CircleCI", "CI", "CD"},
 		Date:        time.Date(2019, time.September, 10, 0, 0, 0, 0, time.UTC),
 	}
 	bp[post2019_08_30] = &postData{
