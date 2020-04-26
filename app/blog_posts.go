@@ -22,6 +22,7 @@ var bpKeys = make([]string, 5)
 var bp = make(blogPosts, 5)
 
 func init() {
+	post2020_04_26 := "2020-04-26-github-action-til-autoformat-readme"
 	post2020_04_03 := "2020-04-03-book-review-fullstack-react"
 	post2020_03_27 := "2020-03-27-quantifying-and-time-tracking-reading"
 	post2020_03_14 := "2020-03-14-advanced-mysql-docker-tmux-demo"
@@ -36,6 +37,7 @@ func init() {
 
 	// Order determines post listing order. Newest entry at lowest index.
 	bpKeys = []string{
+		post2020_04_26,
 		post2020_04_03,
 		post2020_03_27,
 		post2020_03_14,
@@ -49,10 +51,17 @@ func init() {
 		post2019_02_26,
 	}
 
+	bp[post2020_04_26] = &postData{
+		Title:       "Creating a Reusable GitHub Action to Automatically Format a README for a TIL Repository",
+		Description: template.HTML("GitHub Actions' ability to use docker containers can be exploited for many useful CI/CD tasks. This is an example of building an action that generates a formatted README for a repo of TILs"),
+		Keywords:    []string{"GitHub", "GitHub Actions", "TIL", "Today I Learned"},
+		Date:        time.Date(2020, time.April, 26, 0, 0, 0, 0, time.UTC),
+		Image:       "/static/images/2020-04-26/Screen_Shot_2020-04-26_at_2.01.45_PM.png",
+	}
 	bp[post2020_04_03] = &postData{
 		Title:       "Book Review: Fullstack React, The Complete Guide to ReactJS and Friends",
 		Description: template.HTML("A guided tour of ReactJS philosophy and the modern web app frontend ecosystem"),
-		Keywords:    []string{},
+		Keywords:    []string{"Fullstack React", "ReactJS", "Book Review"},
 		Date:        time.Date(2020, time.April, 4, 0, 0, 0, 0, time.UTC),
 		Image:       "/static/images/fullstack-react_p.png",
 	}
@@ -74,6 +83,7 @@ func init() {
 		Description: template.HTML("High Performance MySQL by Baron Schwartz, Peter Zaitsev and Vadim Tkachenko. A deep dive into MySQL/RDBMSs and dense technical books"),
 		Keywords:    []string{"book review"},
 		Date:        time.Date(2020, time.March, 13, 0, 0, 0, 0, time.UTC),
+		Image:       "/static/images/high-performance-mysql.png",
 	}
 	bp[post2020_02_09] = &postData{
 		Title:       "Book Review: MySQL Crash Course",
@@ -92,11 +102,12 @@ func init() {
 		Description: template.HTML("My thoughts and insights from the technical book, \"Linux Command Line and Shell Scripting Bible (3rd edition)\""),
 		Keywords:    []string{"book review", "shell scripting", "linux command line and shell scripting", "bash", "technical book review"},
 		Date:        time.Date(2019, time.December, 23, 0, 0, 0, 0, time.UTC),
+		Image:       "/static/images/linux-command-line-shell-scripting-bible.png",
 	}
 	bp[post2019_09_10] = &postData{
-		Title:       "CircleCI to Github Actions",
-		Description: template.HTML("Migrating a test, build and deploy pipeline from CircleCI to Github Actions"),
-		Keywords:    []string{"Github Actions", "CircleCI", "CI", "CD"},
+		Title:       "CircleCI to GitHub Actions",
+		Description: template.HTML("Migrating a test, build and deploy pipeline from CircleCI to GitHub Actions"),
+		Keywords:    []string{"GitHub Actions", "CircleCI", "CI", "CD"},
 		Date:        time.Date(2019, time.September, 10, 0, 0, 0, 0, time.UTC),
 	}
 	bp[post2019_08_30] = &postData{
