@@ -1,4 +1,4 @@
-[TIL Auto-Format REAME Action on Github Marketplace][4]  
+[TIL Auto-Format README Action on Github Marketplace][4]  
 [cflynn07/til][5]  
 
 While doing my daily browsing of Hacker News, I came across [this][1] post
@@ -20,7 +20,7 @@ run arbitrary code on push events have existed for years. The nice part about
 GitHub Actions is the tight integration with GitHub and the focus on
 encouraging users to create an ecosystem of small, reusable discrete "Actions"
 that can be dropped into others' workflows. The fact that these actions can
-essentially be docker containers that recieve a repository mounted as a volume
+essentially be docker containers that receive a repository mounted as a volume
 inside the container makes it very easy to build reliably consistent actions.
 
 This is how the action can be added to a TIL repo.
