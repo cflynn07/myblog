@@ -56,7 +56,7 @@ func init() {
 		Description: template.HTML("GitHub Actions' ability to use docker containers can be exploited for many useful CI/CD tasks. This is an example of building an action that generates a formatted README for a repo of TILs"),
 		Keywords:    []string{"GitHub", "GitHub Actions", "TIL", "Today I Learned"},
 		Date:        time.Date(2020, time.April, 26, 0, 0, 0, 0, time.UTC),
-		// Image:       "/static/images/fullstack-react_p.png",
+		Image:       "/static/images/2020-04-26/Screen_Shot_2020-04-26_at_2.01.45_PM.png",
 	}
 	bp[post2020_04_03] = &postData{
 		Title:       "Book Review: Fullstack React, The Complete Guide to ReactJS and Friends",
