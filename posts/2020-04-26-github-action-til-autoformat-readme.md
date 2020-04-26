@@ -26,7 +26,7 @@ inside the container makes it very easy to build reliably consistent actions.
 This is how the action can be added to a TIL repo.
 
 ###### .github/workflows/action.yml
-<pre class="prettyprint">
+<pre class="prettyprint linenums">
 name: Build README
 on:
   push:
@@ -63,7 +63,7 @@ I built the action with Go and used a [multi-stage build][6] to keep the
 resulting image as small as possible by using an [alpine][8] image with the
 built binary.
 
-<pre class="prettyprint">
+<pre class="prettyprint linenums">
 FROM golang:1.14 as builder
 WORKDIR /go/src/app
 COPY . .
