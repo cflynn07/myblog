@@ -1,6 +1,8 @@
 [TIL Auto-Format README Action on Github Marketplace][4]  
 [cflynn07/til][5]  
 
+![TIL Repo Example](/static/images/2020-04-26/Screen_Shot_2020-04-27_at_3.44.38_PM.png)
+
 While doing my daily browsing of Hacker News, I came across [this][1] post
 ([Hacker News][2]) by Simon Wilson on the merits of writing small, actionable
 TILs "Today I Learned's." and how he leverages GitHub Actions to automatically
@@ -95,7 +97,7 @@ This way, when this action is run in a workflow the runner only has to build
 this workflow which is much faster than the multi-stage build. The resulting
 [image][9] is ~14Mb.
 
-<img src="/static/images/2020-04-26/Screen_Shot_2020-04-26_at_2.01.45_PM.png" />
+![](/static/images/2020-04-26/Screen_Shot_2020-04-26_at_2.01.45_PM.png)
 
 [1]: https://simonwillison.net/2020/Apr/20/self-rewriting-readme/
 [2]: https://news.ycombinator.com/item?id=22920437
