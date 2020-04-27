@@ -6,17 +6,17 @@ quantify my rate of progression when working towards goals.
 I first figured this out in high school. One of my friends introduced me to the
 practice of *writing down* my exercise sets and reps at the gym. Before this,
 my approach to working out was: **go to the gym, do a bunch of random stuff for
-a while, repeat.** I didn't plan ahead either what exercises I would do or how
-much I would try to lift, and I didn't measure how much I lifted at each
-session. I had no idea if I was getting stronger or just treading water. I
-started bringing a notebook and a pen with me to the gym. I planned out 5
-different workouts for different body areas and rotated through them. I wrote
-down how many sets and how many reps at what weight I was able to do for each
-exercise, and each time I went to the gym I'd try to lift slightly more than I
-was able to the last time. The gain in efficiency was substantial. Every time I
-went to the gym I had a plan for what workouts and sets to do; no more randomly
-picking exercises. It was great to be able to flip through the notebook and
-actually observe progression.
+a while, repeat.** I didn't plan ahead what exercises I would perform or how
+much weight or how many reps I would try to lift, and I didn't measure how much
+I lifted at each session. I had no idea if I was getting stronger or just
+treading water. I started bringing a notebook and a pen with me to the gym. I
+planned out 5 different workouts, each focusing on different body areas,  and
+rotated through them. I wrote down how many sets and how many reps at what
+weight I was able to do for each exercise, and each time I went to the gym I'd
+try to lift slightly more than I was able to the previous time. The gain in
+efficiency was substantial. Every time I went to the gym I had a plan for what
+workouts and sets to perform; no more randomly picking exercises. It was great
+to be able to flip through the notebook and actually observe progression.
   
 In 2020 I'm still measuring and planning, except instead of a notebook I'm
 using the iOS app [strong][1] which basically does the same thing, except it
@@ -26,7 +26,7 @@ progress analytics.
 ##### Tracking reading progress
 I tend to think of reading and comprehending books on technical topics as
 another form of "working out." The strain is on my neural networks' ability to
-form connections rather than my muscle fibers ability to contract. I've ported
+form connections rather than my muscle fibers' ability to contract. I've ported
 the same progress measuring approach from the gym to my reading.
   
 A few months ago I bought a dozen or so technical books and I'm diligently
