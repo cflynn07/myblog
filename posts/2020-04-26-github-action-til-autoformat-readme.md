@@ -10,15 +10,15 @@ generate a README file based on the contents of his [TIL
 repository (simonw/til)][3].
 
 I like the idea of a TIL repo and using GitHub Actions to automate indexing.
-Other people also have had the idea to use GitHub actions to index their TIL
-repository READMEs as well, however all the examples I could find used GitHub
-Actions to run a script that was included in their repository. This works but
-it seemed like a reusable GitHub Action that could be quickly dropped into a
-TIL repo would be useful for many people.
+Other people use GitHub actions to index their TIL repository READMEs, however
+all the examples I could find used GitHub Actions to run a script that was
+included in their repository. This works but it seemed like a reusable GitHub
+Action that could be quickly dropped into a TIL repo would be useful for many
+people.
 
-I've been using GitHub actions for a few months and I'm enjoying the product.
+I've been using GitHub actions for a few months and I've found it to be useful.
 Free and easy to use CI/CD platforms that integrate with GitHub event hooks to
-run arbitrary code on push events have existed for years. The nice part about
+run arbitrary code on push events have existed for years. The niceness of
 GitHub Actions is the tight integration with GitHub and the focus on
 encouraging users to create an ecosystem of small, reusable discrete "Actions"
 that can be dropped into others' workflows. The fact that these actions can
@@ -80,13 +80,13 @@ COPY --from=builder /go/src/app/entrypoint.sh ./entrypoint.sh
 ENTRYPOINT [ "/root/entrypoint.sh" ]
 </pre>
 
-When the GitHub Actions running runs a reusable action, it essentially builds
+When the GitHub Actions runner runs a reusable action, it essentially builds
 the docker image from scratch each time based on the action's Dockerfile.
 Building the above Dockerfile for each GitHub Action run is a little slow and
-also isn't totally necessary. Instead, in the repository that holds my GitHub
-action I have a [GitHub Action workflow][7] that builds, tags and pushes a base
-image to Docker Hub whenever a new release/tag is created. That base image is
-referenced in the `Dockerfile` in the action repository root:
+also isn't necessary. Instead, in the repository that holds my GitHub action I
+have a [GitHub Action workflow][7] that builds, tags and pushes a base image to
+Docker Hub whenever a new release/tag is created. That base image is referenced
+in the `Dockerfile` in the action repository root:
 <pre class="prettyprint">
 FROM cflynnus/github-action-til-autoformat-readme:1.1.0 #tagged base image
 ENV TEMPLATE_PATH "/root/README.md.tmpl"

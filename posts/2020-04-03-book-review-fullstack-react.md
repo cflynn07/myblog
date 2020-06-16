@@ -9,7 +9,7 @@ including [a few years][3] working in AngularJS. I've also got a bit of
 experience working with React and [GraphQL][4]. I've been on a break from front
 end web development for a while and I wanted to get back into it, so I bought
 Fullstack react and spent the last 14 days working through the book. The book's
-contents are useful to developers ranging from beginning to experienced.
+contents are useful to developers ranging from beginner to experienced.
 
 The book is long but not page dense. It's over 700 pages but I only needed half
 the time to read it as other ~800 page books I've [recently read][5]. (See how
