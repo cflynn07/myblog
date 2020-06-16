@@ -22,7 +22,7 @@ var bpKeys = make([]string, 5)
 var bp = make(blogPosts, 5)
 
 func init() {
-	post2020_06_16 := "2020-04-26-book-review-learning-computer-architecture-with-raspberry-pi"
+	post2020_06_16 := "2020-06-16-book-review-learning-computer-architecture-with-raspberry-pi"
 	post2020_04_26 := "2020-04-26-github-action-til-autoformat-readme"
 	post2020_04_03 := "2020-04-03-book-review-fullstack-react"
 	post2020_03_27 := "2020-03-27-quantifying-and-time-tracking-reading"
@@ -58,7 +58,7 @@ func init() {
 		Description: template.HTML("A walkthrough of the history as well as the low level workings of computers"),
 		Keywords:    []string{"Computer Architecture"},
 		Date:        time.Date(2020, time.June, 16, 0, 0, 0, 0, time.UTC),
-		// Image:       "/static/images/2020-04-26/Screen_Shot_2020-04-26_at_2.01.45_PM.png",
+		Image:       "/static/images/2020-06-16/learning_computer_architecture.jpg",
 	}
 	bp[post2020_04_26] = &postData{
 		Title:       "Creating a Reusable GitHub Action to Automatically Format a README for a TIL Repository",

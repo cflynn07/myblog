@@ -1,4 +1,8 @@
+[Exported Anki Cards][1]
+
 ###### The computer, a box that follows a plan
+
+<img src="/static/images/2020-06-16/learning_computer_architecture.jpg" style="width:50%;">
 
 Learning Computer Architecture with Raspberry Pi is an approachable, detailed
 survey of computing. A sampling of topics covered include microprocessors,
@@ -28,4 +32,17 @@ to purchase and begin reading another book on 3D graphics. I plan to revisit
 the 3D graphics chapter of LCAw/RPi after completing this new book on 3D
 graphics to test my understanding improvement.
 
+##### Spaced Repetition Flashcards using Anki
+This is the 5th technical book I've managed to read this year. I'm always
+working on improving my comprehension and retention ability. For this book I
+tried something new, spaced repetition flashcards using the software tool Anki.
+I found that using spaced repetition flashcards was vastly superior to simple
+note taking. Whereas just reading and note taking might result in something
+like ~20% retention, spaced repetition flashcards helped me retain 80%-90% of
+the books details. As I read, I made flashcards. Every day while I was working
+on reading the book (and after I finished reading) I review the flashcards.
+Anki helps focus your memory efforts by most frequently showing you the
+flashcards you've remembered least-well and exponentially backing off review as
+you memorize.
 
+[1]: https://gist.github.com/cflynn07/09f64f206dd8809e24d2e76bedcf4f63 
