@@ -22,6 +22,7 @@ var bpKeys = make([]string, 5)
 var bp = make(blogPosts, 5)
 
 func init() {
+	post2020_07_14 := "2020-07-14-book-review-algorithms-in-a-nutshell"
 	post2020_06_28 := "2020-06-28-book-review-the-go-programming-language"
 	post2020_06_16 := "2020-06-16-book-review-learning-computer-architecture-with-raspberry-pi"
 	post2020_04_26 := "2020-04-26-github-action-til-autoformat-readme"
@@ -39,6 +40,7 @@ func init() {
 
 	// Order determines post listing order. Newest entry at lowest index.
 	bpKeys = []string{
+		post2020_07_14,
 		post2020_06_28,
 		post2020_06_16,
 		post2020_04_26,
@@ -55,6 +57,13 @@ func init() {
 		post2019_02_26,
 	}
 
+	bp[post2020_07_14] = &postData{
+		Title:       "Book Review: Algorithms in a Nutshell",
+		Description: template.HTML(""),
+		Keywords:    []string{"Algorithms"},
+		Date:        time.Date(2020, time.July, 14, 0, 0, 0, 0, time.UTC),
+		Image:       "/static/images/2020-07-14/algorithms_in_a_nutshell.jpg",
+	}
 	bp[post2020_06_28] = &postData{
 		Title:       "Book Review: The Go Programming Language",
 		Description: template.HTML("A comprehensive guide to understanding and using the Go programming language"),
