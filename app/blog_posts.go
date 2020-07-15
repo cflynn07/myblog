@@ -59,10 +59,10 @@ func init() {
 
 	bp[post2020_07_14] = &postData{
 		Title:       "Book Review: Algorithms in a Nutshell",
-		Description: template.HTML(""),
+		Description: template.HTML("An \"In a Nutshell\" approach book might not be the best starting point for general learning"),
 		Keywords:    []string{"Algorithms"},
 		Date:        time.Date(2020, time.July, 14, 0, 0, 0, 0, time.UTC),
-		Image:       "/static/images/2020-07-14/algorithms_in_a_nutshell.jpg",
+		Image:       "/static/images/algorithms_books.jpeg",
 	}
 	bp[post2020_06_28] = &postData{
 		Title:       "Book Review: The Go Programming Language",

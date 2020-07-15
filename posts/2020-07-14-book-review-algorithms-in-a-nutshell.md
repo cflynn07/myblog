@@ -1,4 +1,4 @@
-<img src="/static/images/2020-06-28/the_go_programming_language.jpg" style="width:50%;">
+<img src="/static/images/algorithms_books.jpeg" style="width:50%;">
 
 I decided to turn my attention towards general study of algorithms and data
 structures. After doing some initial research I found "Algorithms in a
