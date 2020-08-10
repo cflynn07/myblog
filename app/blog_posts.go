@@ -60,7 +60,7 @@ func init() {
 	}
 
 	bp[post2020_07_20] = &postData{
-		Title:       "Starting my Software Engineer Career by Building an Complex, Technically Sophisticated and Over-engineered Product but a Terrible Business",
+		Title:       "How I Kickstarted my Software Engineering Career by Building an Over-Engineered Product and a Total Failure of a Business",
 		Description: template.HTML(""),
 		Keywords:    []string{""},
 		Date:        time.Date(2020, time.July, 14, 0, 0, 0, 0, time.UTC),

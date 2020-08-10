@@ -1,19 +1,42 @@
-<img src="/static/images/clubbingowl/clubbingowl_showcaseborder.png" style="width:50%;">
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/f9g0pJtCXmM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<br><br>
+<img src="/static/images/clubbingowl/clubbingowl_logo.png">
+<br><br>
 
 10+ years ago, when I left college after studying Computer Science and Business
 at Northeastern University in Boston, MA, I tried building my first startup. It
 was initially named VibeCompass, later renamed ClubbingOwl. Instead of taking a
 normal software engineering job, I spent 2+ years working on this. I became
 obsessed and routinely worked 100-hour weeks, frequently working in 24-hour
-nonstop stints.
+nonstop stints. I don't think I ever had more than $100 in my bank account.
+
+<br><br>
+
+<p style="text-align:center;">
+	<iframe align="middle" width="560" height="315" src="https://www.youtube.com/embed/f9g0pJtCXmM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</p>
+
+<br><br>
 
 My obsession was so intense I would work on my laptop until I couldn't stay
-awake, then I'd fall asleep in my bed with my laptop, and then I'd reopen my
-laptop immediately when I regained consciousness and resume working. I was
+awake, then I'd fall asleep in my bed with my laptop, and then the moment I
+regained consciousness I would reopen my laptop and resume working. I was
 always excited to implement all my ideas and that excitement gave me all the
-energy I ever needed to keep going. 
+energy I ever needed to keep going.
+
+<img src="/static/images/clubbingowl/clubbingowl_showcaseborder.png">
+
+As a business, ClubbingOwl was almost a comical failure. I completely ignored
+the time honored advice of ship a minimum viable product and get something into
+the hands of users to get feedback and iterate as quickly as possible. I spent
+two years implementing every feature and premature optimization I could dream
+up. The whole time I was thinking "if I make this as awesome as possible
+everyone will use it because it's awesome." Well it turns out there was a
+fairly big problem with that naive approach. All the nightclubs that use
+promoters in the world together don't actually constitute that big of a market.
+Also when I actually approached all the nightclubs in North America with this,
+they all thought it was great but each of them wanted it to work *slightly*
+differently so much so that it was almost impossible to offer ClubbingOwl to
+all of them as a multi-tenant application.
 
 It definitely wasn't the healthiest time period in my life, I neglected diet,
 sleep, physical fitness and probably do a large degree my mental health. I
