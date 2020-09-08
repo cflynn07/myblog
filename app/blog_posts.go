@@ -61,8 +61,8 @@ func init() {
 
 	bp[post2020_07_20] = &postData{
 		Title:       "How I Kickstarted my Software Engineering Career by Building an Over-Engineered Product and a Total Failure of a Business",
-		Description: template.HTML(""),
-		Keywords:    []string{""},
+		Description: template.HTML("Ridiculous project I spent a decent chunk of my early 20s focused on"),
+		Keywords:    []string{"startup", "software"},
 		Date:        time.Date(2020, time.July, 14, 0, 0, 0, 0, time.UTC),
 		Image:       "/static/images/clubbingowl/clubbingowl_showcaseborder.png",
 	}
