@@ -22,6 +22,9 @@
         // don't bind event to links to other domains
         return
       }
+	  if (link.hasAttribute('data-no-spa-link')) {
+		return
+	  }
       link.addEventListener('click', (e) => {
         e.preventDefault()
         const path = e.currentTarget.attributes.href.value
