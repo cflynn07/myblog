@@ -22,6 +22,7 @@ var bpKeys = make([]string, 5)
 var bp = make(blogPosts, 5)
 
 func init() {
+	post2020_09_25 := "2020-09-25-book-review-operating-system-concepts"
 	post2020_07_20 := "2020-07-20-clubbingowl"
 	post2020_07_14 := "2020-07-14-book-review-algorithms-in-a-nutshell"
 	post2020_06_28 := "2020-06-28-book-review-the-go-programming-language"
@@ -41,6 +42,7 @@ func init() {
 
 	// Order determines post listing order. Newest entry at lowest index.
 	bpKeys = []string{
+		post2020_09_25,
 		post2020_07_20,
 		post2020_07_14,
 		post2020_06_28,
@@ -59,11 +61,18 @@ func init() {
 		post2019_02_26,
 	}
 
+	bp[post2020_09_25] = &postData{
+		Title:       "Book Review: Operating System Concepts",
+		Description: template.HTML("High Level Overview of Operating Systems"),
+		Keywords:    []string{"Operating Systems"},
+		Date:        time.Date(2020, time.September, 25, 0, 0, 0, 0, time.UTC),
+		Image:       "/static/images/operating_system_concepts.jpeg",
+	}
 	bp[post2020_07_20] = &postData{
 		Title:       "How I Kickstarted my Software Engineering Career by Building an Over-Engineered Product and a Total Failure of a Business",
 		Description: template.HTML("Ridiculous project I spent a decent chunk of my early 20s focused on"),
 		Keywords:    []string{"startup", "software"},
-		Date:        time.Date(2020, time.July, 14, 0, 0, 0, 0, time.UTC),
+		Date:        time.Date(2020, time.July, 20, 0, 0, 0, 0, time.UTC),
 		Image:       "/static/images/clubbingowl/clubbingowl_showcaseborder.png",
 	}
 	bp[post2020_07_14] = &postData{
