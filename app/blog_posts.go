@@ -63,7 +63,7 @@ func init() {
 		post2019_02_26,
 	}
 	bp[post2020_11_09] = &postData{
-		Title:       "Book Review: Free as in Freedom, Richard Stallman's Cursade for Free Software",
+		Title:       "Book Review: Free as in Freedom, Richard Stallman's Crusade for Free Software",
 		Description: template.HTML("On the origins of Richard Stallman, Linus Torvalds, GNU, Linux, FSF, GPL"),
 		Keywords:    []string{"Richard Stallman", "FSF", "GNU"},
 		Date:        time.Date(2020, time.November, 9, 0, 0, 0, 0, time.UTC),
