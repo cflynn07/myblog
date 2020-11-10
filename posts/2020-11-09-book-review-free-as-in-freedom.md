@@ -42,9 +42,14 @@ I would like to consider the same question using a different criterion: the
 prosperity and freedom of the public in general.
 </blockquote>
 
+https://www.gnu.org/philosophy/shouldbefree.en.html
+
 Stallman contends that non-free software inhibits the overall prosperity of
 humanity. Software is extremely important to societal well being and closed-off
 software prevents SWEs from "standing on the shoulders of giants" or building
-upon the work of others.
+upon the work of others. 
 
-https://www.gnu.org/philosophy/shouldbefree.en.html
+All of us software engineers stand on the shoulders of giants every day and
+because those giants happen to be very tall, we have the ability to do
+incredibly powerful things. I think RMS helped usher in a world where this is
+possible.
