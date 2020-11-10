@@ -8,16 +8,16 @@ quite a few technical books. FAIF was a sort-of deviation from this trend in
 that it's a biography, not a technical book.
 
 FAIF is a biography of Richard Stallman, activist and founder of the GNU
-project and the Free Software Foundation. The book describes Stallman's
-childhood and upbringing, his formative years in high school through undergrad
-and graduate school at Harvard University and MIT, as well as the origins of
-his political beliefs of regarding freedom to modify, share and use software as
-one sees fit.
+project and the Free Software Foundation. The book chronicles Stallman's
+childhood, his formative years in high school through undergrad and graduate
+school at Harvard University and MIT, as well as the origins of his political
+beliefs of freedom to modify, share and use software as one sees fit.
 
 The book is written in such a way that it will appeal to programmers and
 non-programmers alike. Having worked as a software engineer for years, I was
-familiar with the gist of the GNU, the GPL, the FSF, GNU/Linux's origins, and
-Stallman's relationship with Linus Torvalds but FAIF filled in the details.
+fairly familiar with the gist of the GNU, the GPL, the FSF, GNU/Linux's
+origins, and Stallman's relationship with Linus Torvalds but FAIF filled in the
+details.
 
 Stallman's philosophical argument for why software should be "free" (free as in
 freedom, not beer) are compelling. Rather than try to re-articulate Stallman's
@@ -41,4 +41,10 @@ a corporation associated with its development.
 I would like to consider the same question using a different criterion: the
 prosperity and freedom of the public in general.
 </blockquote>
+
+Stallman contends that non-free software inhibits the overall prosperity of
+humanity. Software is extremely important to societal well being and closed-off
+software prevents SWEs from "standing on the shoulders of giants" or building
+upon the work of others.
+
 https://www.gnu.org/philosophy/shouldbefree.en.html
