@@ -22,6 +22,8 @@ var bpKeys = make([]string, 5)
 var bp = make(blogPosts, 5)
 
 func init() {
+	post2020_11_25 := "2020-11-25-book-review-docker-deep-dive"
+	post2020_11_09 := "2020-11-09-book-review-free-as-in-freedom"
 	post2020_09_25 := "2020-09-25-book-review-operating-system-concepts"
 	post2020_07_20 := "2020-07-20-clubbingowl"
 	post2020_07_14 := "2020-07-14-book-review-algorithms-in-a-nutshell"
@@ -42,6 +44,8 @@ func init() {
 
 	// Order determines post listing order. Newest entry at lowest index.
 	bpKeys = []string{
+		post2020_11_25,
+		post2020_11_09,
 		post2020_09_25,
 		post2020_07_20,
 		post2020_07_14,
@@ -60,7 +64,20 @@ func init() {
 		post2019_03_04,
 		post2019_02_26,
 	}
-
+	bp[post2020_11_25] = &postData{
+		Title:       "Book Review: Docker Deep Dive",
+		Description: template.HTML(""),
+		Keywords:    []string{},
+		Date:        time.Date(2020, time.November, 25, 0, 0, 0, 0, time.UTC),
+		Image:       "/static/images/2020-11-25/docker_deep_dive.jpeg",
+	}
+	bp[post2020_11_09] = &postData{
+		Title:       "Book Review: Free as in Freedom, Richard Stallman's Crusade for Free Software",
+		Description: template.HTML("On the origins of Richard Stallman, Linus Torvalds, GNU, Linux, FSF, GPL"),
+		Keywords:    []string{"Richard Stallman", "FSF", "GNU"},
+		Date:        time.Date(2020, time.November, 9, 0, 0, 0, 0, time.UTC),
+		Image:       "/static/images/2020-11-09/free_as_in_freedom.jpeg",
+	}
 	bp[post2020_09_25] = &postData{
 		Title:       "Book Review: Operating System Concepts",
 		Description: template.HTML("High Level Overview of Operating Systems"),
