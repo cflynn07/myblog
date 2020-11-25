@@ -66,7 +66,7 @@ func init() {
 	}
 	bp[post2020_11_25] = &postData{
 		Title:       "Book Review: Docker Deep Dive",
-		Description: template.HTML(""),
+		Description: template.HTML("A great resource for getting up to speed with Docker"),
 		Keywords:    []string{},
 		Date:        time.Date(2020, time.November, 25, 0, 0, 0, 0, time.UTC),
 		Image:       "/static/images/2020-11-25/docker_deep_dive.jpeg",
