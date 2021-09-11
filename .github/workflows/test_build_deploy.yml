@@ -60,8 +60,9 @@ jobs:
           IMAGE_TAG_NAME="cflynnus/blog:$BRANCH_NAME-$GITHUB_SHA";
           echo "BRANCH_NAME=${BRANCH_NAME}" >> $GITHUB_ENV
           echo "IMAGE_TAG_NAME=${IMAGE_TAG_NAME}" >> $GITHUB_ENV
+
       - name: Install gcloud cli
-        uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        uses: google-github-actions/setup-gcloud@master
         with:
           version: '270.0.0'
           service_account_email: ${{ secrets.GCLOUD_SA_EMAIL }}
