@@ -4,8 +4,8 @@ metadata:
   name: test-ingress
   # namespace: {{ include "blog.fullname" . }}
   annotations:
-    kubernetes.io/ingress.global-static-ip-name: web-static-ip
-    networking.gke.io/managed-certificates: cflynnus-certificate
+    # kubernetes.io/ingress.global-static-ip-name: web-static-ip
+    # networking.gke.io/managed-certificates: cflynnus-certificate
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:

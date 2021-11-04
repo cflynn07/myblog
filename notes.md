@@ -36,9 +36,23 @@ gcloud container clusters list
 # need to add permissions...
 # first look at existing policy
 gcloud projects get-iam-policy aqueous-tube-325907 --formal=yaml
+
 # add needed permissions (role to user)
 gcloud projects add-iam-policy-binding aqueous-tube-325907 --member=user:cflynn.us@gmail.com --role=roles/container.clusterViewer
 
 gcloud container clusters get-credentials autopilot-cluster-1 --region us-central1
 
+# Setup for github actions deployment
+# Make a service account
+# https://docs.github.com/en/actions/deployment/deploying-to-your-cloud-provider/deploying-to-google-kubernetes-engine
+gcloud iam service-accounts create github-actions --display-name="github-actions"
+
+gcloud projects add-iam-policy-binding aqueous-tube-325907 \
+  --member="serviceAccount:github-actions@aqueous-tube-325907.iam.gserviceaccount.com" \
+  --role=roles/container.admin \
+  --role=roles/storage.admin \
+  --role=roles/container.clusterViewer
+
+# grab the SA key
+gcloud iam service-accounts keys create key.json --iam-account="github-actions@aqueous-tube-325907.iam.gserviceaccount.com"
 ```

@@ -6,7 +6,7 @@ metadata:
   labels:
     app: {{ include "blog.name" . }}-master-app
 spec:
-  type: NodePort
+  type: ClusterIP
   ports:
     - port: 80
       targetPort: {{ include "blog.name" . }}-port
