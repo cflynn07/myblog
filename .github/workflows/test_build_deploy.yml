@@ -65,18 +65,17 @@ jobs:
       - name: Install gcloud cli
         uses: google-github-actions/setup-gcloud@master
         with:
-          version: '270.0.0'
+          version: latest
+          project_id: ${{ secrets.GCLOUD_PROJECT_ID }}
           service_account_email: ${{ secrets.GCLOUD_SA_EMAIL }}
           service_account_key: ${{ secrets.GCLOUD_SA_KEY }}
+          export_default_credentials: true
 
       - name: gcloud configure
         run: |
           gcloud config set project ${{secrets.GCLOUD_PROJECT_ID}};
           gcloud config set compute/zone ${{secrets.GCLOUD_COMPUTE_ZONE}};
           gcloud container clusters get-credentials ${{secrets.GCLOUD_CLUSTER_NAME}};
-
-      - name: Debugging with tmate
-        uses: mxschmitt/action-tmate@v3.7
 
       - name: Deploy
         run: |
