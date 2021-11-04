@@ -55,4 +55,7 @@ gcloud projects add-iam-policy-binding aqueous-tube-325907 \
 
 # grab the SA key
 gcloud iam service-accounts keys create key.json --iam-account="github-actions@aqueous-tube-325907.iam.gserviceaccount.com"
+
+# Need ClusterRoleBinding
+kubectl create clusterrolebinding github-actions --clusterrole=cluster-admin --group=system:serviceaccounts
 ```

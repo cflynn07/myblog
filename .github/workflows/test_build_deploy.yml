@@ -75,6 +75,9 @@ jobs:
           gcloud config set compute/zone ${{secrets.GCLOUD_COMPUTE_ZONE}};
           gcloud container clusters get-credentials ${{secrets.GCLOUD_CLUSTER_NAME}};
 
+      - name: Debugging with tmate
+        uses: mxschmitt/action-tmate@v3.7
+
       - name: Deploy
         run: |
           overrides=(
