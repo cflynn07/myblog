@@ -1,9 +1,52 @@
 name: Test, Build and Deploy
 on: [push]
 jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Test
+        uses: cedrickring/golang-action/go1.12@1.3.0
+        with:
+          args: go test ./... -coverprofile=coverage.txt -covermode=atomic -coverpkg=myblog/app
+        env:
+          GO111MODULE: on
+          GOFLAGS: -mod=vendor
+
+      - name: Upload Coverage to CodeCov
+        run: curl -s https://codecov.io/bash | bash -s -- -t ${{secrets.CODECOV_TOKEN}} -f ./coverage.txt
+  build_and_push_image:
+    name: Build and Push Image
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Set Envs
+        # | ::set-env explanation
+        # Bit of non-dry code here, also copied to the "Deploy" job to calculate ENVs
+        # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/development-tools-for-github-actions#set-an-environment-variable-set-env
+        run: |
+          BRANCH_NAME="`echo $GITHUB_REF | awk -F'/' '{print $3}'`";
+          IMAGE_TAG_NAME="cflynnus/blog:$BRANCH_NAME-$GITHUB_SHA";
+          echo "BRANCH_NAME=${BRANCH_NAME}" >> $GITHUB_ENV
+          echo "IMAGE_TAG_NAME=${IMAGE_TAG_NAME}" >> $GITHUB_ENV
+
+      - name: Docker Login, Build, Tag and Push
+        run: |
+          echo "${{secrets.DOCKER_PASSWORD}}" | docker login -u ${{secrets.DOCKER_USERNAME}} --password-stdin;
+          docker build . --file Dockerfile -t "$IMAGE_TAG_NAME";
+          docker tag "$IMAGE_TAG_NAME" cflynnus/blog:latest;
+          docker push "$IMAGE_TAG_NAME";
+          docker push cflynnus/blog:latest;
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
+    needs: build_and_push_image
     if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master'
     steps:
       - name: Checkout
@@ -53,7 +96,7 @@ jobs:
           gcloud projects list
           helm list
           helm status my-blog
-          helm upgrade blog ./helm \
+          helm upgrade my-blog ./helm \
             --install \
             --debug \
             --reuse-values \
