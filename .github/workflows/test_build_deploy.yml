@@ -104,6 +104,7 @@ jobs:
           done)
           overrides=${overrides:0:${#overrides}-1}
           echo "$overrides" | tr ',' '\n'
+          gcloud projects list
           helm list
           helm status my-blog
           helm upgrade blog ./helm \
