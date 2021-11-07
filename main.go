@@ -23,6 +23,7 @@ func main() {
 	router := mux.NewRouter()
 
 	router.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {
+		log.Println(r.Header)
 		log.Println("Healthcheck /healthz")
 		w.WriteHeader(http.StatusOK)
 		fmt.Fprintf(w, "ok")
