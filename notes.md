@@ -58,4 +58,19 @@ gcloud iam service-accounts keys create key.json --iam-account="github-actions@a
 
 # Need ClusterRoleBinding
 kubectl create clusterrolebinding github-actions --clusterrole=cluster-admin --group=system:serviceaccounts
+
+# suggested online, looks useful
+kubectl create clusterrolebinding cluster-admin-binding \
+  --clusterrole cluster-admin \
+  --user $(gcloud config get-value account)
+```
+
+After all of the above, I used helm to install nginx as an ingress-controller (pretty simple)
+https://cloud.google.com/community/tutorials/nginx-ingress-gke
+
+Then I reserved a static IP address and updated my DNS records
+```
+gcloud compute addresses create saigonbros-1 \
+    --global \
+    --ip-version IPV4
 ```

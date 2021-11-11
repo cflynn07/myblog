@@ -22,7 +22,7 @@ spec:
             - name: PORT
               value: "80"
             - name: SSL_REDIRECT
-              value: "true"
+              value: "false"
             {{- if ne $.Values.google_analytics "" }}
             - name: GOOGLE_ANALYTICS
               value: {{ $.Values.google_analytics | quote }}
@@ -39,12 +39,18 @@ spec:
               scheme: HTTP
               path: /healthz
               port: 80
-            initialDelaySeconds: 10
-            periodSeconds: 5
+            initialDelaySeconds: 5
+            successThreshold: 1
+            failureThreshold: 10
+            periodSeconds: 8
+            timeoutSeconds: 5
           livenessProbe:
             httpGet:
               scheme: HTTP
               path: /healthz
               port: 80
-            initialDelaySeconds: 10
-            periodSeconds: 5
+            initialDelaySeconds: 5
+            successThreshold: 1
+            failureThreshold: 10
+            periodSeconds: 8
+            timeoutSeconds: 5

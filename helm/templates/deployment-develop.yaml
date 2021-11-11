@@ -35,12 +35,18 @@ spec:
               scheme: HTTP
               path: /healthz
               port: 80
-            initialDelaySeconds: 10
-            periodSeconds: 5
+            initialDelaySeconds: 5
+            successThreshold: 1
+            failureThreshold: 10
+            periodSeconds: 8
+            timeoutSeconds: 5
           livenessProbe:
             httpGet:
               scheme: HTTP
               path: /healthz
               port: 80
-            initialDelaySeconds: 10
-            periodSeconds: 5
+            initialDelaySeconds: 5
+            successThreshold: 1
+            failureThreshold: 10
+            periodSeconds: 8
+            timeoutSeconds: 5
