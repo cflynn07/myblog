@@ -6,7 +6,7 @@ metadata:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
     kubernetes.io/ingress.global-static-ip-name: "my-blog-static-ip"
-pec:
+spec:
   rules:
   - host: "cflynn.us"
     http:
